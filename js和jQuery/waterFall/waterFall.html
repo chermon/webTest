@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+      *{
+          margin: 0;
+          padding: 0;
+      }
+      body{
+          background: #ccc;
+      }
+      .box{
+          width: 790px;
+          margin: 0 auto;
+          position: relative;
+      }
+      .box .gride{
+          width: 230px;
+          padding: 10px;
+          position: absolute;
+          background: white;
+          border-radius: 10px;
+      }
+      .box .gride img{
+          width: 230px;
+      }
+      .box .gride .title{
+          line-height: 20px;
+          font: 18px bold;
+       }
+       .box .gride .content{
+          font-size: 14px;
+          color: gray;
+       }
+       .box .gride .autor{
+          font-size: 12px;
+          color: orange;
+          float: right;
+       }
+       .load{
+           width: 400px;
+           margin: 0 auto;
+           line-height: 30px;
+           text-align: center;
+           font-size: 14px;
+           color: white;
+           background-color: orange;
+       }
+    </style>
+</head>
+<body>
+    <div class="box" id="box">
+    </div>
+    <div class="load">正在加载...</div>
+    <script type="text/template" id="grideTemplate">
+        <div class="gride">
+            <img src="<%=imgurl%>" alt="">
+            <p class="title"><%=title%></p>
+            <p class="content"><%=content%></p>
+            <p class="autor"><%=author%></p>
+        </div>
+    </script>
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/underscore.js"></script>
+    <script type="text/javascript">
+       //获取整个盒子
+       var $box = $("#box");
+       var $load = $(".load");
+       //隐藏加载状态
+       $load.hide();
+       //生成一个模板
+       var templateCom = _.template($("#grideTemplate").html());
+       //初始化每一列的高
+       var currentAllHeight = [0,0,0];
+
+       var pageIndex = 1;
+       loadMore(pageIndex);
+
+       function loadMore(page){
+           //展示加载状态
+          $load.show();
+          //网络请求数据
+          $.get("json/json"+page+".txt",function(data){
+             //将数据源转化为json
+             var dataDic = eval("("+data+")");
+             if (dataDic.news.length <= 0){
+                 $load.show().html("没有更多了");
+                 return;
+             }
+             //遍历每个对象，并根据每个对象加载的速度不同，将最先加载出来的对象增加到dom上
+              _.each(dataDic.news,function (dic){
+                  //这是系统内置构造函数
+                  var image = new Image();
+                  image.src = dic.imgurl;
+                  //竞速规则，谁先加载完毕，我先处理谁
+                  // 先把photo转化为jQuery对象，然后绑定事件
+                  $(image).load(function(){
+                      //将数据嵌套到模板中
+                      var domStr = templateCom(dic);
+                      //将字符串转化为dom,并增加到页面上
+                      var $dom = $(domStr);
+                      $box.append($dom);
+                      //获取目前三列中最小高的值
+                      var currentHeight = _.min(currentAllHeight);
+                      //获取目前三列中最小值的索引
+                      var currentIndex = _.indexOf(currentAllHeight,currentHeight);
+                      //将该元素插入到当前最短列中
+                      $dom.css({
+                          "top":currentHeight,
+                          "left":currentIndex*270
+                      });
+                      //因为 该元素 已经插入到当前最短列中，所以改变当前列高度
+                      //此方便可以避免某一列高度过长
+                      currentAllHeight[currentIndex] += $dom.outerHeight() + 20;
+                      //更新盒子的高度
+                      $box.css("height",_.max(currentAllHeight));
+                      //隐藏加载状态
+                      $load.hide();
+                  });
+              });
+              // 请求处理完解锁，以便可以继续加载下一个页面
+              lock = false;
+          });
+       }
+
+       var lock = false;
+       $(window).scroll(function (){
+           if (lock){
+               return;
+           }
+           var rate = $(window).scrollTop()/($(document).height() - $(window).height());
+           if (rate > 0.7){
+               pageIndex++;
+               loadMore(pageIndex);
+               lock = true;
+
+           }
+       });
+    </script>
+
+</body>
+</html>

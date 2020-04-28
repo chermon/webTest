@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+      *{
+          margin: 0;
+          padding: 0;
+        }
+        div{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div></div>
+    <script type="text/javascript">
+       var box = document.querySelector("div");
+       var width,height;
+       var currentX = 0, currentY = 0;
+       box.addEventListener("touchstart",function(event){
+           width = event.touches[0].clientX - currentX;
+           height = event.touches[0].clientY - currentY;
+       },false);
+
+       box.addEventListener("touchmove",function(event){
+           currentX = event.touches[0].clientX - width;
+           currentY = event.touches[0].clientY - height;
+           this.style.left = currentX + "px";
+           this.style.top = currentY + "px";
+       },false);
+    </script>
+</body>
+</html>

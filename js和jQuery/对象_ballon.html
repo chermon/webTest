@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ballon</title>
+    <style type="text/css">
+       *{
+           margin: 0;
+           padding: 0;
+       }
+       html{
+           height: 100%;
+       }
+       body{
+           height: 100%;
+           background: url(images/bg.jpg) no-repeat;
+           background-size: cover;
+       }
+       .ballon{
+           width: 81px;
+           height: 119px;
+           position: absolute;
+           background: url(images/ballon.png);
+       }
+       .score{
+           color: white;
+           font-size: 30px; 
+       }
+    </style>
+</head>
+<body>
+    <h1 class="score" id="score"></h1>
+    <!-- <div class="ballon"></div> -->
+    <script type="text/javascript">
+        
+        var domScore = document.getElementById("score");
+        var sum = 0;
+         //创建构造函数
+         function Ballon(){
+             this.top = 400;
+             this.left = Math.random()*1200;
+             this.score = parseInt(Math.random()*7) + 1;
+             this.step = 50;
+             this.time = null;
+             this.init();
+             this.fly();
+         }
+
+         //初始化气球
+         Ballon.prototype.init = function (){
+             //创建DOM，并将创建出来的元素绑定给Ballon的属性
+             this.dom = document.createElement("div");
+             //给创建出来的dom绑定类名
+             this.dom.className = "ballon";
+             //将dom元素追加到html中
+             document.body.appendChild(this.dom);
+
+             //设置dom的样式
+             this.dom.style.left = this.left + "px";
+             this.dom.style.top = this.top + "px";
+             var positionLeft = (this.score - 1)%4*96;
+             var positionTop = parseInt((this.score - 1)/4)*123;
+             this.dom.style.backgroundPosition = -positionLeft + "px " + -positionTop + "px";
+             
+            //触发事件中的this指代触发该事件的元素，所以在此需要将this备份以备在触发事件中使用
+             var weakSelf = this;
+             this.dom.onclick = function (){
+                weakSelf.bomb();
+                sum += weakSelf.score;
+                domScore.innerHTML = sum;
+             }
+         }
+
+         Ballon.prototype.fly = function (){
+             var weakSelf = this;
+             this.time  = setInterval(function (){
+                weakSelf.top -= weakSelf.step;
+                if(weakSelf.top < -50){
+                    weakSelf.bomb();
+                }
+                weakSelf.dom.style.top = weakSelf.top + "px";
+                
+             },800/this.score);
+         }
+
+         Ballon.prototype.bomb = function(){
+             clearInterval(this.time);
+             document.body.removeChild(this.dom);
+         }
+
+         setInterval(function (){
+             new Ballon();
+         },2000);
+    </script>
+</body>
+</html>

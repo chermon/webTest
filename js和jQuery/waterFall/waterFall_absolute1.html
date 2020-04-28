@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>瀑布流-绝对定位方法1</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            background-color: #ccc;
+        }
+        .waterFall{
+            width: 790px;
+            margin: 0px auto;
+            position: relative;
+            background-color: cadetblue;
+        }
+        .waterFall .box{
+            width: 230px;
+            padding: 10px;
+            position: absolute;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+        .waterFall .box img{
+            width: 230px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="waterFall">
+        <div class="box fallImg0">
+            <img src="images/0.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg1">
+            <img src="images/1.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg2">
+            <img src="images/2.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg3">
+            <img src="images/3.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg4">
+            <img src="images/4.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg5">
+            <img src="images/5.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg6">
+            <img src="images/6.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg7">
+            <img src="images/7.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg8">
+            <img src="images/8.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+        <div class="box fallImg9">
+            <img src="images/9.png" alt="">
+            <p>内容内容内容内容内容内容内容内容内容内容</p>
+        </div>
+    </div>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+       window.onload = function(){
+          var $box = $(".box");
+          $box.each(function(index){
+              var allHeight = 0;
+              //检索该索引当前列的所有已上高度之和
+              for(var i = index -3; i >= 0; i -= 3){
+                allHeight += $box.eq(i).outerHeight() + 20;
+              }
+              $(this).css({
+                "top": allHeight,
+                "left": index%3*270
+              });
+          })
+       };
+    </script>
+</body>
+</html>

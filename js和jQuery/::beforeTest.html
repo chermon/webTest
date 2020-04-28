@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 100%;
+            margin: 20px auto;
+            background-color: rgb(34, 34, 34);
+        }
+        .box ul{
+            list-style: none;
+            width: 700px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        ul li{
+            width: 50px;
+            height: 50px;
+            padding-left: 50px;
+            float: left;
+            position: relative;
+            transition: all 1s ease 0s;
+        }
+        ul li a{
+            line-height: 50px;
+            font-size: 14px;
+            color: white;
+            text-decoration: none;
+        }
+        ul li::before{
+            content: "";/**此属性必须存在，否则不起作用*/
+            display: block;/**必须转块才能设置宽高*/
+            width: 45px;
+            height: 30px;
+            background-image: url(images/tingicos.png);
+            position: absolute;
+            top: 50%;
+            left: 5px;
+            margin-top: -15px;
+            /*过渡， 参数1：对哪些属性实行过渡  参数2：过渡持续时长，单位为秒  参数3：缓冲描述词  参数4：延迟时间，单位为秒*/
+            transition: all 1s ease 0s;
+        }
+        ul li:first-child:before{
+            background-position: -70px 0px;
+        }
+        ul li:nth-child(2):before{
+            left: 3px;
+            background-position: -70px -764px;
+        }
+        ul li:nth-child(3):before{
+            left: 3px;
+            background-position: -70px -603px;
+        }
+        ul li:nth-child(4):before{
+            height: 27px;
+            margin-top: -14px;
+            background-position: -70px -30px;
+        }
+        ul li:nth-child(5):before{
+            left: 3px;
+            background-position: -70px -573px;
+        }
+        ul li:nth-child(6):before{
+            left: 3px;
+            background-position: -70px -704px;
+        }
+        ul li:nth-child(7):before{
+            height: 25px;
+            margin-top: -13px;
+            left: 2px;
+            background-position: -70px -57px;
+        }
+        ul li:hover{
+            background-color: white;
+            border-bottom: 2px solid rgb(202, 13, 13);
+        }
+        ul li:hover:nth-child(6){
+            background-color: black;
+        }
+        ul li:hover a{
+            color: rgb(202, 13, 13);
+        }
+        ul li:hover:first-child:before{
+            background-position: -70px -113px;
+        }
+        ul li:hover:nth-child(2):before{
+            background-position: -70px -734px;
+        }
+        ul li:hover:nth-child(3):before{
+            background-position: -70px -664px;
+        }
+        ul li:hover:nth-child(4):before{
+            background-position: -70px -143px;
+        }
+        ul li:hover:nth-child(5):before{
+            background-position: -70px -634px;
+        }
+        ul li:hover:last-child:before{
+            background-position: -70px -170px;
+        }
+      
+    </style>
+</head>
+<body>
+    <!-- 浏览器兼容问题的判断可以不需要在js中判断 -->
+    <!-- 如果小于IE9则窗口跳转到error.html页面 -->
+    <!--[if lte IE9]>
+       <script type="text/javascript">
+           
+           window.location = "error.html";
+       </script>
+    <![endif]-->
+    <!-- 也可以在js中做能力检测 -->
+    <script type="text/javascript">
+        if(!window.querySelectorAll){
+            window.location = "error.html";
+        }
+    </script>
+    
+    <nav class="box">
+        <ul>
+           <li><a href="">最新</a></li>
+           <li><a href="">电台</a></li>
+           <li><a href="">单曲</a></li>
+           <li><a href="">专辑</a></li>
+           <li><a href="">MV</a></li>
+           <li><a href="">查找</a></li>
+           <li><a href="">留言</a></li>
+       </ul>
+    </nav>
+  
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .regularBox{
+            width: 350px;
+            height: 350px;
+            border: 1px solid lightgrey;
+            margin: 100px 50px 20px 100px;
+            position: relative;
+            float: left;
+        }
+        .regularBox img{
+            display: block;
+            width: 350px;
+        }
+        .regularBox .zoom{
+            width: 175px;
+            height: 175px;
+            background-color: #FEDE4F;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+            border: 0.5px solid lightgray;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+        /* .regularBox:hover .zoom{
+            display: block;
+        } */
+        .bigBox{
+            width: 400px;
+            height: 400px;
+            background: url(images/da.jpg) no-repeat;
+            position: relative;
+            top: 100px;
+            left: 500px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="regularBox" id="regularBox">
+        <img src="images/xiao.jpg" alt=""/>
+        <div class="zoom" id="zoom"></div>
+    </div>
+    <div class="bigBox" id="bigBox"></div>
+    <script>
+        var regularBox = document.getElementById("regularBox");
+        var zoom = document.getElementById("zoom");
+        var bigBox = document.getElementById("bigBox");
+        var regularBoxWidth = regularBox.clientWidth;
+        var rate;
+        var deltalX;
+        var deltalY;
+        var currentX;
+        var currentY;
+        var zoomBorder;
+
+        //鼠标进入
+        regularBox.onmouseenter = function (event){
+            //显示放大镜和大图
+            zoom.style.display = "block";
+            bigBox.style.display = "block";
+            
+            zoomBorder = zoom.clientWidth/2;
+            //放大镜呈现的面积就是大图呈现的面积，所以 大图的大小/放大镜的大小 = 大图位置的坐标/放大镜的坐标
+            rate = bigBox.clientWidth/zoom.clientWidth;
+            
+        }
+        //鼠标离开
+        regularBox.onmouseleave = function (event){
+            //隐藏放大镜和大图
+            zoom.style.display = "";
+            bigBox.style.display = "";
+        }
+        
+        regularBox.onmousemove = function (event){
+            //页面卷动值，不兼容
+            var scrollLeft = document.body.scrollLeft || document.documentElement.scrollLeft;
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+            // allOffsetLeft(regularBox) - scrollLeft  等于 当前盒子距离视口的位置坐标
+            // event.clientX - (allOffsetLeft(regularBox) - scrollLeft)  等于 当前点击的焦点在盒子中的坐标
+            deltalX = event.clientX - (allOffsetLeft(regularBox) - scrollLeft);
+            deltalY =  event.clientY - (allOffsetTop(regularBox) - scrollTop);
+
+            // 放大镜在盒子中的x坐标
+            if (deltalX < zoomBorder){
+                currentX = 0;
+            }
+            else if (deltalX > regularBoxWidth - zoomBorder){
+                currentX = regularBoxWidth - zoomBorder*2;
+            }
+            else{
+                currentX = deltalX - zoomBorder;
+            }
+
+            // 放大镜在盒子中的Y坐标
+            if (deltalY < zoomBorder){
+                currentY = 0;
+            }
+            else if (deltalY > regularBoxWidth - zoomBorder){
+                currentY = regularBoxWidth - zoomBorder*2;
+            }
+            else{
+                currentY = deltalY - zoomBorder;
+            }
+
+            zoom.style.left = currentX + "px";
+            zoom.style.top = currentY + "px";
+
+            //大盒子背景图的位置
+            bigBox.style.backgroundPosition = -currentX*rate + "px " + -currentY*rate + "px";
+                
+        }
+
+        // 当前盒子距离页面顶端的位置
+        function allOffsetTop(obj){
+            var currentAllTop = obj.offsetTop;
+            var nextObj = obj;
+            while (nextObj = nextObj.offsetParent) {
+                currentAllTop += nextObj.offsetTop;
+            }
+            return currentAllTop;
+        }
+
+        // 当前盒子距离页面左边的位置
+        function allOffsetLeft(obj){
+            var currentAllLeft = obj.offsetLeft;
+            var nextObj = obj;
+            while (nextObj = nextObj.offsetParent) {
+                currentAllLeft += nextObj.offsetLeft;
+            }
+            return currentAllLeft;
+        }
+    </script>
+</body>
+</html>

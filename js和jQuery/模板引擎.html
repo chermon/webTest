@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板引擎（解决拼接字符串的不爽）</title>
+    <style type="text/css">
+       *{
+           margin: 0px;
+           padding: 0px;
+       }
+       table{
+           margin: 20px auto;
+       }
+       table,tr,td{
+           border: 1px solid #ccc;
+           border-collapse: collapse;
+       }
+       .special{
+           background-color: skyblue;
+       }
+    </style>
+</head>
+<body>
+    <table id="biaoge">
+            <tr>
+                <td>学号</td>
+                <td>姓名</td>
+                <td>性别</td>
+                <td>年龄</td>
+            </tr>
+    </table>
+    <script src="js/myAjax.js"></script>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/template" id="template">
+        <tr class="@leixing@">
+            <td>@xuehao@</td>
+            <td>@xingming@</td>
+            <td>@xingbie@</td>
+            <td>@nianling@</td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        // // 原生js
+        // var biaoge = document.getElementById("biaoge");
+        // var templateStr = document.getElementById("template").innerHTML;
+        // myAjax.get("json/student.json",null,function(err,data){
+        //     // 将字符串data转为json
+        //    var dataDic = eval("(" + data + ")");
+        //    var dataArr = dataDic["result"]; 
+        //    for(var i = 0; i < dataArr.length; i++){
+        //       biaoge.innerHTML += compile(templateStr,dataArr[i]);
+        //    }
+        // });
+
+        // jquery
+        var $biaoge = $("#biaoge");
+        $.get("json/student.json",function(data){
+          var dataDic = data["result"];
+          for(var i = 0; i < dataDic.length; i++){
+              //得到模板的格式
+              var templateStr = $("#template").html();
+  
+              //字典修正，即根据字典的数据情况修正所需的样式
+              dataDic[i].leixing = dataDic[i].nianling > 18 ? "special": "";
+  
+              //格式化模板进行数据绑定
+              var domStr = compile(templateStr,dataDic[i]);
+      
+              //添加DOM
+              $biaoge.append($(domStr));
+          }
+        });
+
+        function compile(templateStr,dataDic){
+           // match: 代表满足条件的字符串 eg:@xuehao@   
+           // $1: 代表xuehao  
+           // index: 代表满足条件的字符串的起始索引值  
+           // contentStr: 代表templateStr
+           return templateStr.replace(/\@([a-z]+)\@/g, function (match,$1,index,contentStr){
+              return dataDic[$1];
+           });
+        }
+    </script>
+   
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        html,body{
+            height: 100%;
+        }
+        .typePage{
+            width: 1000px;
+            margin: 0 auto;
+        }
+        header,footer{
+            height: 100%;
+            background-color: lightgrey;
+        }
+        article div{
+            width: 100%;
+            height: 500px;
+            background-color: skyblue;
+            margin-bottom: 20px;
+        }
+        aside{
+            position: fixed;
+            width: 60px;
+            height: 420px;
+            left: 10px;
+            bottom: 100px;
+        }
+        aside ul{
+            list-style: none;
+            overflow: hidden;
+        }
+        aside ul li{
+            width: 60px;
+            height: 60px;
+        }
+        aside ul li a{
+            display: block;
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            background-color: lightgrey;
+            color: blue;
+            text-decoration: none;
+        }
+        aside ul li.cur a{
+            background-color: rgb(73, 6, 6);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="typePage"></header>
+    <article class="typePage">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+        <div>5</div>
+        <div>6</div>
+        <div>7</div>
+    </article>
+    <footer class="typePage"></footer>
+    <aside>
+        <ul>
+            <li><a href="">1F</a></li>
+            <li><a href="">2F</a></li>
+            <li><a href="">3F</a></li>
+            <li><a href="">4F</a></li>
+            <li><a href="">5F</a></li>
+            <li><a href="">6F</a></li>
+            <li><a href="">7F</a></li>
+        </ul>
+    </aside>
+    <script>
+        var head = document.getElementsByTagName("header")[0];
+        var articleDiv = document.getElementsByTagName("article")[0].getElementsByTagName("div");
+        var asideLis = document.getElementsByTagName("aside")[0].getElementsByTagName("li");
+        var offsetTopArr = [];
+        var currentIndex;
+
+        offsetTopArr.push(allOffSetTop(head));
+        for(var i = 0; i < articleDiv.length; i++){
+            offsetTopArr.push(allOffSetTop(articleDiv[i]));
+        }
+        offsetTopArr.push(allOffSetTop(articleDiv[articleDiv.length - 1]));
+
+        window.onscroll = function (){
+            var scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+            for(var i = 0; i < offsetTopArr.length; i++){
+                if(offsetTopArr[i] - scrollTop < 200 && offsetTopArr[i+1] - scrollTop > 200){
+                    if( i > 0 && i < offsetTopArr.length - 1){
+                        currentIndex = i - 1;
+                        console.log("currentIndex:"+ currentIndex);
+                        
+                    }else{
+                        currentIndex = NaN;
+                        // for(var j = 0; j < asideLis.length; j++){
+                        //     asideLis[j].className = "";
+                        //     asideLis[j].getElementsByTagName("a")[0].innerHTML = j+1 + "F";
+                        // }
+                    }
+                    gotoCurrentLi();
+                }
+            }
+        }
+
+        function gotoCurrentLi(){
+           
+            for(var i = 0; i < asideLis.length; i++){
+                asideLis[i].className = "";
+                asideLis[i].getElementsByTagName("a")[0].innerHTML = i+1 + "F";
+            }
+            if (isNaN(currentIndex)){
+                console.log("进来了！");
+                return;
+            } 
+            asideLis[currentIndex].className = "cur";
+            // console.log("当前楼层:"+ currentIndex);
+            switch (currentIndex){
+                case 0:
+                    asideLis[currentIndex].getElementsByTagName("a")[0].innerHTML = "百货";
+                    break;
+                case 1:
+                    asideLis[currentIndex].getElementsByTagName("a")[0].innerHTML = "男装";
+                    break;
+                case 2:
+                    asideLis[currentIndex].getElementsByTagName("a")[0].innerHTML = "女装";
+                    break;
+                case 3:
+                    asideLis[currentIndex].getElementsByTagName("a")[0].innerHTML = "裤子";
+                    break;
+                case 4:
+                    asideLis[currentIndex].getElementsByTagName("a")[0].innerHTML = "童装";
+                    break;
+                case 5:
+                    asideLis[currentIndex].getElementsByTagName("a")[0].innerHTML = "运动";
+                    break;
+                case 6:
+                    asideLis[currentIndex].getElementsByTagName("a")[0].innerHTML = "电子";
+                    break;
+                default:
+            }
+            
+        }
+
+        function allOffSetTop(obj){
+            var currentOffSetTop = obj.offsetTop;
+            var nextobj = obj;
+            while (nextobj = nextobj.offsetParent) {
+                currentOffSetTop += nextobj.offsetTop;
+            }
+            return currentOffSetTop;
+        }
+    </script>
+</body>
+</html>

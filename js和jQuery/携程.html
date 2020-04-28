@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>携程在手·说走就走</title>
+    <link rel="stylesheet" href="css/cssreset-context-min.css">
+    <style type="text/css">
+       html{
+           /*rem的参考*/
+           font-size: 16px;
+       }
+       body{
+           font-size: 14px;
+           background-color: #f2f2f2;
+       }
+       .box{
+           width: 100%;
+           margin: 0 auto;
+           max-width: 540px;
+       }
+       .header{
+           width: 100%;
+           height: 45px;
+           padding-left: 10px;
+           /* 该盒子的宽度占父类宽度的100%，但是由于box-sizing: border-box; 
+           所以padding-left的10px会自动从该盒子的宽度中减去，而不是该盒子的宽度占父类宽度的100%至于在加上一个padding-left的10px;
+           */
+           box-sizing: border-box;
+           /* display: -webkit-box;（用于父类）通常 和 -webkit-box-flex（用于子类）属性 一起使用，
+           即子类盒子不仅会按照-webkit-box-flex值缩放，而且所有子类都会浮动。
+           在此因为.user类宽为固定值，子类仅剩.search一个，所以除0外，-webkit-box-flex值无论多大，都会占剩余控件的100%
+           */
+           display: -webkit-box;
+           background-color: #f6f6f6;
+       }
+       .header .search{
+           height: 24px;
+           position: relative;
+           top: 50%;
+           margin-top: -13px;
+           padding-left: 30px;
+           padding-right: 10px;
+           -webkit-box-flex: 1;
+           border-radius: 8px;
+           box-sizing: border-box;
+           background-color: white;
+           border: 1px solid #999999;
+           box-shadow: 0 1px 1px rgba(111,111,111,.8);
+       }
+       .header .search::before{
+           content: "";
+           display: block;
+           width: 13px;
+           height: 13px;
+           position: absolute;
+           top: 50%;
+           margin-top: -6px;
+           margin-left: -20px;
+           background: url(images/ctripIcons.png) no-repeat -60px -280px;
+           background-size: 104px 328px;
+       }
+       .header .search input{
+           display: block;
+           width: 100%;
+           height: 17px;
+           box-sizing: border-box;
+           margin-top: 3px;
+           /* 去掉边框 */
+           border: 0px;
+           /* 去掉输入状态下边框的阴影 */
+           outline: none;
+       }
+       .header .user{
+           width: 48px;
+           height: 44px;
+           margin-left: 10px;
+           position: relative;
+       }
+       .header .user a{
+           display: block;
+           height: 44px;
+           font-size: 10px;
+           text-decoration: none;
+           text-align: center;
+           line-height: 18px;
+           color: #2EAAE0;
+           font-weight: bold;
+       }
+       .header .user a::before{
+           content: "";
+           display: block;
+           width: 23px;
+           height: 23px;
+           position: relative;
+           top: 3px;
+           left: 50%;
+           margin-left: -11px;
+           background: url(images/ctripIcons.png) no-repeat -59px -195px;
+           background-size: 104px 328px;
+       }
+       .banner{
+           width: 100%;
+           /* height: 107.93px; */
+           background-color: yellowgreen;
+       }
+       nav{
+           width: 100%;
+           padding: 4px;
+           box-sizing: border-box;
+           background-color: white;
+       }
+       nav .row{
+           width: 100%;
+           height: 5.625rem;
+           margin-bottom: 0.3125rem;
+       }
+       nav .row ul{
+           height: 5.625rem;
+       }
+       nav .row ul li{
+           width: 33.3333%;
+           float: left;
+           border-right: 1px solid white;
+           border-bottom: 1px solid white;
+           box-sizing: border-box;
+       }
+       nav .row ul li{height: 50%;}
+       nav .row ul li:nth-child(1) {height: 100%;}
+       nav .row:last-child ul li{height: 50%;}
+
+       nav .row li div{height: 100%;}
+
+       nav .row:nth-child(1) li div{background-color: #ff697a;}
+       nav .row:nth-child(2) li div{background-color:#3d98ff;}
+       nav .row:nth-child(3) li div{background-color: #44c522;}
+       nav .row:nth-child(4) li div{background-color: #fc9720;}
+
+       nav .row li:first-child div{border-top-left-radius: 0.5rem;border-bottom-left-radius: 0.5rem;}
+       nav .row li:nth-child(3) div{border-top-right-radius: 0.5rem;}
+       nav .row li:last-child div{border-bottom-right-radius: 0.5rem;}
+       nav .row:nth-child(4) li:first-child div{border-bottom-left-radius: 0px;}
+       nav .row:nth-child(4) li:nth-child(4) div{border-bottom-left-radius: 0.5rem;}
+       
+       nav .row li div a{
+           display: block;
+           width: 100%;
+           height: 100%;
+           font-size: 1rem;
+           color: white;
+           text-decoration: none;
+           text-align: center;
+           line-height: 2.8125rem;
+           position: relative;
+       }
+       nav .row li:nth-child(1) div a{
+        line-height: 3.125rem;
+       }
+       nav .row:nth-child(4) li:nth-child(1) div a{
+        line-height: 2.8125rem;
+       }
+       nav .row li:nth-child(1) div a::before{
+           content: "";
+           display: block;
+           width: 2.5rem;
+           height: 2.0625rem;
+           background: url(images/ctripIcons.png) no-repeat 0 -130px;
+           background-size: 104px 328px;
+           position: absolute;
+           bottom: 0.625rem;
+           left: 50%;
+           transform: translateX(-50%);
+           -webkit-transform: translateX(-50%);
+       }
+       nav .row:nth-child(2) li:nth-child(1) div a::before{
+           width: 2.5625rem;
+           height: 1.5rem;
+           background-position: -50px -122px;
+       }
+       nav .row:nth-child(3) li:nth-child(1) div a::before{
+           width: 2.1875rem;
+           height: 2.5rem;
+           background-position: 0 -180px;
+       }
+       nav .row:nth-child(4) li:nth-child(1) div a::before{
+           display: none;
+       }
+       .product{
+           width: 100%;
+           height: 8.625rem;
+           background-color: white;
+           margin-top:0.25rem;
+           border-radius: 0.5rem;
+           overflow: hidden;
+       }
+       .product ul{
+           height: 100%;
+       }
+       .product ul li{
+           width: 25%;
+           height: 50%;
+           border-right: 1px solid #f2f2f2;
+           border-bottom: 1px solid #f2f2f2;
+           box-sizing: border-box;
+           -webkit-box-sizing: border-box;
+           float: left;
+       }
+       /* 从第5个开始没有下边框 */
+       .product ul li:nth-child(n+5){border-bottom:none;}
+
+       .product ul li a{
+           display: block;
+           height: 100%;
+           line-height: 6.25rem;
+           text-align: center;
+           text-decoration: none;
+           color: #000;
+           position: relative;
+       }
+       .product ul li a::before{
+           content: "";
+           display: block;
+           width: 1.625rem;
+           height: 1.625rem;
+           position: absolute;
+           top: 0.625rem;
+           left: 50%;
+           transform: translateX(-50%);
+           background: url(images/un_ico_subnav.png) no-repeat;
+           background-size: 26px 235px;
+           
+       }
+       .product ul li:nth-child(1) a::before{background-position: 0 0;}
+       .product ul li:nth-child(2) a::before{background-position: 0 -30px;}
+       .product ul li:nth-child(3) a::before{background-position: 0 -60px;}
+       .product ul li:nth-child(4) a::before{background-position: 0 -90px;}
+       .product ul li:nth-child(5) a::before{background-position: 0 -120px;}
+       .product ul li:nth-child(6) a::before{background-position: 0 -150px;}
+
+       .specialSale{
+           width: 100%;
+           height: 267px;
+           margin-top: 8px;
+           padding: 11px 8px;
+           border-top: 1px solid #dbdbdb;
+           border-bottom: 1px solid #dbdbdb;
+           box-sizing: border-box;
+           -webkit-box-sizing: border-box;
+           background-color: white;
+       }
+       .specialSale .hd{
+           margin-bottom: 13px;
+           overflow: hidden;
+       }
+       .specialSale .hd h3{
+           float: left;
+           width: 56px;
+           height: 19px;
+           background: url(images/un_home_text.png) no-repeat 0 0;
+           background-size: 79px auto;
+           text-indent: -999em;
+       }
+       .specialSale .hd div{
+           float: right;
+           width: 102px;
+           height: 20px;
+       }
+       .specialSale .hd div a{
+           display: block;
+           height: 20px;
+           background-image: -webkit-linear-gradient(left,#ff4e63,#ff6cc9);
+           text-decoration: none;
+           text-align: center;
+           border-radius: 10px;
+           line-height: 20px;
+           color: white;
+           font-size: 12px;
+       }
+       .specialSale .bd{
+           height: 205px;
+           overflow: hidden;
+       }
+       .specialSale .bd .sales_item{
+           float: left;
+           width: 50%;
+           height: 50%;
+           background-color: #f9f9f9;
+           position: relative;
+       }
+       .specialSale .bd .sales_item:nth-child(1){height: 100%; border-right:2px solid white; box-sizing: border-box; -webkit-box-sizing: border-box;}
+       .specialSale .bd .sales_item:nth-child(2){border-left:2px solid white; border-bottom:5px solid white; box-sizing: border-box; -webkit-box-sizing: border-box;position: relative;}
+       .specialSale .bd .sales_item:nth-child(3){width: 25%; border-left:2px solid white; box-sizing: border-box; -webkit-box-sizing: border-box;}
+       .specialSale .bd .sales_item:nth-child(4){width: 25%; border-left:2px solid white; box-sizing: border-box; -webkit-box-sizing: border-box;}
+       .specialSale .bd .sales_item .pic{
+           height: 122px;
+           position: relative;
+       }
+       .specialSale .bd .sales_item .pic img{
+           display: block;
+           width: 100%;
+           height: 122px;
+           background-size: cover;
+       }
+       .specialSale .bd .sales_item .pic span{
+           width: 38px;
+           height: 20px;
+           background-color: red;
+           position: absolute;
+           color: white;
+           font-size: 10px;
+           line-height: 20px;
+           text-align: center;
+       }
+       .specialSale .bd .sales_item .pic::before{
+           content: "";
+           display: block;
+           border-top: 20px solid red;
+           /* 透明色 */
+           border-right: 8px solid transparent;
+           position: absolute;
+           left: 38px;
+       }
+       .specialSale .bd .sales_item:nth-child(1) h4{
+           width: 100%;
+           padding: 4px;
+           line-height: 20px;
+       }
+       .specialSale .bd .sales_item:nth-child(1) .price{
+           font-size: 18px;
+           color: #ff495e;
+       }
+       .specialSale .bd .sales_item:nth-child(1) .cut{
+           font-size: 12px;
+           color: white;
+           background-color: #fd3a51;
+           padding: 0 4px;
+           margin-left: 4px;
+           border-radius: 8px;
+       }
+       .specialSale .bd .sales_item dl{
+           padding: 10px;
+       }
+       .specialSale .bd .sales_item dt{font-size: 12px;}
+       .specialSale .bd .sales_item dd{font-size: 12px;color: #333;}
+       .specialSale .bd .sales_item:nth-child(2) dt{font-size: 14px; color: #fd3a51;}
+       .specialSale .bd .sales_item:nth-child(2) img{
+           display: block;
+           width: 60px;
+           position: absolute;
+           bottom: 0;
+           right: 0;
+       }
+       .specialSale .bd .sales_item:nth-child(3) dt{color: #6AABFF;}
+       .specialSale .bd .sales_item:nth-child(3) dd span{color: #6AABFF;}
+       .specialSale .bd .sales_item:nth-child(4) dt{color: #67CA76;}
+       .specialSale .bd .sales_item:nth-child(4) dd span{color: #67CA76;}
+
+       .specialSale .bd .sales_item:nth-child(3)::before{
+           content: "";
+           display: block;
+           width: 48px;
+           height: 35px;
+           position: absolute;
+           left: 50%;
+           transform: translateX(-50%);
+           bottom: 5px;
+           background: url(images/pic-tmh-03.png) no-repeat;
+           background-size: 48px 35px;
+       }
+       .specialSale .bd .sales_item:nth-child(4)::before{
+           content: "";
+           display: block;
+           width: 48px;
+           height: 35px;
+           position: absolute;
+           left: 50%;
+           transform: translateX(-50%);
+           bottom: 5px;
+           background: url(images/pic-tmh-04.png) no-repeat;
+           background-size: 48px 35px;
+       }
+       .active{
+           width: 100%;
+           margin-top: 8px;
+           background-color: white;
+           border-top: 1px solid #dbdbdb;
+           border-bottom: 1px solid #dbdbdb;
+       }
+       .active .hd{
+           padding: 12px 8px;
+           border-bottom: 1px solid #ccc;
+           overflow: hidden;
+       }
+       .active .hd h3{
+           float: left;
+           width: 80px;
+           height: 17px;
+           text-indent: -999rem;
+           background: url(images/un_home_text.png) no-repeat 0 -19px;
+           background-size: 79px auto;
+       }
+       .active .hd a{
+           display: block;
+           height: 19px;
+           padding: 2px 10px;
+           line-height: 19px;
+           color:white;
+           font-size: 12px;
+           border-radius: 23px;
+           text-decoration: none;
+           float: right;
+           background-image: -webkit-linear-gradient(left,#ffa93a,#ffd35c);
+       }
+       .active .bd ul{
+           width: 100%;
+           overflow: hidden;
+           /* background-color: plum; */
+       }
+       .active .bd ul li{
+           float: left;
+           width: 50%;
+           border-bottom: 1px solid #ccc;
+           border-left: 1px solid #ccc;
+           box-sizing: border-box;
+       }
+       .active .bd ul li:nth-child(1),.active .bd ul li:nth-child(4){
+           border-left: 0;
+       }
+       .active .bd ul li:nth-child(4){
+           clear: both;
+       }
+       .active .bd ul li img{
+          display: block;
+          width: 100%;
+       }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="header">
+            <div class="search">
+                <input type="text" placeholder="搜索酒店 航班 目的地">
+            </div>
+            <div class="user"><a href="">我 的</a></div>
+        </div>
+        <section class="banner"></section>
+        <nav>
+            <div class="row">
+                <ul>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+               </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                </ul>
+            </div>
+            <div class="row">
+                <ul>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                    <li><div><a href="#">团购</a></div></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="product">
+            <ul>
+                <li><a href="#">自由行</a></li>
+                <li><a href="#">自由行</a></li>
+                <li><a href="#">自由行</a></li>
+                <li><a href="#">自由行</a></li>
+                <li><a href="#">自由行</a></li>
+                <li><a href="#">自由行</a></li>
+                <li><a href="#">自由行</a></li>
+                <li><a href="#">自由行</a></li>
+            </ul>
+        </div>
+        <section class="specialSale">
+            <div class="hd">
+                <h3>特卖汇</h3>
+                <div class="redPacket"><a>领红包再下单</a></div>
+            </div>
+            <div class="bd">
+                <div class="sales_item">
+                    <div class="pic">
+                        <span>爆款</span>
+                        <img src="images/1225.jpg" alt="">
+                    </div>
+                    <h4>马来西亚槟城+兰卡威5日4晚半自助游(4钻)·【兰卡威自由活动】2799起限量</h4>
+                    <span class="price">￥2700</span><span class="cut">4.7折</span>
+                </div>
+                <div class="sales_item">
+                    <dl>
+                        <dt>千款特价</dt>
+                        <dd>走过路过不错过</dd>
+                    </dl>
+                    <img src="images/pic-tmh-02.png" alt="">
+                </div>
+                <div class="sales_item">
+                    <dl>
+                        <dt>海外精选</dt>
+                        <dd><span>百元</span>出境游</dd>
+                    </dl>
+                </div>
+                <div class="sales_item">
+                    <dl>
+                        <dt>周末游玩</dt>
+                        <dd><span>十元</span>度周末</dd>
+                    </dl>
+                </div>
+            </div>
+        </section>
+        <section class="active">
+            <div class="hd"><h3>热门活动</h3><a href="">获取更多福利 ></a></div>
+            <div class="bd">
+                <ul>
+                    <li><a href="#"><img src="images/huodong1.png" alt=""/></a></li>
+                    <li><a href="#"><img src="images/huodong2.png" alt=""/></a></li>
+                    <li><a href="#"><img src="images/huodong3.png" alt=""/></a></li>
+                    <li><a href="#"><img src="images/huodong4.jpg" alt=""/></a></li>
+                    <li><a href="#"><img src="images/huodong5.png" alt=""/></a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <script type="text/javascript">
+        var banner = document.querySelector(".banner");
+        window.onresize = function (){
+            var width = parseInt(getComputedStyle(banner)["width"]);
+            //设置高度
+			banner.style.height = width  / (1536 / 307) + "px";
+        }
+    </script>
+</body>
+</html>

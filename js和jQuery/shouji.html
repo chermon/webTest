@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>本站拥有世界上最丰富的手机号码数据库，免费查询哦！</h2>
+	<p>
+		<input type="text" id="shoujihao"/>
+		<input type="button" value="点击查询归属地" id="btn" />
+	</p>
+
+	<script type="text/javascript" src="js/jquery-1.12.3.min.js"></script>
+	<script type="text/javascript">
+		$("#btn").click(function(){
+			var shoujihao = $("#shoujihao").val();
+			//正则验证
+			if(!/^[\d]{11}$/.test(shoujihao)){
+				alert("不正确的手机号");
+				return;
+			}
+			$.get("php/shouji.php",{"shoujihao":shoujihao},function(data){
+				alert(data.areaName + data.providerName);
+			});
+		});
+	</script>
+</body>
+</html>

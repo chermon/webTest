@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        /****************************** 黄晓明变Baby *********************/
+        ul{
+            width: 720px;
+            margin: 100px auto;
+            list-style: none;
+            background-color: olive;
+        }
+        ul li{
+            width: 120px;
+            height: 120px;
+            margin-right: 20px;
+            float: left;
+            position: relative;
+        }
+        ul li.box1{
+            margin-left: 20px;
+        }
+        ul li img{
+            display: block;
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            top: 0;
+            left: 0px;
+            border-radius: 50%; 
+            transition: all 1s ease 0s;
+        }
+        ul li:nth-child(1) img{
+            /* 背面不可见 */
+            backface-visibility: hidden;
+        }
+        /* 与黄晓明背对背 */
+        ul li.box1 .baby{transform: rotateY(180deg);}
+        ul li.box1:hover .baby{transform: rotateY(360deg);}
+        ul li.box1:hover .xiao{transform: rotateY(180deg);}
+
+        ul li:nth-child(2) img.xiao{transform-origin: 0% 0%;}/* 向上翻:以X为旋转轴，Y为0为起点 */
+        ul li:nth-child(3) img.xiao{transform-origin: 0% 100%;}/* 向下翻:以X为旋转轴，Y为100%为起点 */
+        ul li:nth-child(4) img.xiao{transform-origin: 0% 0%;}/* 向左翻:以Y为旋转轴，X为0为起点*/
+        ul li:nth-child(5) img.xiao{transform-origin: 100% 0%;}/* 向右翻:以Y为旋转轴，Y为100%为起点*/
+
+        ul li:nth-child(2):hover img.xiao{transform: rotateX(180deg);}
+        ul li:nth-child(3):hover img.xiao{transform: rotateX(-180deg);}
+        ul li:nth-child(4):hover img.xiao{transform: rotateY(-180deg);}
+        ul li:nth-child(5):hover img.xiao{transform: rotateY(180deg);}
+
+        /* 清楚浮动 */
+        .cl::after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <ul class="cl">
+         <!-- 黄晓明变Baby -->
+        <li class="box1">
+            <img class="baby" src="images/baby.png" alt="">
+            <img class="xiao" src="images/xiaoming.png" alt="">
+        </li>
+        <li class="box2">
+            <img class="baby" src="images/baby.png" alt="">
+            <img class="xiao" src="images/xiaoming.png" alt="">
+        </li>
+        <li class="box3">
+            <img class="baby" src="images/baby.png" alt="">
+            <img class="xiao" src="images/xiaoming.png" alt="">
+        </li>
+        <li class="box4">
+            <img class="baby" src="images/baby.png" alt="">
+            <img class="xiao" src="images/xiaoming.png" alt="">
+        </li>
+        <li class="box5">
+            <img class="baby" src="images/baby.png" alt="">
+            <img class="xiao" src="images/xiaoming.png" alt="">
+        </li>
+    </ul>
+   
+</body>
+</html>

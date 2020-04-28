@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var scope = "global scope";
+        function checkscope(){
+            var scope = "local scope";
+            function f(){
+                return scope;
+            }
+            return f();//返回的是方法
+        }
+        console.log(checkscope()); // 打印结果：local scope
+
+        function checkscope2(){
+            var scope = "local scope";
+            function f2(){
+                return scope;
+            }
+            return f2;//返回的是方法变量
+        }
+        console.log(checkscope2()()); // 打印结果：local scope
+    </script>
+</body>
+</html>

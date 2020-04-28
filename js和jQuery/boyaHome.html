@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>博雅</title>
+    <style type="text/css">
+       /*清除默认样式*/
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            color: #444866;
+            font-size: 14px;
+            font-family: "Arial","Microsoft Yahei","SimSun";
+        }
+        ul,ol{
+            list-style: none;
+        }
+        img{
+            display: block;
+            border: none;
+        }
+        a{
+            color: #444866;
+            text-decoration: none;
+        }
+        a:hover{
+            color: #38b774;
+        }
+
+        /*公共类*/
+        .inner_c{
+            width: 1000px;
+            margin: 0 auto;
+        }
+        .cl{
+            clear: both;
+        }
+        .nomargin{
+            margin: 0 !important;
+        }
+        .fs12{
+            font-size: 12px;
+        }
+        .fs16{
+            font-size: 16px;
+        }
+
+        /*head*/
+        .head{
+            width: 100%;
+            height: 58px;
+            background-color:#191d3a;
+        }
+        .head .head_c{
+            overflow: hidden;
+        }
+        .head_c .logo{
+            float: left;
+            width: 204px;
+            height: 48px;
+            padding: 10px 0 0 20px;
+        }
+        .head_c .logo a{
+            display: block;
+            width: 157px;
+            height: 35px;
+            background:url(boyyahu/images/logo.png) no-repeat 0 0;
+            text-indent: -9999px;
+        }
+        .head_c .nav{
+            float: left;
+            overflow: hidden;
+            width: 655px;
+            height: 58px;
+            border-left: 1px solid #252947;
+        }
+        .head_c .nav li{
+            float: left;
+            width: 84px;
+            height: 58px;
+            border-right: 1px solid #252947;
+            text-align: center;
+            line-height: 58px;
+        }
+        .head_c .nav li a{
+            display: block;
+        }
+        .head_c .nav li a.current{
+            color: #ffffff;
+        }
+        .head_c .joinwe{
+            float: left;
+            width: 100px;
+            padding-top: 12px;
+        }
+        .head_c .joinwe a{
+            display: block;
+            width: 98px;
+            height: 32px;
+            border: 1px solid #3aca7a;
+            background-color: #38b774;
+            border-radius: 3px;
+            line-height: 32px;
+            text-align: center;
+            color: #ffffff;
+        }
+        .head_c .joinwe a:hover{
+            background: #2ba364;
+        }
+       /*banner*/
+       .banner{
+           width: 100%;
+           height: 460px;
+           position: relative;
+       }
+       .banner ul li{
+           position: absolute;
+           top: 0px;
+           left: 50%;
+           margin-left: -960px;
+           width: 1920px;
+           height: 460px;
+           background:url(boyyahu/images/banner.jpg) no-repeat center top;
+       }
+       .banner ol{
+           overflow: hidden;
+           position: absolute;
+           bottom: 30px;
+           left: 50%;
+           margin-left: -85px;
+           width: 134px;
+           height: 14px;
+       }
+       .banner ol li{
+           float: left;
+           width:14px;
+           height: 14px;
+           margin-right: 10px;
+           border-radius: 50%;
+           background-color: silver;
+       }
+       .banner ol li.current{
+           background-color: rgba(255, 255, 255, 0.8);
+       }
+       /*content*/
+       .content{
+           width: 100%;
+           padding: 50px 0 0 57px;
+           background:url(boyyahu/images/mainbg.jpg) no-repeat center bottom;
+       }
+       .content .adv{
+           height: 229px;
+           border-bottom: 1px solid silver;
+           position: relative;
+       }
+       .content .adv ul{
+           overflow: hidden;
+       }
+       .content .adv ul li{
+           float: left;
+           width: 218px;
+           height: 200px;
+           margin-right: 43px;
+           text-align: center;
+       }
+       .content .adv ul li.lastLi{
+           width: 217px;
+       }
+       .content .adv ul li a{
+           display: block;
+           width: 100%;
+           height: 200px;
+       }
+       .content .adv ul li img{
+           display: block;
+           width: 100%;
+           height: 128px;
+       }
+       .content .adv ul li h4{
+           line-height: 32px;
+           font-weight: normal;
+           color: #444866;
+       }
+       .content .adv ul li span{
+           line-height: 25px;
+           font-size: 12px;
+           color: #38b774;
+           padding-right: 10px;
+           background:url(boyyahu/images/arrow.png) no-repeat right center;
+       }
+       .content .adv ul li a:hover{
+           background-color: #38b774;
+       }
+       .content .adv ul li a:hover img{
+           opacity: 0.8;
+           filter: alpha(opacity=80);
+       }
+       .content .adv ul li a:hover h4{
+           color: #ffffff;
+       }
+       .content .adv ul li a:hover span{
+           color: #ffffff;
+           background-image:url(boyyahu/images/arrow2.png);
+       }
+       .content .adv ol{
+           overflow: hidden;
+           width: 117px;
+           height: 12px;
+           padding-left: 17px;
+           position: absolute;
+           left: 50%;
+           bottom: -6px;
+           margin-left: -58.5px;
+           background-color: white;
+       }
+       .content .adv ol li{
+           float: left;
+           width: 12px;
+           height: 12px;
+           margin-right: 10px;
+           background-color: silver;
+           border-radius: 50%;
+       }
+       .content .adv ol li.current{
+           background-color: #38b774;
+       }
+       .content .info{
+           overflow: hidden;
+           margin-top: 53px; 
+           height: 380px;
+       }
+       .content .info .more{
+           display: block;
+           width: 64px;
+           line-height: 26px;
+           color: #38b774;
+           font-size: 14px;
+           text-align: center;
+           border: 1px solid #38b774;
+           border-radius: 5px;
+       }
+       .content .info .more span{
+           position: relative;
+           top:-4px;
+           left:4px;
+       }
+       .content .info .news{
+           float: left;
+           width: 500px;
+           height: 310px;
+           background:url(boyyahu/images/newsbg.jpg) no-repeat top center;
+       }
+       .content .info .news .more{
+           margin-left: 217px;
+           margin-top: 40px;
+       }
+       .content .info .news a:hover{
+           color: white;
+           background-color: #38b774;
+       }
+       .content .info .news .bottom{
+           margin-top: 50px;
+           margin-left: 33px;
+           margin-right: 20px;
+       }
+       .content .info .news .bottom li{
+           position: relative;
+           line-height: 49px;
+           padding-right: 100px;
+           border-bottom: 0.5px solid silver;
+
+       }
+       .content .info .news .bottom li span{
+           position: absolute;
+           top: 0;
+           right: 0;
+
+       }
+       .content .info .job{
+           float: left;
+           width: 500px;
+           height: 310px;
+           background:url(boyyahu/images/jobsbg.jpg) no-repeat top center;
+       }
+       .content .info .job .top{
+           position: relative;
+           margin-top: 40px;
+           margin-left: 80px;
+           width: 204px;
+           height: 70px;
+       }
+       .content .info .job .top h3{
+           color: white;
+           font-size: 28px;
+           font-weight: bold;
+           line-height: 36px;
+       }
+       .content .info .job .top h4{
+           color:white;
+           font-weight: normal;
+           font-size: 14px;
+       }
+       .content .info .job .more{
+           position: absolute;
+           top: 0px;
+           right: 0px;
+           color:white;
+           border-color: white;
+           background-color:#38b774;
+       }
+       .content .info .job a:hover{
+           color: #38b774;
+           background-color: white;
+       }
+       .content .info .job .bottom{
+           margin-left: 20px;
+           margin-top: 10px;
+           width: 305px;
+       }
+       .content .info .job .bottom h4{
+           font-size: 16px;
+           font-weight: normal;
+           line-height: 21px;
+           color: white;
+       }
+       .content .info .job .bottom ol{
+           color: white;
+           line-height: 37px;
+       }
+       .content .info .job .bottom ol li{
+            border-bottom: 1px solid #6fdea3;
+       }
+       .end{
+           height: 190px;
+           width: 100%;
+           background-color: #181d3d;
+           font-size: 12px;
+       }
+       .end a:hover{
+           color: white;
+       }
+       .end p{
+           padding-top: 30px;
+       }
+       .top{
+           display: block;
+           width: 65px;
+           line-height: 28px;
+           text-align: center;
+           border-radius: 5px;
+           color: white;
+           font-weight: bold;
+           position: fixed;
+           right: 20px;
+           bottom: 100px;
+           background-color: #c7d6e4;
+       }
+       a.top:hover{
+           background-color: #38b774;
+           color: white;
+       }
+       .top span{
+           padding-left: 14px;
+           background:  url(boyyahu/images/arrow3.png) no-repeat left center;
+       }
+    </style>
+</head>
+<body>
+    <div class="head">
+        <div class="inner_c head_c">
+            <h1 class="logo"><a href="index.html">博雅，游戏</a></h1>
+            <ul class="nav">
+                <li><a class="current">首页</a></li>
+                <li><a>新闻</a></li>
+                <li><a>游戏</a></li>
+                <li><a>财经</a></li>
+                <li><a>客服中心</a></li>
+                <li><a>关于我们</a></li> 
+            </ul>
+            <div class="joinwe"><a>加入我们</a></div>
+        </div>
+    </div>
+    <div class="banner">
+        <ul>
+            <li class="banner1"><a></a></li>
+            <li class="banner2"><a></a></li>
+            <li class="banner3"><a></a></li>
+            <li class="banner4"><a></a></li>
+            <li class="banner5"><a></a></li>
+            <li class="banner6 "><a></a></li>
+        </ul>
+        <ol>
+            <li class="current"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li class="nomargin"></li>
+        </ol>
+    </div>
+    <div class="content">
+        <div class="adv inner_c">
+            <ul>
+                <li>
+                    <a>
+                        <img src="boyyahu/images/gamepic3.jpg"/>
+                        <h4>四人斗地主</h4>
+                        <span>FOUR LANDLORDS</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <img src="boyyahu/images/gamepic4.jpg"/>
+                        <h4>四人斗地主</h4>
+                        <span>FOUR LANDLORDS</span>
+                    </a>
+                </li>
+                <li>
+                    <a>
+                        <img src="boyyahu/images/gamepic5.jpg"/>
+                        <h4>四人斗地主</h4>
+                        <span>FOUR LANDLORDS</span>
+                    </a>
+                </li>
+                <li class="lastLi nomargin">
+                    <a>
+                        <img src="boyyahu/images/gamepic6.jpg"/>
+                        <h4>四人斗地主</h4>
+                        <span>FOUR LANDLORDS</span>
+                    </a>
+                </li>
+            </ul>
+            <ol>
+                <li></li>
+                <li class="current"></li>
+                <li></li>
+            </ol>
+        </div>
+        <div class="info inner_c">
+            <div class="news">
+                <a class="more">MORE<span>+</span></a>
+                <div class="bottom">
+                    <ol>
+                        <li>助力成都赛事名城建设—2019“博雅杯”成都麻将公益赛 <span>11&nbsp/&nbsp20</span></span></li>
+                        <li>博雅互动与虎牙直播联手，助力博雅杯成都麻将公益赛 <span>11&nbsp/&nbsp09</span></li>
+                        <li>2019博雅杯四川首站——自贡麻将公益赛完美落幕！<span>11&nbsp/&nbsp08</span></li>
+                        <li>“博雅杯”四川第二站——成都麻将公益赛 <span>11&nbsp/&nbsp01</span></li>
+                    </ol>
+                </div>
+            </div>
+            <div class="job">
+                <div class="top">
+                    <h3>社会招聘</h3>
+                    <h4>BOYAA JOBS</h4>
+                    <a class="more">MORE<span>+</span></a>
+                </div>
+                <div class="bottom">
+                    <h4>社会招聘岗位：</h4>
+                    <ol>
+                        <li>PHP开发工程师</li>
+                        <li>C++开发工程师</li>
+                        <li>LUA开发工程师</li>
+                        <li>大数据开发工程师</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="end">
+        <p class="inner_c indu">
+            <a >网站地图</a><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span><a>免责声明</a><span>&nbsp;&nbsp;|&nbsp;&nbsp;</span><a>监督举报</a>
+        </p>
+        <p class="inner_c">Copyright&nbsp;&copy;&nbsp;2004&nbsp;-&nbsp;2019&nbsp;博雅互动(Boyaa&nbsp;Interactive)<a>粤ICP备05062536号</a></p>
+        <p class="inner_c">网络文化经营许可证：粤网文[2015]1991-405号&nbsp;&nbsp;|&nbsp;&nbsp;互联网出版许可证：新出网证（粤）字062号&nbsp;&nbsp;|&nbsp;&nbsp;增值电信业务经营许可证：粤B2-20110513 </p>
+    </div>
+    <a href="" class="top"><span>Top</span></a>
+</body>
+</html>

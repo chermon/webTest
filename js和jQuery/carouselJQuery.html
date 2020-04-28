@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            position: relative;
+            width: 560px;
+            height: 300px;
+            margin: 20px auto;
+            border: 1px solid black;
+            overflow: hidden;
+        }
+        .box .carousel{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3360px;
+        }
+        .box .carousel ul{
+            list-style: none;
+        }
+        .box .carousel ul li{
+            float: left;
+            width: 560px;
+            height: 300px;
+        }
+        .box .btn div{
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            margin-top: -10px;
+            background-color: cadetblue;
+            z-index: 999;
+        }
+        .box .btn div.leftBtn{
+            left: 10px;
+        }
+        .box .btn div.rightBtn{
+            right: 10px;
+        }
+        .box .page{
+            overflow: hidden;
+            width: 150px;
+            height: 20px;
+            padding-left: 10px;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            margin-left: -80px;
+            list-style: none;
+        }
+        .box .page li{
+            float: left;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            border-radius: 50%;
+            background-color: rgb(112, 109, 109);
+        }
+        .box .page li.current{
+            background-color: rgba(255, 255, 255, 1);
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="btn">
+            <div class="leftBtn"></div>
+            <div class="rightBtn"></div>
+        </div>
+        <div class="carousel">
+            <ul>
+                <li><a href="#"> <img src="images/0.jpg"/></a></li>
+                <li><a href="#"> <img src="images/1.jpg"/></a></li>
+                <li><a href="#"> <img src="images/2.jpg"/></a></li>
+                <li><a href="#"> <img src="images/3.jpg"/></a></li>
+                <li><a href="#"> <img src="images/4.jpg"/></a></li>
+            </ul>
+        </div>
+        <ol class="page">
+            <li class="current"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        var option = {
+            "width": 560,
+            "interal": 2000,
+            "animalTime": 500
+        };
+
+        var $box = $(".box");
+        var $carousel = $(".carousel");
+        var $imgUl = $(".carousel ul");
+        var $pageLi = $(".page li");
+
+        //把第一张图片复制一份放在图片列表的末尾
+        $imgUl.append($(".carousel ul li:first").clone());
+
+        //信号量
+        var currentIndex = 0;
+
+        var autoAnimate = setInterval(rightBtnHandle,option.interal);
+
+        //鼠标移入动画结束
+        $box.mouseenter(function (){
+            clearInterval(autoAnimate);
+        });
+
+        //鼠标移出动画开始
+        $box.mouseleave(function (){
+            autoAnimate = setInterval(rightBtnHandle,option.interal);
+        });
+
+        //点击右按钮触发的事件
+        $(".rightBtn").click(rightBtnHandle);
+
+        function rightBtnHandle(){
+            if ($carousel.is(":animated")) return;
+
+            currentIndex++;
+            $carousel.animate({"left":-option.width*currentIndex},option.animalTime,function(){
+                if (currentIndex > 4){
+                    $(this).css("left", 0);
+                    currentIndex = 0;
+                }
+            });
+            circleAnimate();
+        };
+
+        //点击左按钮触发的事件
+        $(".leftBtn").click(function (){
+            //动画节流
+            if ($carousel.is(":animated")) return;
+
+            currentIndex--;
+            if(currentIndex < 0){
+                $carousel.css("left", -option.width*5);
+                currentIndex = 4;
+            }
+            $carousel.animate({"left":-currentIndex*option.width},option.animalTime);
+            circleAnimate();
+        });
+
+        //点击小圆圈触发的动画
+        $pageLi.click(function (){
+            currentIndex = $(this).index();
+            $carousel.animate({"left":-currentIndex*option.width},option.animalTime);
+            circleAnimate();
+        });
+
+        //更改小圆圈
+        function circleAnimate(){
+            var index = currentIndex <= 4 ? currentIndex : 0;
+            $pageLi.eq(index).addClass("current").siblings().removeClass("current");
+        }
+
+    </script>
+</body>
+</html>

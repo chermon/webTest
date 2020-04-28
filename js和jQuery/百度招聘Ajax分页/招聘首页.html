@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>招聘首页</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #ccc;
+        }
+
+        .box {
+            width: 1099px;
+            margin: 0 auto;
+            padding: 30px;
+            background-color: white;
+        }
+
+        .box .head {
+            width: 1039px;
+            overflow: hidden;
+        }
+
+        .box .head h2 {
+            line-height: 32px;
+            font: 16px bold #333;
+            float: left;
+        }
+
+        .box .head span {
+            line-height: 32px;
+            font-size: 14px;
+            color: gray;
+            float: right;
+        }
+
+        .jobMessage .jobMessageHead,
+        .jobListIntro {
+            width: 1039px;
+            height: 54px;
+            font-size: 14px;
+            line-height: 54px;
+            overflow: hidden;
+        }
+
+        .jobMessage .jobMessageHead {
+            font-weight: bold;
+            color: #333;
+            border-bottom: 1px solid lightgrey;
+        }
+
+        .jobMessage .jobList .jobListRow {
+            color: rgb(92, 92, 92);
+            width: 1039px;
+            position: relative;
+        }
+
+        .jobMessage .jobList .jobListRow .jobListIntro {
+            border-bottom: 1px dashed rgb(243, 240, 240);
+        }
+
+        .jobMessage .jobName {
+            width: 297px;
+            float: left;
+        }
+
+        .jobMessage .jobType {
+            width: 148px;
+            float: left;
+        }
+
+        .jobMessage .jobAddress {
+            width: 148px;
+            float: left;
+        }
+
+        .jobMessage .hiringNum {
+            width: 148px;
+            float: left;
+        }
+
+        .jobMessage .updateTime {
+            width: 148px;
+            float: left;
+        }
+
+        .jobMessage .updateTime {
+            width: 148px;
+            float: left;
+        }
+
+        .jobMessage .jobList .dropDown {
+            width: 21px;
+            height: 10px;
+            position: absolute;
+            top: 22px;
+            right: 10px;
+            background: url(images/banner-icon.png) -245px -146px;
+            cursor: pointer;
+        }
+
+        .jobMessage .jobList .dropDown.up {
+            background: url(images/banner-icon.png) -220px -146px;
+        }
+
+        .jobList .jobListRow .jobName a:link,
+        a:visited {
+            color: rgb(92, 92, 92);
+            text-decoration: none;
+        }
+
+        .jobList .jobListRow .jobName a:hover,
+        a:active {
+            color: blue;
+        }
+
+        .jobMessage .jobList .jobListRow .jabListDetail {
+            font-size: 14px;
+            line-height: 32px;
+            color: rgb(92, 92, 92);
+            padding: 10px 0;
+            border-bottom: 1px dashed rgb(243, 240, 240);
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="head">
+            <h2>职位信息</h2>
+            <span>职位信息共 1227 个在招职位</span>
+        </div>
+        <div class="jobMessage">
+            <div class="jobMessageHead">
+                <div class="jobName">职务名称</div>
+                <div class="jobType">职务类型</div>
+                <div class="jobAddress">工作地点</div>
+                <div class="hiringNum">招聘人数</div>
+                <div class="updateTime">更新时间</div>
+            </div>
+            <div class="jobList" id="jobList">
+                <!-- <div class="jobListRow">
+                    <div class="jobListIntro">
+                        <div class="jobName"><a
+                                href="http://talent.baidu.com/external/baidu/index.html#/jobDetail/2/1136521191">商业资源技术部_前端高级研发工程师</a>
+                        </div>
+                        <div class="jobType">技术</div>
+                        <div class="jobAddress">北京</div>
+                        <div class="hiringNum">若干</div>
+                        <div class="updateTime">2018-09-23</div>
+                        <div class="dropDown" id="dropDown"></div>
+                    </div>
+                    <div class="jabListDetail" id="jabListDetail">
+                        两年以上 Web 前端开发经验<br><br>-熟悉编程基础知识，例如 数据结构，基本算法等<br>-熟练应用w3c标准，利用HTML/CSS/Javascript
+                        开发符合标准高性能的网站<br>-精通各种Web前端技术，包括XHTML/XML/CSS/Javascript等，手写代码熟练，对页面的性能和浏览器兼容有丰富的实践经验<br>-有一定的移动端开发和性能优化经验
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <script type="text/template" id="templateCom">
+        <div class="jobListRow">
+            <div class="jobListIntro">
+                <div class="jobName"><a href='<%=link%>'><%=name%></a></div>
+                <div class="jobType"><%=postType%></div>
+                <div class="jobAddress"><%=workPlace%></div>
+                <div class="hiringNum"><%=recruitNum%></div>
+                <div class="updateTime"><%=publishDate%></div>
+                <div class="dropDown" id="dropDown"></div>
+            </div>
+            <div class="jabListDetail" id="jabListDetail"><%=serviceCondition%></div>
+        </div>
+    </script>
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/underscore.js"></script>
+    <script type="text/javascript">
+        //模板函数
+        var templateFunction = _.template($("#templateCom").html());
+        var $jobList = $("#jobList");
+        $.get("json/getPostList1.txt", function (data) {
+            //因为数据是模拟的，所以需要将字符串转化为json
+            var jsonData = eval("(" + data + ")");
+            var positionList = jsonData.postList;
+            _.each(positionList, function (positionData) {
+                positionData.link = "http://talent.baidu.com/external/baidu/index.html#/jobDetail/2/" + positionData.postId;
+                var templateDom = templateFunction(positionData);
+                $jobList.append($(templateDom));
+            });
+
+            var $dropDowns = $(".dropDown");
+            var $jabListDetail = $(".jabListDetail");
+            var currentRow ;
+            
+            $dropDowns.click(function (){
+                if($(this).parent().siblings(".jabListDetail").is(":hidden")){
+                    $(this).parent().siblings(".jabListDetail").slideDown(function (){
+                        $(this).parent().siblings(".jabListDetail").stop(true).addClass("up");
+                    });
+                }
+                else{
+                    $(this).parent().siblings(".jabListDetail").stop(true).slideUp(function (){
+                        $(this).parent().siblings(".jabListDetail").removeClass("up");
+                    });
+                }
+            });
+           
+        });
+
+    </script>
+</body>
+
+</html>

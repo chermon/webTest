@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手机页面轮播图</title>
+    <style type="text/css">
+         *{
+             margin: 0;
+             padding: 0;
+         }
+         .carousel{
+             /* margin-top: 20px; */
+             margin-left: 400px;
+             width: 200px;
+             border: 1px solid #333;
+             box-sizing: border-box;
+             -webkit-box-sizing: border-box;
+         }
+         .carousel ul{
+             list-style: none;
+             position: relative;
+         }
+         .carousel ul li{
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+         }
+         .carousel ul li img{
+             display: block;
+             width: 100%;
+         }
+    </style>
+</head>
+<body>
+    <div class="carousel" id="carousel">
+        <ul>
+            <li><a href=""><img src="images/number/0.png" alt=""></a></li>
+            <li><a href=""><img src="images/number/1.png" alt=""></a></li>
+            <li><a href=""><img src="images/number/2.png" alt=""></a></li>
+            <li><a href=""><img src="images/number/3.png" alt=""></a></li>
+            <li><a href=""><img src="images/number/4.png" alt=""></a></li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        var ss = document.documentElement.clientWidth;
+        console.log("视口宽度：" + ss);
+        var carousel = document.getElementById("carousel");
+        var carouselList = document.querySelectorAll("#carousel ul li");
+        var carouselWidth = carousel.style.width;
+        //设置盒子的高度
+			carousel.style.height = carouselWidth * (130 / 200) + "px";
+
+        var preIndex = 4;
+        var currentIndex = 0;
+        var nextIndex = 1;
+        var distance;
+        var currentX;
+
+        init()
+        function init(){
+            for(var i = carouselList.length - 1 ; i >= 1 ; i--){
+                carouselList[i].style.webkitTransform = "translateX(" + carouselWidth + "px)";
+            }
+            //去掉过渡，移动的时候我希望实时跟随鼠标，而不是有过渡效果
+			carouselList[preIndex].style.transition = "none";
+			carouselList[currentIndex].style.transition = "none";
+            carouselList[nextIndex].style.transition = "none";
+            
+            carouselList[preIndex].style.webkitTransform = "translateX(" + -carouselWidth + "px)";
+            carouselList[currentIndex].style.webkitTransform = "translateX(0px)";
+            carouselList[nextIndex].style.webkitTransform = "translateX(" + carouselWidth + "px)";
+            // console.log(nextIndex);
+        }
+
+        carousel.addEventListener("touchstart",touchStartHandle,false);
+        carousel.addEventListener("touchmove",touchMoveHandle,false);
+        carousel.addEventListener("touchend",touchEndHandle,false);
+
+        function touchStartHandle(event){
+            //阻止默认事件
+			event.preventDefault();
+            distance = event.touches[0].clientX;
+        }
+
+        function touchMoveHandle(event){
+            //阻止默认事件
+			event.preventDefault();
+            distance = event.touches[0].clientX - distance;
+            
+            carouselList[currentIndex].style.webkitTransform = "translateX(" + distance + "px)";
+            carouselList[preIndex].style.webkitTransform = "translateX(" + -carouselWidth + distance + "px)";
+            carouselList[nextIndex].style.webkitTransform = "translateX(" + carouselWidth + distance + "px)";
+
+
+        }
+
+        function touchEndHandle(event){
+
+
+        }
+        
+    </script>
+</body>
+</html>

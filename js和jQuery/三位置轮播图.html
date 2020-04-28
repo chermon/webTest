@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 560px;
+            height: 300px;
+            border: 1px solid black;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .box ul{
+            width: 560px;
+            height: 300px;
+            list-style: none;
+            position: relative;
+        }
+        .box ul li{
+            width: 560px;
+            height: 300px;
+            position: absolute;
+            left: 560px;
+            top: 0px;
+        }
+        ul li img{
+            display: block;
+            width: 560px;
+            height: 300px;
+        }
+        .box span{
+            width: 30px;
+            height: 50px;
+            position: absolute;
+            top: 50%;
+            margin-top: -25px;
+            background-color: black;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
+        .box span.leftBtn{
+            left: 20px;
+        }
+        .box span.rightBtn{
+            right: 20px;
+        }
+        ol{
+            width: 150px;
+            height: 20px;
+            overflow: hidden;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            margin-left: -75px;
+            list-style: none;
+        }
+        ol li{
+            width: 20px;
+            height: 20px;
+            float: left;
+            margin-right: 10px;
+            background-color: black;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
+        ol li.current{
+            
+            background-color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="box">
+        <ul>
+            <li><a href="javascript:"><img src="images/0.jpg" alt=""></a></li>
+            <li><a href="javascript:"><img src="images/1.jpg" alt=""></a></li>
+            <li><a href="javascript:"><img src="images/2.jpg" alt=""></a></li>
+            <li><a href="javascript:"><img src="images/3.jpg" alt=""></a></li>
+            <li><a href="javascript:"><img src="images/4.jpg" alt=""></a></li>
+        </ul>
+        <span class="leftBtn" id="leftBtn"></span>
+        <span class="rightBtn" id="rightBtn"></span>
+        <ol>
+            <li class="current"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ol>
+    </div>
+    <script src="js/animate.js"></script>
+    <script>
+        var box = document.getElementById("box");
+        var imgLists = document.getElementsByTagName("ul")[0].getElementsByTagName("li");
+        var olLists = document.getElementsByTagName("ol")[0].getElementsByTagName("li");
+        var rightBtn = document.getElementById("rightBtn");
+        var leftBtn = document.getElementById("leftBtn");
+
+        var time;
+        var currentIndex = 0;
+
+        imgLists[currentIndex].style.left = 0 + "px";
+
+        time = setInterval(function (){
+            caroulseAnimate();
+        },3000);
+
+
+        box.onmouseover = function (){
+            clearInterval(time);
+        }
+
+        box.onmouseout = function (){
+            clearInterval(time);
+            time = setInterval(function (){
+                caroulseAnimate();
+            },3000);
+        }
+
+        rightBtn.onclick = function (){
+            caroulseAnimate();
+        }
+
+        function caroulseAnimate(){
+            //动画节流
+            if (imgLists[currentIndex].isAnimated) {
+                return;
+            }
+            //当前图片向左移动
+            animateFun(imgLists[currentIndex],{"left":-560},700);
+            //改变中间位置的信号量
+            currentIndex += 1;
+            if(currentIndex > 4){
+                currentIndex = 0
+            }
+            //让左边的图就位
+            imgLists[currentIndex].style.left = 560 + "px";
+            //当前图片向左移到当前位置
+            animateFun(imgLists[currentIndex],{"left":0},700);
+            //小圆点的改变
+            dotChange();
+        }
+
+        leftBtn.onclick = function (){
+            //动画节流
+            if (imgLists[currentIndex].isAnimated) {
+                return;
+            }
+            animateFun(imgLists[currentIndex],{"left":560},700);
+            currentIndex -= 1;
+            if(currentIndex < 0){
+                currentIndex = 4;
+            }
+            imgLists[currentIndex].style.left = -560 + "px";
+            animateFun(imgLists[currentIndex],{"left":0},700);
+            //小圆点的改变
+            dotChange();
+        }
+
+        //给小圆点增加事件
+        for(var i = 0; i < olLists.length; i++){
+            (function (dex){
+                olLists[dex].onclick = function (){
+                    if (imgLists[currentIndex].isAnimated) {
+                        return;
+                    }
+
+                    if (currentIndex > dex){
+                        imgLists[dex].style.left = -560 + "px";
+                        animateFun(imgLists[currentIndex],{"left":560},700);
+                    }
+                    else if (currentIndex < dex){
+                        imgLists[dex].style.left = 560 + "px";
+                        animateFun(imgLists[currentIndex],{"left":-560},700);
+                    }
+                    currentIndex = dex;
+                    animateFun(imgLists[currentIndex],{"left":0},700);
+                    dotChange();
+                }
+            })(i);
+        }
+
+        function dotChange(){
+            for(var i=0; i < olLists.length; i++){
+                olLists[i].className = "";
+            }
+            olLists[currentIndex].className = "current";
+        }
+
+    </script>
+</body>
+</html>

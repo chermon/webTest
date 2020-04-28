@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 700px;
+            height: 150px;
+            padding: 0 30px;
+            margin: 50px auto;
+            border: 1px solid gray;
+            position: relative;
+        }
+        .box .content{
+            width: 700px;
+            height: 130px;
+            position: relative;
+            overflow: hidden; 
+        }
+        .content ul{
+            width: 1260px;
+            position: absolute;
+            left: 0;
+            list-style: none;
+        }
+        .content ul li{
+            float: left;
+            width: 200px;
+            height: 130px;
+            padding-right: 10px;
+        }
+        .content ul li img{
+            display: block;
+            width: 200px;
+        }
+        .box .btn a{
+            display: block;
+            width: 20px;
+            height: 65px;
+            position: absolute;
+            top: 50%;
+            margin-top: -52.5px;
+            background: url(images/bg05.png) no-repeat;
+        }
+        .box .btn a.leftBtn{
+            left: 0;
+        }
+        .box .btn a.rightBtn{
+            right: 0;
+            background-position: -42px 0px;
+        }
+        .box .scrollBar{
+            height: 20px;
+            background-color: black;
+            position: relative;
+        }
+        .box .scrollBar .bar{
+            width: 206px;
+            height: 15px;
+            background: url(images/bg07.png) 0 -31px;
+            position: absolute;
+            top: 1.5px;
+        }
+        .scrollBar .bar .centerBar{
+            width:10px;
+            height: 15px;
+            position: absolute;
+            left: 50%;
+            margin-left: -5px;
+            background: url(images/bg07.png) -14px 1px;
+        }
+        .scrollBar .bar .leftBar{
+            width:10px;
+            height: 15px;
+            position: absolute;
+            background: url(images/bg07.png) 0 1px;
+        }
+        .scrollBar .bar .rightBar{
+            width:10px;
+            height: 15px;
+            position: absolute;
+            right: 0;
+            background: url(images/bg07.png) -26px 1px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="content" id="content">
+            <ul>
+                <li><a href=""><img src="images/number/0.png" alt=""></a></li>
+                <li><a href=""><img src="images/number/1.png" alt=""></a></li>
+                <li><a href=""><img src="images/number/2.png" alt=""></a></li>
+                <li><a href=""><img src="images/number/3.png" alt=""></a></li>
+                <li><a href=""><img src="images/number/4.png" alt=""></a></li>
+                <li><a href=""><img src="images/number/5.png" alt=""></a></li>
+            </ul>
+        </div>
+        <div class="btn">
+            <a href="javascript:" class="leftBtn" id="leftBtn"></a>
+            <a href="javascript:" class="rightBtn" id="rightBtn"></a>
+        </div>
+        <div class="scrollBar">
+            <div class="bar" id="bar">
+                <span class="leftBar"></span>
+                <span class="centerBar"></span>
+                <span class="rightBar"></span>
+            </div>
+        </div>
+    </div>
+    <script>
+        var content = document.getElementById("content");
+        var ul = content.getElementsByTagName("ul")[0];
+        var leftBtn = document.getElementById("leftBtn");
+        var rightBtn = document.getElementById("rightBtn");
+        var bar = document.getElementById("bar");
+
+        // 图片所滑动的宽度 减去10是因为最后一张图片右边有个10px的padding,该padding不需要显示出来
+        var scrollWidth = ul.clientWidth - content.clientWidth - 10;
+        var barWidth = content.clientWidth - bar.clientWidth;
+
+        var rate = barWidth/scrollWidth;
+
+        // 点击左右按钮时的图片列表的步长
+        var step = 10;
+        var cuttentX = 0;
+        rightBtn.onclick = function (){
+            cuttentX += step;
+            if(cuttentX >= scrollWidth){
+                cuttentX = scrollWidth;
+            }
+            ul.style.left = -cuttentX + "px";
+            bar.style.left = cuttentX*rate + "px";
+        }
+
+        leftBtn.onclick = function (){
+            cuttentX -= step;
+            if(cuttentX <= 0){
+                cuttentX = 0;
+            }
+            ul.style.left = -cuttentX + "px";
+            bar.style.left = cuttentX*rate + "px";
+        }
+
+        var detalX;
+        var barX;
+
+        //鼠标按下
+        bar.onmousedown = function (event){
+            //为低版本浏览器做兼容，低版本浏览器event的对象是window
+            event = event || window.event;
+
+            detalX = event.clientX - bar.offsetLeft;
+
+            var weakSelf = this;
+            document.onmousemove = function (event){
+                event = event || window.event;
+                barX = event.clientX - detalX;
+                if(barX <= 0){
+                    barX = 0;
+                }
+                else if (barX >= barWidth){
+                    barX = barWidth;
+                }
+                weakSelf.style.left = barX + "px";
+                ul.style.left = -barX/rate + "px";
+                cuttentX = barX/rate;
+            }  
+
+            //鼠标抬起 移除document层中onmousemove的方法
+            document.onmouseup = function (){
+                this.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+</html>

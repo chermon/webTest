@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <input class="leftBtn" id="leftBtn" type="button" value="向左"/>
+    <input class="rightBtn" id="downBtn" type="button" value="向下"/>
+    <input class="end" type="button" value="结束"/>
+    <div class="box" id="box"></div>
+    <script src="js/animate_carousel.js"></script>
+    <script type="text/javascript">
+         var leftBtn = document.getElementById("leftBtn");
+         var rightBtn = document.getElementById("downBtn");
+         var box = document.getElementById("box");
+         leftBtn.onclick = function(){
+             if(box.isAnimated){
+                 return;
+             }
+            animate(box,{"left":400},3000);
+         };
+         rightBtn.onclick = function(){
+             if(box.isAnimated){
+                 return;
+             }
+            animate(box,{"top":400},3000,function(){
+                this.style.backgroundColor = "red";
+            });
+         };
+
+    </script>
+</body>
+</html>

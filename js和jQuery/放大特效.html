@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片放大特效</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .zoomIn{
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            overflow: hidden;
+            /* border: 1px solid black; */
+            box-shadow: 0 1px 4px rgb(0,0,0,0.6);/*向右、向下、模糊度、阴影*/
+        }
+        .zoomIn img{
+            display: block;
+            width: 200px;
+            height: 200px;
+            /*对哪些属性实行过渡、过渡时间、缓冲、延迟时间*/
+            transition:all 1s linear 0s;
+        }
+        .zoomIn img:hover{
+            transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+        }
+        /*灰色过滤*/
+        .filterGrayscale{
+            filter: grayscale(100%);
+            -webkit-filter: grayscale(100%);
+        }
+        .filterGrayscale:hover{
+            filter: grayscale(0);
+            -webkit-filter: grayscale(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="zoomIn"><img src="images/baby.png" alt="" class="filterGrayscale"></div>
+</body>
+</html>

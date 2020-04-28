@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品放大镜</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 350px;
+            height: 350px;
+            margin-top: 50px;
+            margin-left: 50px;
+            border: 1px solid rgb(224, 224, 224);
+            position: relative;
+        }
+        .box img{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 350px;
+            height: 350px;
+        }
+        .box .glass{
+            width: 175px;
+            height: 175px;
+            border: 1px solid rgb(224, 224, 224);
+            background-color: #FEDE4F;
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+            position: absolute;
+            display: none;
+        }
+        .bigImg{
+            width: 350px;
+            height: 350px;
+            border: 1px solid rgb(224, 224, 224);
+            position: absolute;
+            top: 50px;
+            left: 450px;
+            background: url(images/da.jpg) no-repeat;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="box">
+        <img src="images/xiao.jpg" alt=""/>
+        <div class="glass" id="glass"></div>
+    </div>
+    <div class="bigImg" id="bigImg"></div>
+    <script type="text/javascript">
+        var box = document.getElementById("box");
+        var glass = document.getElementById("glass");
+        var bigImg = document.getElementById("bigImg");
+        var glassWidth = 177;
+        var rate = 450/175;
+    
+        box.onmouseover = function (){
+            glass.style.display = "block";
+            bigImg.style.display = "block";
+        }
+        box.onmouseout = function (){
+            glass.style.display = "none";
+            bigImg.style.display = "none";
+        }
+
+        box.onmousemove = function (event){
+            // 适配
+            event = event || window.event;
+            
+            var currentGlassX = 0;
+            if( event.clientX <= box.offsetLeft + glassWidth/2){
+                currentGlassX = 0;
+            }
+            else if(event.clientX > box.offsetLeft + glassWidth/2 && event.clientX <= box.offsetLeft + box.clientWidth - glassWidth/2){
+                currentGlassX = event.clientX - box.offsetLeft - glassWidth/2;
+            }
+            else if(event.clientX >  box.offsetLeft + box.clientWidth - glassWidth/2){
+                currentGlassX = box.clientWidth - glassWidth;
+            }
+
+            var currentGlassY = 0;
+            if(event.clientY <= box.offsetTop + glassWidth/2){
+                currentGlassY = 0;
+            }
+            else if (event.clientY > box.offsetTop + glassWidth/2 && event.clientY <= box.offsetTop + box.clientHeight - glassWidth/2){
+                currentGlassY = event.clientY - box.offsetTop - glassWidth/2;
+            }
+            else if (event.clientY > box.offsetTop + box.clientHeight - glassWidth/2){
+                currentGlassY = box.clientHeight - glassWidth;
+            }
+            
+            glass.style.left = currentGlassX + "px";
+            glass.style.top = currentGlassY + "px";
+            
+            bigImg.style.backgroundPosition = -currentGlassX*rate + "px " + -currentGlassY*rate + "px";
+
+        }
+
+    </script>
+</body>
+</html>

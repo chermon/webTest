@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*数组中的数据由小到大排序*/
+        var arr = [23,42,18,7,50,9,15];
+        for(var i = 0; i < arr.length; i++){// - 第几趟（一共比较n-1趟）
+            // - 每进行一趟都会比前一次少比较一次（因为每比较一趟都会筛选出来所有数据中的最大值/最小值）
+            for(var j = 0; j < arr.length - i; j++){ 
+                var temple;
+                if (arr[j] > arr[j + 1]){
+                    temple = arr[j + 1];
+                    arr[j + 1] = arr[j] ;
+                    arr[j] = temple;
+                }
+            }
+        }
+       
+    </script>
+</body>
+</html>

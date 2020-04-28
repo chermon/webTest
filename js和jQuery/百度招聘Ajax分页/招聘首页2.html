@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ccc;
+        }
+
+        .box {
+            width: 1100px;
+            background-color: white;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        .box .head {
+            height: 22px;
+            overflow: hidden;
+        }
+
+        .box .head h2 {
+            line-height: 22px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            float: left;
+        }
+        .box .head span {
+            line-height: 22px;
+            font-size: 14px;
+            color: gray;
+            float: right;
+        }
+        .content .info{
+            color: #333;
+            font-weight: bold;
+            overflow: hidden;
+            border-bottom: 1px solid lightgrey;
+        }
+        .content .col{
+            font-size: 14px;
+            height: 54px;
+            line-height: 54px;
+        }
+        .content .workName{
+            width: 30%;
+            float: left;
+        }
+        .content .workType{
+            width: 15%;
+            float: left;
+        }
+        .content .workPlace{
+            width: 20%;
+            float: left;
+        }
+        .content .recruitNum{
+            width: 15%;
+            float: left;
+        }
+        .content .publishDate{
+            width: 20%;
+            float: left;
+        }
+        .content .row_work{
+            color: gray;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 1px dotted lightgray;
+        }
+        .content .row_work a:link{
+            text-decoration: none;
+            color: gray;
+        }
+        .content .row_work a:visited{
+            text-decoration: none;
+            color: gray;
+        }
+        .content .row_work a:hover{
+            color: blue;
+        }
+        .content .row_work a:active{
+            color: blue;
+        }
+        .content .row_work .dropDown{
+            width: 21px;
+            height: 10px;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            margin-top: -5px;
+            background: url(images/banner-icon.png) -28px -146px;
+            cursor: pointer;
+        }
+        .content .row_work .dropDown.up{
+            background: url(images/banner-icon.png) 0 -146px;
+        }
+        .content .row .work_detail{
+            color: gray;
+            font-size: 12px;
+            padding: 10px 0px;
+            line-height: 32px;
+            border-bottom: 1px dotted lightgray;
+            display: none;
+        }
+        .pageNavBar{
+            width: 220px;
+            height: 20px;     
+            padding-left: 10px;
+            position: relative;
+            left: 50%;
+            margin-left: -110px;
+            margin-top: 20px;
+
+        }
+        .pageNavBar ul{
+            list-style: none;
+            overflow: hidden;
+        }
+        .pageNavBar li{
+            width: 18px;
+            height: 18px;
+            font-size: 9px;
+            line-height: 18px;
+            text-align: center;
+            margin-right: 10px;
+            float: left;
+            border: 1px solid lightgray;
+        }
+        .pageNavBar li.cur{
+            background-color: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="head">
+            <h2>职位信息</h2>
+            <span>职位信息共1223个在招职位</span>
+        </div>
+        <div class="content" id="content">
+            <div class="info">
+                <div class="col workName">职务名称</div>
+                <div class="col workType">职务类型</div>
+                <div class="col workPlace">工作地点</div>
+                <div class="col recruitNum">招聘人数</div>
+                <div class="col publishDate">更新时间</div>
+            </div>
+            <!-- <div class="row">
+                <div class="row_work">
+                    <div class="col workName"><a href="">商业资源技术部_前端高级研发工程师</a></div>
+                    <div class="col workType">技术</div>
+                    <div class="col workPlace">北京</div>
+                    <div class="col recruitNum">若干</div>
+                    <div class="col publishDate">2020-01-30</div>
+                    <div class="dropDown"></div>
+                </div>
+                <div class="work_detail">
+                    工作职责：<br>
+                    -负责百度无人车仿真系统的前端工作流定义、分析报告与数据可视化<br>-负责百度无人车仿真系统的前端功能开发包括仿真器case管理、道路编辑器、场景编辑器 <br>-负责无人车仿真系统的前端性能优化等 <br>-新技术的调研及应用
+                    <br>
+                    <br>
+                    职位要求：<br>
+                    两年以上 Web 前端开发经验<br>-熟悉编程基础知识，例如 数据结构，基本算法等<br>-熟练应用w3c标准，利用HTML/CSS/Javascript
+                        开发符合标准高性能的网站<br>-精通各种Web前端技术，包括XHTML/XML/CSS/Javascript等，手写代码熟练，对页面的性能和浏览器兼容有丰富的实践经验<br>-有一定的移动端开发和性能优化经验
+                </div>
+            </div> -->
+        </div>
+        <div class="pageNavBar">
+            <ul>
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+                <li>7</li>
+            </ul>
+        </div>
+    </div>
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/underscore.js"></script>
+    <script type="text/template" id="templateHandel">
+        <div class="row" id="row">
+            <div class="row_work">
+                <div class="col workName"><a href='<%=link%>'><%=name%></a></div>
+                <div class="col workType"><%=postType%></div>
+                <div class="col workPlace"><%=workPlace%></div>
+                <div class="col recruitNum"><%=recruitNum%></div>
+                <div class="col publishDate"><%=publishDate%></div>
+                <div class="dropDown"></div>
+            </div>
+            <div class="work_detail">
+                工作职责：<br>
+                <%=workContent%>
+                <br>
+                <br>
+                职位要求：<br>
+                <%=serviceCondition%>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+        //得到模板函数
+        var templateFunction = _.template($("#templateHandel").html());
+        //全局换页锁
+        var lock = false;
+         
+        /**************************************** 职位对象 *****************************************/
+        //创建构造函数
+        function Work(dataDic){
+            //从服务器取出来的某条数据字典
+            this.dataDic = dataDic;
+            //字典修正
+            this.dataDic.link = "http://talent.baidu.com/external/baidu/index.html#/jobDetail/2/" + this.dataDic.postId;
+            //生成模板字符串
+            this.domStr = templateFunction(this.dataDic);
+            //将模板字符串转化为dom
+            this.$Dom = $(this.domStr);
+            //从创建的dom中查找下拉按钮（注意：即使孤儿节点也能够调用find方法）
+            this.$dropDown = this.$Dom.find(".dropDown");
+            this.$workDetail = this.$Dom.find(".work_detail");
+            //信号量，表示是否打开工作详情信息，0：未打开，1：打开
+            this.openStatus = 0;
+
+            this.render();
+            this.bindEvent();
+
+            //在顶层容器中进行自身备案
+            workTbl.addElement(this);
+        }
+
+        //渲染页面
+        Work.prototype.render = function (){
+            workTbl.$tableDom.append(this.$Dom);
+        }
+
+        //自毁自己的dom
+        Work.prototype.killSelf = function (){
+            //可以把自己从dom层中移除
+            this.$Dom.remove();
+        }
+
+        //绑定事件
+        Work.prototype.bindEvent = function (){
+            var weakSelf = this;
+            this.$dropDown.click(function (){
+                if(weakSelf.openStatus == 0){
+                    weakSelf.$workDetail.stop(true).slideDown();
+                    $(this).addClass("up");
+                    weakSelf.openStatus = 1;
+                }else{
+                    weakSelf.$workDetail.stop(true).slideUp();
+                    $(this).removeClass("up");
+                    weakSelf.openStatus = 0;
+                }
+            }); 
+        }
+
+        /**************************************** 页面管理器 *****************************************/
+        function PageNavBar(currentPage,maxPage){
+            //当前页面
+            this.currentPage = currentPage;
+            //最大页数
+            this.maxPage = maxPage;
+
+            //获取li
+            this.$lis = $(".pageNavBar li");
+
+            this.render();
+            this.bindEvent();
+
+        }
+
+        //根据当前页面和最大页面数渲染页面
+        PageNavBar.prototype.render = function (){
+            if(this.currentPage >= 1 && this.currentPage <= 3){
+                this.$lis.eq(0).html("1");
+                this.$lis.eq(1).html("2");
+                this.$lis.eq(2).html("3");
+                this.$lis.eq(3).html("4");
+                this.$lis.eq(4).html("...");
+                this.$lis.eq(5).html(this.maxPage - 1);
+                this.$lis.eq(6).html(this.maxPage);
+
+                //如果当前加载的页面是前三个页面中的一个，则点击哪个页面，标记对应索引的li
+                this.$lis.eq(this.currentPage - 1).addClass("cur").siblings().removeClass("cur");
+            }
+            else if (this.currentPage >= this.maxPage - 2 && this.currentPage <= this.maxPage){
+                this.$lis.eq(0).html("1");
+                this.$lis.eq(1).html("2");
+                this.$lis.eq(2).html("3");
+                this.$lis.eq(3).html("...");
+                this.$lis.eq(4).html(this.maxPage - 2);
+                this.$lis.eq(5).html(this.maxPage - 1);
+                this.$lis.eq(6).html(this.maxPage);
+
+                //如果当前加载的页面是后三个页面，则点击最后哪个页面，标记对应后几个索引的li，也就是点击倒数第二个，则就标记倒数第二个
+                this.$lis.eq(6 - (this.maxPage - this.currentPage)).addClass("cur").siblings().removeClass("cur");
+            }else{
+                this.$lis.eq(0).html("1");
+                this.$lis.eq(1).html("...");
+                this.$lis.eq(2).html(this.currentPage - 1);
+                this.$lis.eq(3).html(this.currentPage);
+                this.$lis.eq(4).html(this.currentPage + 1);
+                this.$lis.eq(5).html("...");
+                this.$lis.eq(6).html(this.maxPage);
+
+                //如果当前加载的页面是中间的页面，即既不是前三个页面也不是后三个页面，则点击那个索引，就把这个索引放在中间的位置，即第四位，也就是第三个索引
+                this.$lis.eq(3).addClass("cur").siblings().removeClass("cur");
+            }
+        }
+
+        PageNavBar.prototype.bindEvent = function (){
+            var weakSelf = this;
+            this.$lis.click(function (){
+                if (lock){
+                   return;
+                }
+                if($(this).html() == "..."){
+                    return;
+                }
+
+                lock = true;
+                //parseInt 将字符串转化为int类型
+                weakSelf.currentPage = parseInt($(this).html());
+                //请求该页面的网络数据
+                workTbl.gotoPage(weakSelf.currentPage);
+            });
+        }
+
+        /**************************************** 顶层管理器 *****************************************/
+        //顶层管理容器
+        function WorkTable(){
+            //得到最顶层Dom
+            this.$tableDom = $("#content");
+            //记录当前页面存在的所有对象
+            this.workList = [];
+            if(window.location.hash.length == 0){
+                window.location.hash = "1";
+            }
+
+            var page = window.location.hash.substr(1);
+            //切换页面
+            this.gotoPage(page); 
+        }
+
+        //加载某一个页面的数据
+        WorkTable.prototype.gotoPage = function (page){
+            var self = this;
+            
+            $.get("json/getPostList"+ page +".txt",function (dataDic){
+                //因为我们是模拟的数据，所以需要把取到的字符串转化为json数据
+                var dataJson = eval("("+dataDic+")");
+
+                //加载新的一页数据之前，需要把dom上旧的对象节点清除
+                _.each(self.workList,function (element){
+                    element.killSelf();
+                });
+
+                new PageNavBar(page,dataJson.totalPage);
+
+                //循环某一个页面中所有的list数据，并调用Work对象（该对象用来创建元素，绑定dom以及事件）
+                _.each(dataJson.postList, function (currentListDic){
+                    new Work(currentListDic);
+                });
+
+                //请求完网络数据将锁打开
+                lock = false;
+            });
+        };
+
+        //备案某个对象
+        WorkTable.prototype.addElement = function (element){
+            this.workList.push(element);
+        };
+
+       //初始化顶层管理容器对象
+        var workTbl = new WorkTable();
+        
+    </script>
+</body>
+
+</html>

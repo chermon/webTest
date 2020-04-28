@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        div{
+            width: 79px;
+            height: 108px;
+            position: absolute;
+            /* top: 50px;
+            left: 50px; */
+            background: url(images/girl.png) 0 -216px;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+        function Girl(left,top){
+            this.left = left;
+            this.top = top;
+            this.step = 20;
+            this.time = null;
+            
+            this.init = function (){
+                this.dom = document.createElement("div");
+                document.body.appendChild(this.dom);
+                this.dom.style.left = this.left + "px";
+                this.dom.style.top = this.top + "px";
+            }
+
+   
+            this.move = function (){
+                var weakSelf = this;
+                var num = 0;
+                this.time = setInterval(function (){
+                    num += 1;
+                    weakSelf.left += weakSelf.step;
+                    if (weakSelf.left >= 800){
+                        weakSelf.die();
+                       return;
+                    }
+                    if (num > 7){
+                        num = 0;
+                    }
+                    weakSelf.dom.style.backgroundPosition = -num*79 + "px -216px";
+                    weakSelf.dom.style.left = weakSelf.left + "px";
+                },500);
+            }
+
+            this.die = function (){
+                document.body.removeChild(this.dom);
+                clearInterval(this.time);
+            }
+
+            this.init();
+            this.move();
+        }
+
+  
+   setInterval(function (){
+       var top = Math.random()*400;
+       new Girl(50,top);
+   },2000);
+      
+    </script>
+</body>
+</html>

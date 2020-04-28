@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 1000px;
+            height: 150px;
+            margin: 20px auto;
+            border: 5px solid black;
+            overflow: hidden;
+        }
+        .box .carouse{
+            width: 1000px;
+            height: 150px;
+        }
+        ul{
+            width: 10000px;
+            list-style: none;
+            overflow: hidden;
+            position: relative;
+        }
+        ul li{
+            margin-right: 10px;
+            float: left;
+            position: relative;
+        }
+        ul li img{
+            display: block;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="box">
+        <div class="carouse">
+            <ul>
+                <li><img src="images/0.jpg" alt=""></li>
+                <li><img src="images/1.jpg" alt=""></li>
+                <li><img src="images/2.jpg" alt=""></li>
+                <li><img src="images/3.jpg" alt=""></li>
+                <li><img src="images/4.jpg" alt=""></li>
+                <li><img src="images/5.jpg" alt=""></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        var carouseUl = document.getElementsByTagName("ul")[0];
+        var imgList = carouseUl.getElementsByTagName("li");
+        var imgs = carouseUl.getElementsByTagName("img");
+        var offSetLeft;
+        var step = 10;
+        var left = 0;
+        var num = 0;
+
+        carouseUl.innerHTML += carouseUl.innerHTML;
+        
+        for(var i = 0; i < imgList.length; i++){
+            imgs[i].onload = function (){
+                num++;
+                if (num == imgList.length-1){
+                    offSetLeft = imgList[imgList.length/2].offsetLeft;
+                    toAnimated();
+                }
+            }
+        }
+        
+        function toAnimated(){
+            setInterval(function (){
+                left -= step;
+                if (left < -offSetLeft){
+                    left = 0;
+                }
+                carouseUl.style.left = left + "px";
+            },200);
+        }
+        
+    </script>
+</body>
+</html>

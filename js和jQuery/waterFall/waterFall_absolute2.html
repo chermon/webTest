@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style type="text/css">
+       *{
+           margin: 0;
+           padding: 0;
+       }
+       body{
+           background: #ccc;
+       }
+       .waterFall{
+           width: 790px;
+           margin: 0 auto;
+           position: relative;
+       }
+       .waterFall .grid{
+           width: 230px;
+           padding: 10px;
+           border-radius: 10px;
+           position: absolute;
+           background-color: white;
+       }
+       .waterFall .grid img{
+           width: 230px;
+       }
+       .waterFall .grid .title{
+           line-height: 20px;
+           font: 18px bold;
+       }
+       .waterFall .grid .content{
+           font-size: 14px;
+           color: gray;
+       }
+       .waterFall .grid .autor{
+           font-size: 12px;
+           color: orange;
+           float: right;
+       }
+    </style>
+</head>
+<body>
+    <div class="waterFall">
+        <div class="grid">
+            <img src="images/0.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/1.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/2.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/3.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/4.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/5.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/6.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/7.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/8.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+        <div class="grid">
+            <img src="images/9.png" alt="">
+            <p class="title">标题</p>
+            <p class="content">内容内容内容内容内容内容内容内容内容内容</p>
+            <p class="autor">作者</p>
+        </div>
+    </div>
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/underscore.js"></script>
+    <script type="text/javascript">
+        window.onload = function(){
+            $grids = $(".grid");
+            var currentAllHeight = [0,0,0];
+            $grids.each(function(){
+                //找一下当前的最短列是谁
+                var currentMinHeight = _.min(currentAllHeight);
+                //找一下当前的最短列的索引
+                var currentIndex = _.indexOf(currentAllHeight,currentMinHeight);
+                //改对象追加到最短列上
+                $(this).css({
+                    "top":currentMinHeight,
+                    "left":currentIndex*270 
+                });
+                //更换最短列的高度，因为此时该grid对象已经增加到了最短列上，所以最短列应该加上该对象的高度
+                currentAllHeight[currentIndex] += $(this).outerHeight() + 20;
+            });
+        };
+    </script>
+</body>
+</html>
