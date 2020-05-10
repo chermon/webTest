@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ref</title>
+    <script src="./js/vue.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+    <div id="box">
+        <p ref="myp">我是父元素中的内容</p>
+        <button v-on:click="obtainAction()">操控子组件</button>
+        <child ref="myChild"></child>
+    </div>
+    <script>
+        Vue.component("child",{
+            template:`
+               <div style="background-color:skyblue">
+                  <p>我是子组件</p>
+                  <p>{{state}}</p>
+               </div>
+            `,
+            data: function (){
+                return {state:"我心情很好！",isgood:true};
+            },
+            methods:{
+                handleState: function (){
+                    this.state = this.isgood ? "我心情很好":"我心情很糟糕";
+                }
+            }
+        });
+
+        new Vue({
+            el:"#box",
+            methods:{
+                obtainAction: function(){
+                    // 此处this指代的是vue实例，每一个vue实例都有一个$refs属性
+                    // this.$refs上面会绑定多个具有ref属性的标签元素
+            
+                    // 此处是具有ref属性的<p>原生节点和<child>原生节点
+                    console.log(this.$refs);
+                    
+                    // - 只要子组件绑定了ref属性，父元素就可以随意操纵子组件，
+                    // 即篡改子组件数据，调用子组件方法等
+                    this.$refs.myChild.isgood = !this.$refs.myChild.isgood ;
+
+                    //此处相当于父元素传递子组件数据，
+                    /**
+                     * 另外因为父元素此时可以操纵子组件所以就不存在子组件传递父组件数据一说，
+                     * 因为不需要子组件传递，父组件就可以拿到子组件的数据
+                     * */
+                    console.log(this.$refs.myChild.handleState(this.$refs.myChild.isgood));
+                    console.log(this.$refs.myChild.state);
+                    
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>

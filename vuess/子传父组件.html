@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子组件中的数据传给父元素</title>
+    <script src="./js/vue.js" type="text/javascript" charset="UTF-8" ></script>
+</head>
+<body>
+    <div id="box">
+         <!-- 子组件 传递给 父元素 数据 -->
+
+         <!-- 子组件 
+                1.通过 this.$emit()方法向父元素传递数据，
+                2.this.$emit()有两个参数，参数1：分发的事件名称  参数2：传递给父元素的参数 
+              父元素接收：
+                1.向子组件中绑定子组件分发的事件
+                2.如果父元素需要接收参数，则绑定的事件参数格式是：事件名($event).eg:此例子中的：handleShow($event)
+            
+              注：自定义组件中绑定的事件名需与this.$emit()中分发的事件名保持一致。
+         -->
+
+         <div v-for="item in columns">
+            <navbar  v-bind:navitem="item" v-bind:key="item.id"  v-on:sendshow="handleShow($event)" ></navbar>
+            <div v-show="item.isShow">{{item.colcontent}}</div>
+         </div>
+    </div>
+    <script>
+
+        Vue.component("navbar",{
+            props:["navitem"],
+            template: `
+                <div>
+                   <span>我是--{{navitem.coltitle}}</span>
+                   <button v-on:click="showContent()">{{navitem.coltag}}</button>
+                </div>
+            `,
+            methods:{
+                showContent: function(){
+                    //分发事件
+                    this.$emit("sendshow",this.navitem.id);
+                }
+            }
+        });
+        new Vue({
+            el:"#box",
+            data:{
+                columns:
+                [
+                    {"id":1, "coltitle": "home", "coltag":"首页", isShow:false, "colcontent":"首页内容首页内容首页内容首页内容首页内容首页内容首页内容首页内容首页内容首页内容"},
+                    {"id":2, "coltitle": "news", "coltag":"新闻", isShow:true, "colcontent":"新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容新闻内容"},
+                    {"id":3, "coltitle": "game", "coltag":"比赛", isShow:false, "colcontent":"比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容比赛内容"}
+                ],
+                isShow:false
+            },
+            methods:{
+                handleShow: function(ev){
+                    for(var i in this.columns){
+                        if(this.columns[i].id == ev){
+                            this.columns[i].isShow = !this.columns[i].isShow;
+                        }
+                    }
+                    
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>
