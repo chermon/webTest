@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div id="componentTest">
+        <p><button-counter></button-counter></p>
+        <button-counter v-for="item in comProps" v-bind:title="item.title" v-bind:key="item.id"></button-counter>
+    </div>
+    
+    <script>
+
+        //1.自定义组件必须有且仅有一个根元素，即模板最外层要有一个元素将其包裹。
+        //2.父子组件的data是无法通信的。
+        //3.除el选项之外，组件和new Vue()一样接收相同的选项（eg:data、computed、methods、watch）。且data必须是一个函数。
+
+        //全局注册
+        Vue.component("button-counter",{
+            //data必须是个函数，这样每个实例可以维护一份被返回对象的独立拷贝
+            data: function(){
+                return {count:0};
+            },
+            //为组件注册属性 可以解决父亲中的内容传递到子组件中
+            props:["title"],
+            template:"<button v-on:click='count++'>{{title}} clickd me {{count}} times.</button>"
+        });
+
+        new Vue({ 
+            el:"#componentTest",
+            data:{
+                comProps: [
+                    {id: 1, title: "jony"},
+                    {id: 2, title: "bom"},
+                    {id: 3, title: "linda"}
+                ],
+            }
+        });
+    </script>
+</body>
+</html>

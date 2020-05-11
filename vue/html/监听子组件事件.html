@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监听子组件事件</title>
+    <script src="../js/vue.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+    <div id="blogTest" >
+        <div v-bind:style="{fontSiz:postFontSize+'em'}">
+            <blog-com v-for="item in blogData" v-bind:key="item.id" v-bind:post="item" ></blog-com>
+        </div>
+        
+    </div>
+    <script>
+        Vue.component("blog-com",{
+            props:["post"],
+            methods: {
+                bigFont:function(){
+                    this.$emit("enlargeFont");
+                }
+            },
+            template:`
+                <div class="blogCom"> 
+                    <h3> {{post.title}} </h3>
+                    <button v-on:click="bigFont">Enlarge text</button>
+                    <div v-html="post.content"></div>
+                </div> 
+            `
+        });
+
+        new Vue({
+            el: "#blogTest",
+            data: {
+                blogData:[
+                    {id:1, title:"新肺实时报道", content:"<p>截止今天上午，全球新冠肺炎累计确诊病例已超380万例，死亡接近26万人，到哇哦259312人，其中疫情最严重的美国累计确诊人数125万，专家预测美国人将有70%会感染。</p>"},
+                    {id:2, title:"东京奥运会推迟", content:"<p>为防控疫情，日本首相安倍晋三于5月4日宣布将“紧急事态宣言”时效延长至5月31日。疫情发生以来，日本的抗“疫”效果如何？央视新闻推出系列报道——《日本战“疫”》，从经济、民生、媒体等多角度呈现日本各地如何抗疫。受新冠肺炎疫情影响，东京奥运会圣火展览被紧急叫停，火炬接力被取消，比赛被迫延迟一年，日本将为此承担巨大损失。</p>"},
+                    {id:3, title:"美国新肺感染人数破百万", content:"<p>美国疾病控制和预防中心前主任 汤姆·弗里登：很悲哀，到五月底美国将至少有10万人因新冠肺炎死亡。尽管情况已经非常糟糕了，但这仅仅是一个开始，直到我们研制出有效的疫苗或者有预料之外的事情发生，否则新冠病毒这个敌人将与我们共存很多个月，甚至很多年。</p>"},
+                ],
+                postFontSize:1
+            },
+            methods: {
+                enlargeFont: function (){
+                    console.log("进来了");
+                    this.postFontSize += 1;
+                    console.log(this.postFontSize );
+                }
+            }
+        });
+    </script>
+</body>
+</html>

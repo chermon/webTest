@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>父元素中的数据传递到子组件中</title>
+    <script src="../js/vue.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+    <div id="box">
+        <input type="text" v-model="msg"/>
+        <!-- 父元素 通过子控件props中的“属性” 向组件传递 数据，即该content定义在子组件的选项props中 -->
+        <child v-bind:content="msg"></child>
+
+        <!-- 父元素 通过 navitem 向组件 传递数据，navitem定义在 子组件的props选项中  -->
+        <nav-bar v-for="item in columns" v-bind:navitem="item" v-bind:key="item.id"></nav-bar>
+        
+    </div>
+    <script>
+        /**
+         * - 自定义组件编写规范：
+         *    1.自定义组件必须仅且只有一个根元素，即自定义组件的最外层必须有一个html标签容器包裹
+         *    2.父子组件之间的data无法共享。
+         *    3.组件是可复用的Vue实例，所以组件跟new Vue接收相同的选项（除el选项外，eg:data,computed,methods...）
+         *      但在组件中data必须是个函数
+         * 
+         * */    
+
+        /**
+         *  - 本案例都是全局组件，功能：父元素如何向子组件传递数据。
+         *    a.父亲通过子组件的props选项向下传递，该选项是个集合，即既可以是数组也可以是字典
+         *      当为数组时只是单纯的定义了该组件的属性集合。
+         *      当为字典时不仅定义了该组件的属性集合而且为每个属性加了一个属性验证，
+         *      即 type: 属性类型,
+         *         required：是否必填
+         *         default：默认值
+         *         validator：验证函数
+         **/      
+
+
+        // - 案例1
+        Vue.component("child",{
+            props:["content"],
+            template:`
+                <div>
+                   <p>{{content}}</p>
+                </div>
+            `
+        });
+
+        // - 案例2
+        Vue.component("NavBar", {
+            props: {
+                "navitem":Object,
+            },
+            
+            template:`
+                <div>
+                   <span>我是--{{navitem.coltitle}}</span>
+                   <button v-show="navitem.isshow">{{navitem.coltag}}</button>
+                </div>
+            `
+        });
+
+        new Vue({
+            el:"#box",
+            data:{
+                msg:"",
+                columns:
+                [
+                    {"id":1, "coltitle": "home", "coltag":"首页", "isshow":false},
+                    {"id":2, "coltitle": "news", "coltag":"新闻", "isshow":true},
+                    {"id":3, "coltitle": "game", "coltag":"比赛", "isshow":true}
+                ]
+
+            }
+        });
+    </script>
+</body>
+</html>

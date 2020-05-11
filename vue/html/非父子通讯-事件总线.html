@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>兄弟通讯-事件总线</title>
+    <script src="../js/vue.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+    <div id="box">
+        <press-author ></press-author>
+        <press-reader></press-reader>
+    </div>
+
+    <script>
+       /**
+        * - vm.$emit("eventName",parameter)
+        *   1.触发事件即分发事件
+        *   2.参数1：事件名称 参数2：传递的参数
+        * - vm.$on("eventName",callback):
+        *   1.监听当前实例上的自定义函数。
+        *   2.参数1：事件名称  参数2：事件函数，即将事件函数赋值给该事件。
+        *   
+        * 
+        * */
+        var bus = new Vue(); //定义一个空的vue实例 -》中央事件总线，相当于一个托管平台
+
+        Vue.component("press-author",{
+            template:`
+              <div>
+                 <h3>我是报刊的作者</h3> 
+                 内容：<textarea name="" id="" cols="30" rows="10" ref="presscontent"></textarea>
+                 <button v-on:click="publishAction()">发布</button>
+              </div>
+            `,
+            methods:{
+                publishAction:function (){
+                    //触发事件当前实例上的事件
+                    bus.$emit("articlebycm",this.$refs.presscontent.value);
+                }
+            }
+        });
+
+        Vue.component("press-reader",{
+            template:`
+              <div>
+                <h3>我是读者</h3>
+                <p>我收到了更文</p> 
+                <div style="width:20px;height:20px;">{{article}}</div>
+              </div>
+            `,
+            data:function(){
+                return {article:""};
+            },
+            mounted:function(){
+                //监听当前实例上的自定义事件
+                bus.$on("articlebycm",function(data){
+                    console.log("我拿到了：" + data);
+
+                    this.article = data;
+                    console.log(this);
+                    console.log("this.article 的值：" + this.article );
+                });
+            },
+            methods:{
+                changearticle:function(){
+                    console.log("hahaha");
+                    return this.article;
+                }
+            }
+        });
+
+        new Vue({
+            el:"#box",
+            data:{
+                
+            }
+        });
+    </script>
+</body>
+</html>

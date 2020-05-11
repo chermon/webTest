@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue小试牛刀</title>
+    <script src="../js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+    <div id="box"> <!-- 元素绑定 -->
+       <p>
+           {{num}} <!-- 显示 -->
+        </p> 
+       <p> 
+           <input type="button" value="累加器" v-on:click="add(10)"/> <!-- 事件绑定 -->
+        </p> 
+       <p> 
+           <input type="text" v-model="num"/> <!-- 双向绑定 -->
+       </p> 
+       <ul>
+           <li v-for="item in skills">
+            技能：{{item.name}}， 从事时间：{{item.time}}年 <!-- 渲染列表 -->
+           </li>
+       </ul>
+       <p> 
+           你的爱好: <input type="text" v-model="info" v-on:keyup.enter="hobbys"/> <!-- 按回车键并键盘弹起-->
+        </p>
+       <ul>
+           <li v-for="(item,index) in likes">
+               {{item}} <!-- 渲染列表 -->
+               <input type="button" value="x" v-on:click="removeHobby(index)"> <!--列表元素中有两个参数，一个是值，一个是索引-->
+           </li>
+       </ul>
+       <p>共有 {{likes.length}} 个爱好</p>
+    </div>
+    <script type="text/javascript" charset="utf-8">
+        new Vue({
+            el : "#box",
+            data : {
+                num : 5,
+                info : "",
+                likes : [],
+                skills : [
+                    { name : "iOS", time : 3},
+                    { name : "web", time : 5},
+                    { name : "yoga", time : 10},
+                ]
+            },
+            methods :{
+                add : function(number){
+                    this.num += number;
+                },
+                hobbys : function(){
+                    this.likes.push(this.info);
+                    this.info = "";
+                },
+                removeHobby : function(index){
+                    this.likes.splice(index,1); //移除某个下标的元素
+                }
+            }
+        })
+        
+    </script>
+</body>
+</html>

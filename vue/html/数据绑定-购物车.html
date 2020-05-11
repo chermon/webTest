@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+    <div id="box">
+        全选<input type="checkbox" v-model="isAllSelected" v-on:change="handleSwitch"/>
+        <ul>
+            <!-- v-model:为data中的某个属性绑定数据，必须赋初始值 -->
+            <!-- v-bind:为标签中的某个属性赋值 -->
+            <li v-for="goods in cargos"> 
+                <input type="checkbox" v-model="shoppingCart" v-bind:value="goods" v-on:change="handleChange()"/> 
+                {{goods}} 
+                <button v-on:click="subtractAction(goods)">-</button>{{goods.num}} <button v-on:click="goods.num++">+</button>
+            </li>
+        </ul>
+        <span>{{shoppingCart}}</span>
+        <p>总金额：{{amount()}}</p>
+    </div>
+    <script>
+       new Vue({
+           el: "#box",
+           data: {
+               shoppingCart:[],
+               isAllSelected:false,
+               cargos:[
+                   {id:1001,name:"裙子",price:200,num:1},
+                   {id:1002,name:"吹风机",price:50,num:1},
+                   {id:1003,name:"雨伞",price:30,num:1}
+               ]
+           },
+           methods:{
+               // - 全选按钮触发的事件
+               handleSwitch: function(){
+                   if(this.isAllSelected){
+                       this.shoppingCart = this.cargos;
+                   }
+                   else{
+                       this.shoppingCart = [];
+                   }
+               },
+               // - 子按钮触发的事件
+               handleChange: function (){
+                    this.isAllSelected = this.shoppingCart.length == this.cargos.length ? true:false; 
+               },
+               // - 减
+               subtractAction: function(goods){
+                   goods.num--;
+                   if(goods.num <= 1){
+                      goods.num = 1;
+                   } 
+                },
+                // - 计算总金额，由于该函数依赖于shoppingCart里每个对象，则每个对象变化该函数就会被调用
+                amount: function(){
+                    var allAmount = 0;
+                    for(var i in this.shoppingCart){
+                        allAmount += this.shoppingCart[i].price*this.shoppingCart[i].num;
+                    }
+                    return allAmount;
+                }
+           }
+       });
+    </script>
+</body>
+</html>
