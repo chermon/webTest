@@ -17,14 +17,15 @@
         * - vm.$emit("eventName",parameter)
         *   1.触发事件即分发事件
         *   2.参数1：事件名称 参数2：传递的参数
+        *
         * - vm.$on("eventName",callback):
         *   1.监听当前实例上的自定义函数。
         *   2.参数1：事件名称  参数2：事件函数，即将事件函数赋值给该事件。
-        *   
-        * 
+        *  
+        *   注：vm.$emit和vm.$on中的事件名称要一致，即一个是触发事件一个是响应事件。
         * */
         var bus = new Vue(); //定义一个空的vue实例 -》中央事件总线，相当于一个托管平台
-
+        
         Vue.component("press-author",{
             template:`
               <div>
@@ -53,21 +54,17 @@
                 return {article:""};
             },
             mounted:function(){
+                
                 //监听当前实例上的自定义事件
-                bus.$on("articlebycm",function(data){
+                bus.$on("articlebycm",function (data) {
                     console.log("我拿到了：" + data);
-
+                    
                     this.article = data;
                     console.log(this);
                     console.log("this.article 的值：" + this.article );
                 });
             },
-            methods:{
-                changearticle:function(){
-                    console.log("hahaha");
-                    return this.article;
-                }
-            }
+            
         });
 
         new Vue({
