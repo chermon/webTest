@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slot-插槽</title>
+    <script src="../js/vue.js" type="text/javascript" charset="UTF-8"></script>
+</head>
+<body>
+    <!-- slot
+         1. 可以理解为插槽也就是内容分发。
+         2. 混合父组件的内容与子组件自己的模板  - 》内容分发
+         3. 父组件模板的内容在父组件作用域内编译，子组件的内容在子组件作用域内编译。 
+           （如：案例2，这样的好处是不用将父组件中的数据传递到子组件中然后再更新UI，
+            而是父组件可以用自己的数据在自己作用域内更新UI然后通过插槽渲染到子组件中。）
+         4. 如果多个元素需要分发到子组件不同的地方，则需要在子组件中给slot起个名字，
+            然后在父元素中告诉哪些元素需要分配到哪个插槽中。
+     -->
+    <div id="box">
+        我是父元素
+        <bar-com>
+            <div slot="sina">我出生在父元素中，但是我可以通过名字叫sina的插槽混入到子组件中显示</div>
+            <div slot="tom">我也出生在父元素中，但是我可以通过名字叫tom插槽混入到子组件中显示</div>
+        </bar-com>
+    </div>
+    <script>
+        // - 案例1
+        Vue.component("bar-com",{
+            template:`
+               <div style="background-color:orange">
+                  <slot name="sina"></slot>
+                  我是子组件bar-com
+                  <slot name="tom"></slot>
+               </div>
+            `
+        });
+
+        // - 案例2
+        Vue.component("score-com",{
+            template:`
+              <ul></ul>
+            `
+        });
+
+        new Vue({
+            el:"#box"
+        });
+    </script>
+</body>
+</html>
