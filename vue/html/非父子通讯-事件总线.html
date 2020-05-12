@@ -56,12 +56,8 @@
             mounted:function(){
                 
                 //监听当前实例上的自定义事件
-                bus.$on("articlebycm",function (data) {
-                    console.log("我拿到了：" + data);
-                    
+                bus.$on("articlebycm",(data) => {
                     this.article = data;
-                    console.log(this);
-                    console.log("this.article 的值：" + this.article );
                 });
             },
             
