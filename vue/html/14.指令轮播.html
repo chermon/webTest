@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../js/vue.js"></script>
+    <link rel="stylesheet" href="../js/swiper/css/swiper.css">
+    <script src="../js/swiper/js/swiper.js"></script>
+    <style>
+        .swiper-container{
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <div class="swiper-container">
+            <!-- 轮播的内容 -->
+            <div class="swiper-wrapper" >
+                <div class="swiper-slide" v-for="(item,index) in datalist" v-swipe="{index:index,length:datalist.length}">{{item}}</div>
+            </div>    
+            
+            <!-- 分页器 -->
+            <div class="swiper-pagination"></div>
+     
+           <!-- 导航按钮 -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+    </div>
+    <script>
+        /**
+         * 自定义指令：
+         *    1. 全局指令Vue.directive("指令名",{})
+         *    2. 作用：主要用来操作dom
+         *
+         *    
+         * */
+        Vue.directive("swipe",{
+            //渲染时被调用 有两个参数，参数1：该标签元素  参数2：传递的参数
+            inserted: function(el,bind){
+                if(bind.index == bind.length){
+                    new Swiper(".swiper-container",{
+                        loop:true,
+                        pagination:{
+                            el:".swiper-pagination"
+                        },
+                        navigation:{
+                            nextEl:".swiper-button-next",
+                            prevEl:".swiper-button-prev"
+                        }
+                    });
+                }
+            }
+        })
+        new Vue({
+            el:"#box",
+            data:{
+                datalist:[]
+            },
+            mounted:function (){
+                setTimeout(() => {
+                    this.datalist = ["111111","2222222","3333333"];
+                }, 2000);
+            }
+
+        })
+    </script>
+</body>
+</html>

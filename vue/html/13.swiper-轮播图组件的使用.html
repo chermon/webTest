@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>swiper-轮播图组件的使用</title>
+    <link rel="stylesheet" href="../js/swiper/css/swiper.css">
+    <script src="../js/swiper/js/swiper.js"></script>
+
+    <script src="../js/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .swiper-container{
+            width: 600px;
+            height: 300px;
+        }    
+    </style>
+</head>
+<body>
+    <!-- 
+         1.通常情况下，我们加载数据都是放到mounted生命周期中（即组件渲染完成加载数据），
+           但是因为组件已经渲染完了，所以数据加载完后生成的dom无法渲染到界面上。解决方法有以下两个。
+
+          方案1：利用生命周期 updated ，缺点是：界面上只要有任何数据的变化都会进入该方法，
+                所以会多次创建Swiper对象。
+          
+          方案2：组件 - 生命周期 mounted 
+                即：将轮播图封装成组件，将组件的key值绑定为与请求数据相关的值。
+                这样数据发生了变化，key值就会变，如果同一标签的key不相等，系统会重新创建该dom到页面
+                从而该组件的mounted被调用，因为父元素中key值未变化，所以父元素的mounted仅会在创建时调用一次
+ 
+    -->
+    
+    <!-- <div class="box">
+        <div class="swiper-container">
+               
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" v-for="item in datalist">{{item}}</div>
+            </div>    
+            
+            <div class="swiper-pagination"></div>
+     
+           
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+         </div>
+    </div> 
+
+    <script>
+         new Vue({
+            el:'.box',
+            data: {
+                datalist:[]
+            },
+            mounted: function (){
+                /*此时虽然拿到数据了，dom结构已经生成，但是页面已经渲染完了，
+                所以需要在 生命周期 updated 事件中初始化Swiper事件重新渲染，
+                */ 
+                
+               //请求数据
+               setTimeout(()=>{
+                    this.datalist = ["1111","22222","33333"]
+               }, 2000);
+               console.log("父组件渲染");
+            },
+            updated: function(){
+               
+                //数据改变造成生命周期 updated 事件 被调用，但是也有个弊端，每次任何数据一更新，
+                //updated事件又会被调用，造成 Swiper 对象又被创建 
+                
+                new Swiper(".swiper-container",{
+                    // direction: "vertical", // 垂直切换选项
+                    loop:true, //循环模式选项
+                    //如果需要分页器
+                    pagination:{
+                        el:".swiper-pagination"
+                    },
+                    //如果需要前进后退按钮
+                    navigation:{
+                        nextEl:".swiper-button-prev",
+                        prevEl:".swiper-button-next"
+                    }
+                });
+
+            }
+        });
+    </script> -->
+        
+    <!-- 方案2 -->
+    <div class="box">
+        <swiper :key="datalist.length">
+            <div class="swiper-slide" v-for="item in datalist">{{item}}</div>
+        </swiper>
+    </div>     
+           
+    <script>
+        Vue.component("swiper",{
+            template:`
+               <div class="'swiper-container ' + a">
+                   <div class="swiper-wrapper">
+                      <slot></slot>
+                   </div>
+                  
+                   <div class="swiper-pagination"></div>
+           
+                   <div class="swiper-button-prev"></div>
+                   <div class="swiper-button-next"></div>
+                </div>
+            `,
+            data:function (){
+                return {a:"swiper-con"}
+            },
+            mounted: function(){
+                console.log("子组件渲染");
+               
+                new Swiper(".swiper-con",{
+                    loop:true,
+                    pagination:{
+                        el:".swiper-pagination"
+                    },
+                    navigation:{
+                        nextEl:".swiper-button-prev",
+                        prevEl:".swiper-button-next"
+                    }
+
+                });
+            },
+            updated:function(){
+                console.log("子元素更新");
+            }
+        });
+
+        new Vue({
+            el:'.box',
+            data: {
+                datalist:[]
+            },
+            mounted: function (){
+               // 此时虽然拿到数据了，dom结构已经生成，但是页面已经渲染完了，
+               //请求数据
+               setTimeout(()=>{
+                    this.datalist = ["1111","22222","33333"]
+               }, 2000);
+               console.log("父组件渲染");
+            },
+            updated:function(){
+                console.log("父元素更新");
+            }
+        
+         
+        });
+    </script>
+</body>
+</html>
