@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过滤器</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="box">
+        <ul>
+            <li v-for="item in datalist">
+                <h3>{{item.nm}}</h3>
+                <img :src="item.img | filterimg" alt=""/>
+            </li>
+        </ul>
+    </div>
+    <script>
+        /**
+         *  过滤器-filter：
+         *      1. 以全局过滤器为例：Vue.filter(过滤器名，function)
+         *         function函数中有一个参数，即要过滤的数据
+         *      2. 需要过滤的标签属性绑定格式： :属性名="过滤的数据 | 过滤器名"，表示将过去的数据传给这个过滤器
+         *
+         **/
+        Vue.filter("filterimg",function(data){
+            return data.replace("w.h","128.180");
+        });
+        new Vue({
+            el: "#box",
+            data: {
+                datalist:[]
+            },
+            mounted: function(){
+                axios.get('../json/test.json').then(response=>{
+                    this.datalist = response.data.movieList;
+                });
+            }
+
+        })
+    </script>
+</body>
+</html>
