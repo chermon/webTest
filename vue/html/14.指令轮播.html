@@ -34,15 +34,24 @@
     <script>
         /**
          * 自定义指令：
-         *    1. 全局指令Vue.directive("指令名",{})
-         *    2. 作用：主要用来操作dom
-         *
+         *    1. 作用：主要用来操作dom 
+         *    2. 以全局指令为例： Vue.directive("指令名",{})
+         *    3. 使用（父元素中使用）: v-指令名="param"，即向内部传递一个参数，当需要多个参数时可以使用json对象，
+         *       注：param此时是一个变量，如果我们要传递一个字符串，v-指令名="'string'"，
+         *          或者将这个字符串在vue的data中赋值一个变量，然后直接拿这个变量名用,即:v-指令名="变量名"
+         *    4. 指令中有一个inserted生命周期，该生命周期是指令独有的。
+         *    5. inserted生命周期 仅仅会在渲染的时候执行，页面渲染完后就不会执行，即使数据改变也不会进入了。
+         *       但是如果数据事后又更新了会走 update生命周期，同时update生命周期也可接收跟inserted生命周期一样的参数。
+         *       即：参数1：该标签元素，参数2：传递的参数
          *    
          * */
         Vue.directive("swipe",{
             //渲染时被调用 有两个参数，参数1：该标签元素  参数2：传递的参数
             inserted: function(el,bind){
-                if(bind.index == bind.length){
+                console.log("我进来了");
+            
+                if(bind.value.index == bind.value.length - 1){
+                    console.log("最后一次进来");
                     new Swiper(".swiper-container",{
                         loop:true,
                         pagination:{
@@ -54,6 +63,11 @@
                         }
                     });
                 }
+            },
+            updated:function(){
+                
+                console.log("我是吱吱吱");
+               
             }
         })
         new Vue({
@@ -62,10 +76,17 @@
                 datalist:[]
             },
             mounted:function (){
+                console.log("我是父类");
                 setTimeout(() => {
                     this.datalist = ["111111","2222222","3333333"];
                 }, 2000);
+            },
+            updated:function(){
+                
+                console.log("我是我我我我");
+               
             }
+
 
         })
     </script>

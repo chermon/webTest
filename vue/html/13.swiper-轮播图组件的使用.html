@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <!-- 
+    <!-- 提要：
          1.通常情况下，我们加载数据都是放到mounted生命周期中（即组件渲染完成加载数据），
            但是因为组件已经渲染完了，所以数据加载完后生成的dom无法渲染到界面上。解决方法有以下两个。
 
@@ -52,9 +52,10 @@
                 datalist:[]
             },
             mounted: function (){
-                /*此时虽然拿到数据了，dom结构已经生成，但是页面已经渲染完了，
-                所以需要在 生命周期 updated 事件中初始化Swiper事件重新渲染，
-                */ 
+                /**
+                 * 此时虽然拿到数据了，dom结构已经生成，但是页面已经渲染完了，
+                 * 所以需要在 生命周期 updated 事件中初始化Swiper事件重新渲染，
+                 **/ 
                 
                //请求数据
                setTimeout(()=>{
@@ -64,9 +65,11 @@
             },
             updated: function(){
                
-                //数据改变造成生命周期 updated 事件 被调用，但是也有个弊端，每次任何数据一更新，
-                //updated事件又会被调用，造成 Swiper 对象又被创建 
-                
+                /**
+                 * 数据改变造成生命周期 updated 事件 被调用，但是也有个弊端，每次任何数据一更新，
+                 * updated事件又会被调用，造成 Swiper 对象又被创建 
+                 **/
+        
                 new Swiper(".swiper-container",{
                     // direction: "vertical", // 垂直切换选项
                     loop:true, //循环模式选项
