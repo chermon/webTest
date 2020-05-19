@@ -4,9 +4,10 @@
             <li v-for='item in datalist' :key='item.filmId' @click='enterDetail(item)'>
                 <img :src='item.poster' alt=""/>
                 <h3>{{item.name}}</h3>
-                <p v-show='item.grade'>观众评分 {{item.grade}}</p>
+                <p v-show='item.grade'>观众评分<span class="grade">{{item.grade}}</span> </p>
                 <p v-if='item.actors'>主演：{{item.actors | actorsfilte}}</p>
                 <p v-else>暂无演员</p>
+                <p>{{item.nation}} | {{item.runtime}}</p>
             </li>
         </ul>
     </div>
@@ -56,6 +57,7 @@ li{
         // display: block;
         width: 100px;
         float: left;
+        margin-right: 10px;
     }
     h3{
         height: 32px;
@@ -65,6 +67,11 @@ li{
     }
     p{
         color: rgb(121, 123, 124);
+        font-size: 14px;
+        .grade{
+          margin: 0 10px;
+          color: orange;
+        }
     }
 }
 </style>
