@@ -1,18 +1,25 @@
+import navbar from '@/components/Navbar'
+import swiper from '@/views/Film/Swiper'
 <template>
     <div>
-        轮播
+        <swiper>
+          <div class="swiper-slide" ></div>
+        </swiper>
         <navbar class="bar"></navbar>
         <router-view></router-view>
     </div>
 </template>
 <script>
-import navbar from '@/components/Navbar'
+
 export default {
   data: function () {
     return {}
   },
   components: {
     navbar
+  },
+  mounted: function(){
+    
   }
 }
 </script>

@@ -1,5 +1,6 @@
+import Swiper from 'swiper'
 <template>
-    <div class="swiper-container">
+    <div class="swiper-container filmswiper">
         <div class="swiper-wrapper">
             <slot></slot>
         </div>
@@ -10,3 +11,26 @@
         <div class="swiper-button-next"></div>
     </div>
 </template>
+<script>
+export default {
+    mounted: function(){
+        new Swiper(".filmswiper",{
+            loop: true,
+            //分页器
+            pagination: {
+                el:'.swiper-pagination'
+            },
+            //前进后退按钮
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        })
+    }
+}
+</script>
+<style lang="scss" scoped>
+.swiper-container{
+    width: 100%;
+}
+</style>
