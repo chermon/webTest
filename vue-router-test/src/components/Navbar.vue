@@ -1,8 +1,8 @@
 <template>
     <div>
         <ul>
-            <router-link to='/nowplaying' tag='li' active-class="current">正在热映</router-link>
-            <router-link to='/comingsoon' tag='li' active-class="current">即将上映</router-link>
+            <router-link to='/film/nowplaying' tag='li' active-class="current"><span>正在热映<span class="line"></span></span></router-link>
+            <router-link to='/film/comingsoon' tag='li' active-class="current"><span>即将上映<span class="line"></span></span></router-link>
         </ul>
     </div>
 </template>
@@ -22,13 +22,33 @@ div{
         li {
             width: 50%;
             float: left;
-            text-align: center;
-            line-height: 50px;
+            height: 50px;
+            // background-color: sandybrown;
+
+            span{
+                line-height: 50px;
+                position: relative;
+                left: 25%;
+                .line{
+                    display: block;
+                    width: 100%;
+                    height: 2px;
+                    background-color: lightseagreen;
+                    display: none;
+                    position: absolute;
+                    bottom: -14px;
+                    left: 0px;
+                }
+            }
         }
     }
 }
 
 .current {
     color: lightseagreen;
+    .line{
+        display: block;
+    }
+
 }
 </style>

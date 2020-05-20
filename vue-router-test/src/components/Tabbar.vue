@@ -2,9 +2,15 @@
     <div>
         <ul>
             <!-- 声明式导航 -->
-            <router-link to='/film' tag='li' active-class='currentcul'>电影</router-link>
-            <router-link to='/cinema' tag='li' active-class='currentcul'>影院</router-link>
-            <router-link to='/center' tag='li' active-class='currentcul'>个人中心</router-link>
+            <router-link to='/film' tag='li' active-class='currentcul'>
+            <span class="iconfont icon-dianyingpiao">电影</span>
+            </router-link>
+            <router-link to='/cinema' tag='li' active-class='currentcul'>
+            <span class="iconfont icon-yingyuan">影院</span>
+            </router-link>
+            <router-link to='/center' tag='li' active-class='currentcul'>
+            <span class="iconfont icon-wode">个人中心</span>
+            </router-link>
         </ul>
     </div>
 
@@ -16,13 +22,12 @@ div{
     height: 50px;
     bottom: 0px;
     left: 0px;
+    background-color: lightgray;
     ul {
        display: flex;
        li {
           flex:1;
           height: 50px;
-          color: black;
-          background-color: lightgray;
           text-align: center;
           line-height: 50px;
         }

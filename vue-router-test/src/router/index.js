@@ -23,7 +23,7 @@ const router = new VueRouter({
         // 方式1：加上全部路径即/film/nowplaying
         // 方式2：子书写子路径，不带/（注：加/表示处在根目录），即nowplaying
         {
-          path: 'comingsoon',
+          path: '/film/comingsoon',
           component: Comingsoon
         },
         {
@@ -32,7 +32,7 @@ const router = new VueRouter({
         },
         {
           path: '', // 敲回车会重定向到/film/nowplaying这个目录下
-          redirect: 'nowplaying'
+          redirect: '/film/nowplaying'
         }
       ]
     },
@@ -50,6 +50,7 @@ const router = new VueRouter({
     },
     {
       path: '/detail/:id', // /:这个属于动态路由，即后面的变量是不确定的、随时变化的
+      name: 'mydetail',
       component: Detail
     },
     {
