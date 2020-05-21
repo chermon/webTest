@@ -20,7 +20,7 @@
         <h3>剧照</h3>
         <swiper class="teamswiper" myswiper="teamswiper" picnumber='3'>
           <div class="swiper-slide" v-for="(photo,index) in filminfo.photos" :key="index">
-            <img :src="photo" alt="">
+            <img :src="photo" alt=""/>
           </div>
         </swiper>
       </div>
@@ -30,6 +30,7 @@
 import axios from 'axios'
 import swiper from './Detail/DetailSwiper'
 import Vue from 'vue'
+import bus from '@/bus'
 
 export default {
   data: function () {
@@ -37,6 +38,12 @@ export default {
   },
   components: {
     swiper
+  },
+  beforeMount: function (){
+      bus.$emit('hidenbar',false);
+  },
+  destroyed: function (){
+      bus.$emit('hidenbar',true);
   },
   mounted: function () {
     this.filmId = this.$route.params.id
@@ -93,6 +100,19 @@ export default {
       color: rgb(156, 155, 155);
     }
     .actorswiper{
+      margin-top: 15px;
+    }
+  }
+
+  .teampic{
+    margin-top: 10px;
+    background-color: white;
+    padding: 10px 0px 5px 10px;
+    h3{
+      line-height: 30px;
+      font-weight: normal;
+    }
+    .teamswiper{
       margin-top: 15px;
     }
   }

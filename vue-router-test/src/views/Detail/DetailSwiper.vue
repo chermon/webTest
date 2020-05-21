@@ -1,10 +1,10 @@
 <template>
-    <div class="swiper-container myswiper">
+    <div class="swiper-container qswiper">
         <div class="swiper-wrapper">
             <slot></slot>
         </div>
         <!-- 分页器 -->
-        <div class="swiper-pagination"></div>
+        <div class="swiper-pagination qswiper-pagination"></div>
     </div>
 </template>
 <script>
@@ -15,13 +15,14 @@ export default {
     mounted: function (){
         new Swiper('.'+this.myswiper, {
             slidesPerView: this.picnumber,
-            spaceBetween: this.picnumber === '3'? 30:20,
+            spaceBetween: this.myswiper === 'actorswiper'? 20:10,
+            freeMode: true
         });
     }
 }
 </script>
 <style lang="scss" scoped>
-.detailswiper{
+.swiper-wrapper{
     img{
         width: 100%;
     }
