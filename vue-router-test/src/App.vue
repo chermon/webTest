@@ -14,8 +14,8 @@ export default {
     return {isshow: true};
   },
   beforeMount: function () {
+    // 事件总线 - 订阅者（作用：监听发起者传来的值，根据值的改变对底部tab做出隐藏和显示）
     bus.$on("hidenbar",(data) => {
-      console.log("是否展示："+data);
       this.isshow = data;
     });
   },

@@ -23,8 +23,6 @@ div{
             width: 50%;
             float: left;
             height: 50px;
-            // background-color: sandybrown;
-
             span{
                 line-height: 50px;
                 position: relative;
