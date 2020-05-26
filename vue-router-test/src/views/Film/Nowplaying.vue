@@ -62,7 +62,6 @@ export default {
       }
     }).then(response => {
       this.datalist = response.data.data.films
-      console.log(this.datalist)
     })
   }
 }

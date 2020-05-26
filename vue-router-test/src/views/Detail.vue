@@ -1,4 +1,5 @@
 <template>
+<!-- v-if='filminfo' 防止页面刚进来时数据为空，控制台报错 -->
     <div v-if='filminfo' class="filminfo">
       <img :src="filminfo.poster" alt="" class="infopic">
       <div class='introction'>
@@ -31,6 +32,7 @@ import axios from 'axios'
 import swiper from './Detail/DetailSwiper'
 import Vue from 'vue'
 import bus from '@/bus'
+import {SHOW_TABBAR_MUTATION} from '@/type' // - ES6部分导出
 
 export default {
   data: function () {
@@ -40,14 +42,39 @@ export default {
     swiper
   },
   beforeMount: function (){
-      bus.$emit('hidenbar',false);
+      /**
+       *  方法1 ： 事件总线 - 发起者（作用：页面进来时隐藏底部tab）
+       *         
+       * */ 
+
+      /**
+       *  方法2：状态管理器Vuex
+       *        作用：可以记录谁对哪个变量进行了修改。
+       *        1. 同步：将状态交给mutation进行处理
+       *        2. 异步：将事件分发给 Actions ，然后在Actions中通过commit将状态提交给mutaion进行对state的处理
+       *        3. 分发事件的格式：this.$store.dispatch(store中Actions的方法名)
+       *        4. 调用mutation进行处理：this.$store.commit(store中mutations的方法名,传递的值)
+       * */ 
+
+       // 方法1：
+      // bus.$emit('hidenbar',false);
+
+      // 方法2：
+      // 注：该方法的第一个参数是使用变量的方式，这样做的好处是如果方法名改变直接改变该变量对应的值就行
+      // 与 this.$store.commit('handleHideBar',true); 做对比
+      this.$store.commit(SHOW_TABBAR_MUTATION,false);
+      
+
   },
   destroyed: function (){
-      bus.$emit('hidenbar',true);
+     // 事件总线 - 发起者（作用：页面离开时隐藏底部tab）
+    //   bus.$emit('hidenbar',true);
+
+    // - 利用状态管理器Vuex，将状态的修改交给mutation来处理，以便记录谁对哪个变量进行了修改
+    this.$store.commit('handleHideBar',true);
   },
   mounted: function () {
     this.filmId = this.$route.params.id
-    console.log(this.filmId)
     axios({
       url: `https://m.maizuo.com/gateway?filmId=${this.filmId}&k=2788033`,
       headers: {
@@ -55,7 +82,6 @@ export default {
         'X-Host': 'mall.film-ticket.film.info'
       }
     }).then(response => {
-      console.log(response.data.data.film)
       this.filminfo = response.data.data.film;
     })
   }
