@@ -1,14 +1,14 @@
 <template>
     <div>
-         <itemcontainer fathercontainer='subject'></itemcontainer>
+         <ItemContainer fathercontainer='subject'></ItemContainer>
     </div>
     
 </template>
 <script>
-import itemcontainer from '@/components/ItemContainer'
+import ItemContainer from '@/components/ItemContainer'
 export default {
     components:{
-        itemcontainer
+        ItemContainer
     }
 }
 </script>
