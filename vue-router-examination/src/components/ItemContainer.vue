@@ -1,22 +1,68 @@
 <template>
     <section>
         <header class="top_tip">
-           <span v-if="fathercontainer == 'home' " class="num_tip">{{this.week}}</span>
-           <span v-else-if="fathercontainer == 'subject'" class="num_tip">题目{{this.currentQueNum}}</span>
+           <span v-if="fathercontainer == 'home' " class="num_tip">{{week}}</span>
+           <span v-else-if="fathercontainer == 'subject'" class="num_tip">题目{{currentQueNum}}</span>
         </header>
         <div v-if="fathercontainer == 'home'" class="container">
             <div class="home_logo item_container"></div>
             <router-link class="button_style home_button" to="/subject"></router-link>
         </div>
+        <div v-if="fathercontainer == 'subject'" class="container">
+            <div class="subject_logo item_container">
+                <ul class="subject_container">
+                    <li class="subject_item" v-for="(item,index) in questionList[currentQueNum-1].topic_answer" :key="item.topic_answer_id" @click="choosed(index,item.topic_answer_id)" :class="currentChooseIndex == index ? 'item_cur':''">
+                        <span class="item_no">{{convertNo(index)}}</span>
+                        <span class="item_conten">{{item.answer_name}}</span>
+                    </li>
+                </ul>
+            </div>
+            <span class="button_style subject_button" @click="submitAcion"></span>
+        </div>
     </section>
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 export default {
+    data: function (){
+        return {currentChooseIndex: null, currentChooseId: null};
+    },
     props:['fathercontainer'],
     computed:{
-        ...mapState(['currentQueNum','qustionList','week'])
+        ...mapState(['currentQueNum','questionList','week'])
+    },
+    methods:{
+        ...mapActions(['submitAnswer']),
+        convertNo: function (index){
+            switch (index){
+                case 0:
+                    return 'A';
+                case 1:
+                    return 'B';
+                case 2:
+                    return 'C';
+                case 3:
+                    return 'D';
+                default:
+                    break;
+            }
+        },
+        choosed: function (index, choosedId){
+            this.currentChooseIndex = index;
+            this.currentChooseId = choosedId;
+        },
+        submitAcion: function (){
+            if(this.currentChooseIndex != null){
+                this.currentChooseIndex = null;
+                console.log('被选择' + this.currentChooseId);
+                this.submitAnswer(this.currentChooseId);
+                console.log('当前第' + this.currentQueNum +'题');
+            }
+            else{
+                alert('您还没提交答案哦！');
+            }
+        }
     }
 }
 </script>
@@ -30,7 +76,6 @@ export default {
     right: 0.6rem;
     background: url(../images/cloud.png) no-repeat;
     background-size: 9.75rem 100%;
-    // background: olive;
     .num_tip{
         position: absolute;
         bottom: 0.7rem;
@@ -48,7 +93,6 @@ export default {
     position: relative;
     top: 6.05rem;
     width: 100%;
-    // padding: 0px 4rem;
 }
 .item_container{
     position: absolute;
@@ -57,17 +101,20 @@ export default {
     left: 2.25rem;
     top: 2rem;
     background-repeat: no-repeat;
+    background-size: contain;
 }
 .home_logo{
-    background: url(../assets/1-2.png);
-    background-size: contain;
+    background-image: url(../assets/1-2.png);
+}
+.subject_logo{
+    background-image: url(../assets/2-1.png);
 }
 .button_style{
     display: block;
     width: 7.5rem;
     height: 3.625rem;
     position: absolute;
-    top:21.5rem;
+    top:20.5rem;
     left: 50%;
     margin-left: -3.75rem;
     background-repeat: no-repeat;
@@ -77,4 +124,44 @@ export default {
 .home_button{
     background-image: url(../assets/1-4.png);
 }
+.subject_button{
+    background-image: url(../assets/2-2.png);
+}
+.subject_container{
+    position: absolute;
+    top: 3.5rem;
+    left: 4rem;
+    width: 60%;
+    .subject_item{
+        width: 100%;
+        height: 2rem;
+        position: relative;
+        color: rgb(230, 219, 219);
+        .item_no{
+            position: absolute;
+            left: 1rem;
+            top: 0.5rem;
+            width: 1rem;
+            height: 1rem;
+            border: 1px solid white;
+            border-radius: 50%;
+            font-size: 10px;
+            line-height: 1rem;
+            text-align: center;
+        }
+        .item_conten{
+            position: absolute;
+            left: 3rem;
+            line-height: 2rem;
+        }
+    
+    }
+    .item_cur .item_no{
+        border: 1px solid orangered;
+        background: orangered;
+    }
+    
+}
+
+
 </style>

@@ -18,7 +18,6 @@ const routes = [
   {
     path: '/subject',
     component: SubjectPage
-  //  component: r => require.ensure([], () => r(require('../views/SubjectPage')), 'subject')
   },
   {
     path: '*',
