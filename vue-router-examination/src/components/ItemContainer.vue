@@ -17,7 +17,8 @@
                     </li>
                 </ul>
             </div>
-            <span class="button_style subject_button" @click="submitAcion"></span>
+            <span v-if="currentQueNum == questionList.length" class="button_style subject_button" @click="submitAcion"></span>
+            <span v-else class="button_style submit_button" @click="submitAcion"></span>
         </div>
     </section>
 </template>
@@ -55,9 +56,7 @@ export default {
         submitAcion: function (){
             if(this.currentChooseIndex != null){
                 this.currentChooseIndex = null;
-                console.log('被选择' + this.currentChooseId);
                 this.submitAnswer(this.currentChooseId);
-                console.log('当前第' + this.currentQueNum +'题');
             }
             else{
                 alert('您还没提交答案哦！');

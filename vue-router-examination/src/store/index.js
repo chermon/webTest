@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import mutations from './mutations'
+import actions from './actions'
 
 Vue.use(Vuex)
 
@@ -7,7 +9,8 @@ export default new Vuex.Store({
   state: {
     currentQueNum: 1,  //当前第几题
     week:'第一周',  //当前第几周
-    questionList:[{
+    questionList:[
+      {
       "topic_id": 20,
       "active_topic_id": 4,
       "type": "ONE",
@@ -22,17 +25,20 @@ export default new Vuex.Store({
         "topic_id": 20,
         "answer_name": "答案aaaa",
         "is_standard_answer": 0
-      }, {
+      },
+       {
         "topic_answer_id": 2,
         "topic_id": 20,
         "answer_name": "正确答案",
         "is_standard_answer": 0
-      }, {
+      }, 
+      {
         "topic_answer_id": 3,
         "topic_id": 20,
         "answer_name": "答案cccc",
         "is_standard_answer": 0
-      }, {
+      },
+       {
         "topic_answer_id": 4,
         "topic_id": 20,
         "answer_name": "答案dddd",
@@ -165,10 +171,8 @@ export default new Vuex.Store({
     }],
     answerid: [], //答案id
   },
-  mutations: {
-  },
-  actions: {
-  },
+  mutations,
+  actions,
   modules: {
   }
 })

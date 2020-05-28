@@ -7,7 +7,5 @@ export default {
     },
     [DO_NUM]: function (state){
         state.currentQueNum += 1;
-        console.log("我进来了");
-        
     }
 }
