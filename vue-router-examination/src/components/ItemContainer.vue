@@ -17,8 +17,8 @@
                     </li>
                 </ul>
             </div>
-            <span v-if="currentQueNum == questionList.length" class="button_style subject_button" @click="submitAcion"></span>
-            <span v-else class="button_style submit_button" @click="submitAcion"></span>
+            <span v-if="currentQueNum != questionList.length" class="button_style subject_button" @click="submitAcion"></span>
+            <span v-else class="button_style submit_button" @click="upSubmitAcion"></span>
         </div>
     </section>
 </template>
@@ -57,6 +57,16 @@ export default {
             if(this.currentChooseIndex != null){
                 this.currentChooseIndex = null;
                 this.submitAnswer(this.currentChooseId);
+            }
+            else{
+                alert('您还没提交答案哦！');
+            }
+        },
+        upSubmitAcion: function(){
+            if(this.currentChooseIndex != null){
+                this.currentChooseIndex = null;
+                this.submitAnswer(this.currentChooseId);
+                this.$router.push('/score');
             }
             else{
                 alert('您还没提交答案哦！');
@@ -125,6 +135,9 @@ export default {
 }
 .subject_button{
     background-image: url(../assets/2-2.png);
+}
+.submit_button{
+    background-image: url(../assets/3-1.png);
 }
 .subject_container{
     position: absolute;
