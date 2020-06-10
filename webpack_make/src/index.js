@@ -1,4 +1,4 @@
-import './index.sass';
+import './index.scss';
 
 class Animal {
     constructor (name) {

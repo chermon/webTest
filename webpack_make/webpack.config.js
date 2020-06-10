@@ -3,9 +3,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 //默认process.env没有NODE_ENV这个变量，我们需要在package.json中配置
 const isDev = process.env.NODE_ENV === 'development';
 const config = require('./public/config')[isDev ? 'dev' : 'build']; //根据不同的环境运行不行的页面内容
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     mode: isDev ? 'development': 'production', //告知webpack使用相应模式的内置优化
+    entry: './src/index.js', //入口文件
+    output: {//出口路径
+        path: path.resolve(__dirname, 'dist'), // 绝对路径
+        //由于服务器缓存，所以我们需要给文件名加上hash,但是也不能每打包一次dist目录就多一个文件，
+        //所以我们要通过clean-webpack-plugin清除缓存
+        // filename: 'bundle.js', // 出口文件名
+        filename: 'bundle.[hash:6].js',
+        publicPath: '/'
+    },
     //为webpack-dev-server环境配置其他信息，例如：端口号、浏览器控制台消息、是否压缩等
     devServer: {
         port: '3000', //默认端口号是8080
@@ -44,7 +56,7 @@ module.exports = {
                 exclude: /node_modules/ // 排除node_modules目录，以提高编译效率
             },
             {
-                test: /\.(sa|c)ss$/,
+                test: /\.(sc|c)ss$/,
                 use: ['style-loader', 'css-loader', {
                     loader: 'postcss-loader',
                     options: {
@@ -61,6 +73,25 @@ module.exports = {
                     }
                 }, 'sass-loader'],
                 exclude: /node_modules/
+            },
+            {
+                test: /\.(png|jpg|gif|jpeg|webp|svg|eot|ttf|woff|woff2)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10240,
+                            esModule: false,
+                            name: '[name]_[hash:6].[ext]',
+                            outputPath: 'assets'
+                        }
+                    }
+                ],
+                exclude: /node_modules/
+            },
+            {
+                test: /.html$/,
+                use: 'html-withimg-loader'
             }
         ]
     },
@@ -77,7 +108,24 @@ module.exports = {
                 config: config.template
                 // hash: true //是否加上hash,默认是 false
             }
+        ),
+        //不需要传参数，它就可以找到 outputPath
+        new CleanWebpackPlugin({
+            //不删除dll目录及dll目录下的文件或者子目录
+            cleanOnceBeforeBuildPatterns:['**/*','!dll','!dll/**']
+        }),
+        //拷贝某个目录或者目录下的文件到dist目录下
+        new CopyWebpackPlugin([
+            //将js目录及其下的文件全部copy到dist目录下js文件中
+            {
+                from: 'public/js/*.js',
+                to: path.resolve(__dirname, 'dist', 'js'),
+                flatten: true 
+            }
+        ],
+        {
+            ignore: ['other.js']
+        }
         )
     ]
-    
 }
