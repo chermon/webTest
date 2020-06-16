@@ -2,10 +2,17 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 //默认process.env没有NODE_ENV这个变量，我们需要在package.json中配置
 const isDev = process.env.NODE_ENV === 'development';
-const config = require('./public/config')[isDev ? 'dev' : 'build']; //根据不同的环境运行不行的页面内容
+//根据不同的环境运行不行的页面内容
+const config = require('./public/config')[isDev ? 'dev' : 'build']; 
+//清除服务器缓存
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const path = require('path');
+//拷贝某个文件夹及其下的内容
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+//全局引入某个类库
+const webpack = require('webpack');
+//抽离css
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: isDev ? 'development': 'production', //告知webpack使用相应模式的内置优化
@@ -31,6 +38,7 @@ module.exports = {
     devtool: 'cheap-module-eval-source-map', //开发环境下使用
     module: {
         rules: [
+            //将es6规范通过babel-loader加载器，转换为浏览器识别的js语言规范
             {
                 test: /\.jsx?$/, // 凡是以.jsx结尾的文件
                 /**
@@ -55,25 +63,31 @@ module.exports = {
                 }, 
                 exclude: /node_modules/ // 排除node_modules目录，以提高编译效率
             },
+            //将.scss文件通过加载器转换为css样式
             {
                 test: /\.(sc|c)ss$/,
-                use: ['style-loader', 'css-loader', {
+                use: [
+                //  'style-loader',
+                MiniCssExtractPlugin.loader, // 替换之前的style-loader，用于抽离css
+                 'css-loader', {
                     loader: 'postcss-loader',
                     options: {
                         plugins: function (){
                             return [
-                                require('autoprefixer')({
-                                    "overrideBrowserslist": [
-                                    ">0.25%",
-                                    "not dead"
-                                    ]
-                                })
+                                // require('autoprefixer')({
+                                //     "overrideBrowserslist": [
+                                //     ">0.25%",
+                                //     "not dead"
+                                //     ]
+                                // })
+                                require('autoprefixer')()
                             ]
                         }
                     }
                 }, 'sass-loader'],
                 exclude: /node_modules/
             },
+            //加载内嵌图片
             {
                 test: /\.(png|jpg|gif|jpeg|webp|svg|eot|ttf|woff|woff2)$/,
                 use: [
@@ -89,13 +103,14 @@ module.exports = {
                 ],
                 exclude: /node_modules/
             },
+            //加载内嵌图片
             {
                 test: /.html$/,
                 use: 'html-withimg-loader'
             }
         ]
     },
-    //数组 放着所有的webpack插件
+    //数组 放着所有的第三方插件配置
     plugins: [
         new HtmlWebpackPlugin( // 打包html文件
             {
@@ -115,17 +130,35 @@ module.exports = {
             cleanOnceBeforeBuildPatterns:['**/*','!dll','!dll/**']
         }),
         //拷贝某个目录或者目录下的文件到dist目录下
-        new CopyWebpackPlugin([
-            //将js目录及其下的文件全部copy到dist目录下js文件中
-            {
-                from: 'public/js/*.js',
-                to: path.resolve(__dirname, 'dist', 'js'),
-                flatten: true 
-            }
-        ],
-        {
-            ignore: ['other.js']
-        }
-        )
+        new CopyWebpackPlugin({
+            patterns: [{
+                  from: 'public/js/*.js',// 拷贝哪些内容
+                  to: path.resolve(__dirname, 'dist', 'js'), // 将这些内容拷贝到dist->js目录下
+                  flatten: true,  //flatten: true 表示只会拷贝文件，不会拷贝路径。 为false表示即拷贝路径又拷贝文件
+                  globOptions: {
+                      ignore: ['other.js'] //不拷贝哪些文件
+                  }
+              } 
+            ]
+        }),
+        /**
+         * 作用：全局引入一些类库
+         * 另外如果项目启动使用了eslint的话，则需要修改下eslint的配置文件，增加以下配置：
+         *  {
+         *    "globals": {
+         *       "React": true,
+         *       "Vue": true,
+         *        .....
+         *    }
+         *  }
+         * */
+        new webpack.ProvidePlugin({
+            $: 'jquery' //使用的时候就不用import了，而是直接使用$
+        }),
+        new MiniCssExtractPlugin({
+            filename:'css/[name].css'
+        })
+
+
     ]
 }
