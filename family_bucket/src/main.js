@@ -5,6 +5,10 @@ import router from './router'
 import store from './store'
 import 'amfe-flexible'
 import axios from 'axios'
+import axiosInterceptors from './axiosInterceptors'
+
+// http 拦截器
+axiosInterceptors();
 
 Vue.prototype.$http = axios;
 

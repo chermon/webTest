@@ -1,6 +1,6 @@
 <template>
     <div>
-        注册界面
+         <img class="headerimg" src="https://xd-video-pc-img.oss-cn-beijing.aliyuncs.com/xdclass_pro/bannner/1901/learn.png" alt="">
         <cube-form :model="dataModel" :schema="schema" @submit="submitHandler"></cube-form>
     </div>
 </template>
@@ -74,10 +74,16 @@ export default {
                 console.log(response.data.message);
             })
             .catch(err => {
-                console.log('尽力啊~~~');
                 console.log(err);
             })
         }
     }
 }
 </script>
+
+<style lang="scss" scoped>
+img{
+    width: 100%;
+    height: 200px;
+}
+</style>

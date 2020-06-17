@@ -35,15 +35,16 @@ module.exports = {
           const {username, password} = request.query;
           const existValue = userpoor.filter(v => v.username == username && v.password == password).length;
           if (existValue > 0){
+            console.log("我成功了~");
             response.json({
               code: 0,
               message: '登录成功',
-              token: tokenkey + password + (new Date ().getTime * 60 * 60 * 1000)
+              token: tokenkey + password + (new Date().getTime() * 60 * 60 * 1000)
             });
           }
           else{
             response.json({
-              code: -1,
+              code: 1,
               message: '账号或者密码错误'
             });
           }

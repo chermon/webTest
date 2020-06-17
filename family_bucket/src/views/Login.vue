@@ -1,7 +1,7 @@
 <template>
     <div>
-        登录界面
-        <cube-form :model="dataModel" :schema="schema" @submit="submitHandler"></cube-form>
+         <img class="headerimg" src="https://xd-video-pc-img.oss-cn-beijing.aliyuncs.com/xdclass_pro/bannner/1901/learn.png" alt="">
+        <cube-form :model="dataModel" :schema="schema" @submit.prevent="submitHandler"></cube-form>
     </div>
 </template>
 
@@ -57,7 +57,7 @@ export default {
                     },
                     {
                         type: 'submit',
-                        label: '注册'
+                        label: '登录'
                     }
                 ]
             }
@@ -70,9 +70,29 @@ export default {
                 params: this.dataModel
             })
             .then(response => {
-                
+                if (response.code == '0'){
+                    this.$store.commit('gainToken', response.token);
+                    // 持久化本地保存
+                    window.localStorage.setItem('token', response.token);
+                    this.$router.replace({path:'/home/schoolroom'});
+                }
+                else{
+                    alert(response.message);
+                }
+            })
+            .catch(err => {
+                console.log(err);
             })
         }
     }
 }
 </script>
+
+<style lang="scss" scoped>
+img{
+    // display: block;
+    width: 100%;
+    height: 200px;
+
+}
+</style>

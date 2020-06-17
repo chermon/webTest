@@ -2,6 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Regist from '@/views/Regist.vue'
+import Home from '@/views/Home.vue'
+import Schoolroom from '@/views/homes/SchoolRoom.vue'
+import Search from '@/views/homes/Search.vue'
+import Sort from '@/views/homes/Sort.vue'
+import My from '@/views/homes/My.vue'
 
 Vue.use(VueRouter)
 
@@ -18,7 +23,34 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    // component: () => import(/* webpackChunkName: "about" */ '../views/Regist.vue')
+    // component: () => import('@/views/Regist.vue')
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: Home,
+    children: [
+      {
+        path: 'schoolroom',
+        component: Schoolroom
+      },
+      {
+        path: 'search',
+        component: Search
+      },
+      {
+        path: 'sort',
+        component: Sort
+      },
+      {
+        path: 'my',
+        component: My
+      },
+      {
+        path: '/home/',
+        redirect:'/home/schoolroom'
+      }
+    ]
   },
   {
     path: '/',
