@@ -16,9 +16,11 @@ module.exports = {
         clientLogLevel: "silent", //日志等级
         compress: true //是否启用 gzip 压缩
     },
-    devtool: 'cheap-module-eval-source-map', //开发环境下使用
+    //定位错误信息
+    devtool: 'cheap-module-eval-source-map', //开发环境下使用 
     module: {
         rules: [
+            // 将js文件打包成浏览器识别的低版本的js文件
             {
                 test: /\.jsx?$/, // 凡是以.jsx结尾的文件
                 /**
@@ -43,8 +45,9 @@ module.exports = {
                 }, 
                 exclude: /node_modules/ // 排除node_modules目录，以提高编译效率
             },
+            // 将scss文件打包成css文件
             {
-                test: /\.(sa|c)ss$/,
+                test: /\.(sc|c)ss$/,
                 use: ['style-loader', 'css-loader', {
                     loader: 'postcss-loader',
                     options: {
@@ -61,11 +64,32 @@ module.exports = {
                     }
                 }, 'sass-loader'],
                 exclude: /node_modules/
+            },
+            // 加载本地图片
+            {
+                test: /\.(png|jpg|gif|jpeg|webp|svg|eot|ttf|woff|woff2)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            //资源转换为base64可以减少网络请求次数，但是base64数据较大，如果太多的资源时base64，会导致加载变慢，因此设置limit时需两者兼得
+                            limit: 10240,//资源大小小于10k时，将资源装换成base64,超过10k,将图片拷贝到dist目录
+                            esModule: false, //esModule 设置为 false，否则，<img src={require('XXX.jpg')} /> 会出现 <img src=[Module Object] />
+                            name: '[name]_[hash:6].[ext]',
+                            outputPath: 'assets'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /.html$/,
+                use: 'html-withimg-loader'
             }
         ]
     },
     //数组 放着所有的webpack插件
     plugins: [
+        //将html文件导出
         new HtmlWebpackPlugin( // 打包html文件
             {
                 template: './public/index.html',
