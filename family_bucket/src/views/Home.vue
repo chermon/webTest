@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <router-view></router-view>
-    <tabbar></tabbar>
+    <router-view class="router"></router-view>
+    <tabbar class="tabbar"></tabbar>
   </div>
 </template>
 
@@ -15,3 +15,17 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.router{
+  height: 100%;
+  padding-bottom: 64px;
+  box-sizing: border-box;
+}
+.tabbar{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+</style>
