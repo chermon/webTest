@@ -4,7 +4,7 @@ import Login from '../views/Login.vue'
 import Regist from '@/views/Regist.vue'
 import Home from '@/views/Home.vue'
 import Schoolroom from '@/views/homes/SchoolRoom.vue'
-import Search from '@/views/homes/Search.vue'
+import Cart from '@/views/homes/Cart.vue'
 import Sort from '@/views/homes/Sort.vue'
 import My from '@/views/homes/My.vue'
 
@@ -35,8 +35,8 @@ const routes = [
         component: Schoolroom
       },
       {
-        path: 'search',
-        component: Search
+        path: 'cart',
+        component: Cart
       },
       {
         path: 'sort',
