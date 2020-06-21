@@ -77,9 +77,13 @@ export default {
 </script>
 
 <style lang="scss">
-.cube-tab-bar{
+.bottombar{
+  background: white;
+  .cube-tab-bar{
     height: 64px;
     background: rgb(230, 228, 228);
+  }
 }
+
 
 </style>

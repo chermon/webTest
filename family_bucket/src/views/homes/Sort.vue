@@ -7,7 +7,7 @@
         </cube-scroll>
         <cube-scroll class="rightside" ref="scroll" >
             <ul>
-                <li v-for="(list,index) in tabs" :key="index" >
+                <li v-for="(list,index) in tabs" :key="index" @click="buyHandle(list)" >
                     <img :src="list.image" alt="">
                     <p>{{list.label}}</p>
                 </li>
@@ -84,6 +84,9 @@ export default {
         async requestListData(index){
             const response = await this.$http.get('/api/classify',{params:{type:index}});
             this.tabs = response.data;
+        },
+        buyHandle(goods){
+            this.$store.commit('gainGoodsList',goods);
         }
     },
     created() {

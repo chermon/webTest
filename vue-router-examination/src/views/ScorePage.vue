@@ -8,6 +8,7 @@
 </template>
 <script>
 import {mapState} from 'vuex'
+import func from '../../vue-temp/vue-editor-bridge'
 export default {
     data: function (){
         return {
