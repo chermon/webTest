@@ -66,7 +66,7 @@ const router = new VueRouter({
 //     return false;
 //   }
 // }
-// // 全局守卫
+// // 全局前置守卫
 // router.beforeEach((to, from, next) => {
 //   if (to.path === '/center') {
 //     if (auth.isLogin()) { // - 判断是否登录，已登录直接进入当前链接，未登录跳到登录页面
@@ -78,5 +78,10 @@ const router = new VueRouter({
 //     next()
 //   }
 // })
+
+// //后置守卫 - 做一些善后操作
+// router.afterEach((to,from) =>{
+//    console.log("后置守卫");
+// });
 
 export default router

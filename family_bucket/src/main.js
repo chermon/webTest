@@ -12,7 +12,9 @@ axiosInterceptors();
 
 Vue.prototype.$http = axios;
 
+//组织启动生产消息
 Vue.config.productionTip = false;
+
 
 new Vue({
   router,

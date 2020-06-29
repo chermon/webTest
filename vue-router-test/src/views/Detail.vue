@@ -84,7 +84,21 @@ export default {
     }).then(response => {
       this.filminfo = response.data.data.film;
     })
+  },
+  //路由钩子
+  beforeRouteEnter(to, from, next){
+    console.log("进入之前调用");
+    next();
+  },
+  beforeRouteUpdate(to, from, next){
+    console.log("路由的参数变化了");
+    next();
+  },
+  beforeRouteLeave(to, from, next){
+    console.log("路由离开前调用");
+    next();
   }
+
 }
 </script>
 <style lang="scss" scoped>

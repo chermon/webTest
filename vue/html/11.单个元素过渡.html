@@ -40,14 +40,18 @@
         */
 
         /* 方案1 */
-        .myboxbounce-enter-active,.myboxbounce-leave-active{
-            transition: all 0.5s;
-        }
+        /* 进入时候的状态*/
         .myboxbounce-enter,.myboxbounce-leave-to{
             opacity:1;
             filter: alpha(opacity=1);
             transform: translateX(300px);
         }
+
+        .myboxbounce-enter-active,.myboxbounce-leave-active{
+            transition: all 0.5s;
+        }
+
+        
 
         /* 方案2 */
         .myboxfade-enter-active{

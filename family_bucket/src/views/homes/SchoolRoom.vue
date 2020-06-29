@@ -67,11 +67,10 @@ export default {
     .swiperSlide{
         height: 200px;
     }
+ 
     ul{
-        // width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        // overflow: hidden;
+        width: 100%;
+        overflow: hidden;
         li{
           width: 20%;
           list-style: none;
