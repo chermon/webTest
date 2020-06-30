@@ -1,7 +1,7 @@
 <template>
     <div id="board">
         <router-view/>
-        <van-tabbar v-model="active">
+        <van-tabbar v-model="active" active-color="#75a342">
             <van-tabbar-item replace to="/baseboard/home">
                <span>首页</span>
                <img slot="icon" slot-scope="props" :src="props.active ? home_icon.active : home_icon.inactive" />
@@ -26,26 +26,29 @@
 export default {
     name: "BaseBoard",
     data() {
-    return {
-      active: 0,
-      home_icon: {
-        active: require('@/images/home_selected.png'),
-        inactive: require('@/images/home_default.png'),
-      },
-      category_icon: {
-        active: require('@/images/category_selected.png'),
-        inactive: require('@/images/category_default.png'),
-      },
-      cart_icon: {
-        active: require('@/images/shoppingcart_selected.png'),
-        inactive: require('@/images/shoppingcart_default.png'),
-      },
-      mine_icon: {
-        active: require('@/images/mine_selected.png'),
-        inactive: require('@/images/mine_default.png'),
-      },
-    };
-  },
+        return {
+          active: 0,
+          home_icon: {
+            active: require('@/images/home_selected.png'),
+            inactive: require('@/images/home_default.png'),
+          },
+          category_icon: {
+            active: require('@/images/category_selected.png'),
+            inactive: require('@/images/category_default.png'),
+          },
+          cart_icon: {
+            active: require('@/images/shoppingcart_selected.png'),
+            inactive: require('@/images/shoppingcart_default.png'),
+          },
+          mine_icon: {
+            active: require('@/images/mine_selected.png'),
+            inactive: require('@/images/mine_default.png'),
+          }
+        }
+    },
+    mounted(){
+        console.log("我西西");
+    }
 }
 </script>
 
