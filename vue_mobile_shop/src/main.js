@@ -27,6 +27,9 @@ import '@/style/common.less'
 //3.引入vant
 import '@/plugins/vant.js'
 
+//4.引入rem
+import '@/config/rem.js'
+
 Vue.config.productionTip = false
 
 new Vue({

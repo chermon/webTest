@@ -16,7 +16,6 @@ export default function ajax(url = '', params = {}, type = 'GET'){
        });
     
        let newParamsStr = paramsStr.substr(0, paramsStr.length);
-       console.log(newParamsStr);
 
        //发起get请求
        axios.get(url+newParamsStr).then( response => {

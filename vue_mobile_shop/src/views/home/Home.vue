@@ -1,26 +1,32 @@
 <template>
     <div id="home">
-        我是首页
+         <!-- 头部 -->
+       <TopHeader></TopHeader>
+
     </div>
 </template>
 
 <script>
-// ,,
+import TopHeader from './components/header/TopHeader'
 import {getHomeData} from './../../service/index'
 
 export default {
     name: "Home",
-    mounted(){
+    components:{
+        TopHeader
+    },
+    created(){
         getHomeData().then( response => {
             console.log(response);
         });
-        // console.log(aaaa);
     }
 }
 </script>
 
 <style lang="less" scoped>
 #home{
-    background-color: seagreen;
+    width: 100%;
+    height: 100%;
+    // background: grey;
 }
 </style>
