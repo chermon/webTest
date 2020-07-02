@@ -12,11 +12,15 @@
             </svg>
         </div>
         <div class="searchWrapper">
-            <!-- <div class="searchContent">
+            <div class="searchContent">
                 <div class="iconSearchWrapper">
+                    <svg viewBox="0 0 32 32" class="icon iconSearch">
+                        <path fill="#999" fill-rule="evenodd"
+                              d="M23.624 21.503c3.47-4.51 3.14-11.003-.992-15.135-4.491-4.49-11.773-4.49-16.264 0-4.49 4.491-4.49 11.773 0 16.264 4.132 4.131 10.625 4.462 15.135.992l4.66 4.66a1.5 1.5 0 1 0 2.121-2.121l-4.66-4.66zm-3.114-.993A8.5 8.5 0 1 0 8.49 8.49a8.5 8.5 0 0 0 12.02 12.02z"></path>
+                    </svg>
                 </div>
                 <span class="searchPrompt">输入商品名称</span>
-            </div> -->
+            </div>
         </div>
     </div>
 </template>
@@ -32,45 +36,81 @@ export default {
     position: fixed;
     left: 0;
     top: 0;
+    z-index: 2; //默认压盖值为1，数值越大盒子越在上面
     width: 100%;
     height: 3.125rem;
     line-height: 3.125rem;
     box-sizing: border-box;
     border-bottom: solid 1px #eeeeee;
     border-top: solid 1px #eeeeee;
-    background: green;
+    background: white;
 }
 
 .locationWrapper{
-    width: 40%;
-    height: 3.125rem;
     float: left;
+    height: 3.125rem;
+    width: 40%;
     white-space: nowrap; //段落中的文字不换行
-    background: hotpink;
 }
 .iconLocation{
     position: absolute;
     left: 0.3rem;
-    top: 1.062rem;
-    background: yellowgreen;
+    top: 1.0625rem;
+    width: 1.875rem;
+    height: 1rem;
+    vertical-align: middle;
 }
 .locationWrapper .address{
-    display: inline-block;
-    width: 50%;
     padding-left: 1.7rem;
+    display: inline-block;
     font-size: 0.8rem;
     overflow: hidden;
     white-space: nowrap;
-    background: rgb(98, 99, 96);
-
+    text-overflow: ellipsis;
+    width: 80%;
+    vertical-align: middle;
+}
+.locationWrapper .iconArrow{
+    vertical-align: middle;
 }
 .searchWrapper{
-    width: 55%;
-    height: 3.125rem;
-    float: right;
-    background: yellow;
+    position: absolute;
+    top: 0.625rem;
+    right: 2%;
+    // line-height: 3.125rem;
+    text-align: right;
+    // background: yellow;
+    vertical-align: middle;
 }
 
+.searchContent{
+    float: right;
+    border-radius: 3.125rem;
+    width: 100%;
+    height: 1.875rem;
+    line-height: 1.875rem;
+    text-align: center;
+    background: #F2F2F2;
+}
+
+.iconSearchWrapper {
+    display: inline-block;
+    width: 1.25rem;
+    height: 100%;
+}
+.iconSearch {
+    margin-top: 0.3125rem;
+    width: 1.25rem;
+    height: 1.25rem;
+}
+.searchPrompt {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 0.25rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: #999999;
+}
 @media (min-width: 320px) and (max-width: 374px) {
     .searchWrapper{
         width: 55%;
@@ -83,7 +123,7 @@ export default {
 }
 @media (min-width: 414px) {
     .searchWrapper{
-        width: 62%;
+        width: 60%;
     }
 }
 
