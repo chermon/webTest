@@ -1,39 +1,49 @@
 <template>
     <div id="home">
-       <!-- <div v-if="showLoading"> -->
+       <div v-if="!showLoading">
            <!-- 头部 -->
-           <!-- <TopHeader></TopHeader> -->
+           <TopHeader></TopHeader>
            <!-- 广告位 -->
-           <!-- <Sowing :swiperList='swiperList'></Sowing>
-       </div> -->
-       <van-loading type='spinner' size="24px" style="position:absolute;top:40%;left:40%;">加载中...</van-loading>
+           <Sowing :swiperList='swiperList'></Sowing>
+           <Nav :navData='navList'></Nav>
+           <FlashSale></FlashSale>
+       </div> 
+       <van-loading v-else type='spinner' size="24px" style="position:absolute;top:40%;left:50%;transform:translate(-50%)">加载中...</van-loading>
     </div>
 </template>
 
 <script>
 import TopHeader from './components/header/TopHeader'
 import Sowing from './components/sowing/Sowing'
+import Nav from './components/nav/Nav'
+import FlashSale from './components/flashSale/FlashSale'
 import {getHomeData} from './../../service/index'
 
 export default {
     name: "Home",
     data(){
         return {
-               showLoading:true,
+               showLoading: true,
                //首页轮播图
-               swiperList:[]
+               swiperList: [],
+               navList: [],
+               
             }
     },
     components:{
         TopHeader,
-        Sowing
+        Sowing,
+        Nav,
+        FlashSale
     },
     created(){
         getHomeData().then( response => {
+            console.log(response.data);
             if(response.success){
                 //隐藏加载动画
                 this.showLoading = false;
                 this.swiperList = response.data.list[0].icon_list;
+                this.navList = response.data.list[2].icon_list;
             }
         });
     }

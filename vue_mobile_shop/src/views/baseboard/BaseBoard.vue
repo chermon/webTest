@@ -47,7 +47,6 @@ export default {
         }
     },
     mounted(){
-        console.log("我西西");
     }
 }
 </script>
