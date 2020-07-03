@@ -6,13 +6,24 @@
             <div class="saleState">已结束</div>
             <span class="saleMore">更多</span>
         </div>
-        <div class="saleBody"></div>
+        <div class="saleBody">
+            <GoodsItem class="saleGoods" v-for="item in goodsList" :key="item.id" :goods='item' ></GoodsItem>
+        </div>
     </div>
 </template>
 
 <script>
+import GoodsItem from './GoodsItem'
+
 export default {
-    
+    props:{
+        goodsList: Array
+    },
+    components:{
+        GoodsItem
+    },
+    mounted(){
+    }
 }
 </script>
 
@@ -35,7 +46,6 @@ export default {
     height: 100%;
     line-height: 1.5625rem;
     padding-left: 0.5rem;
-    // background: rebeccapurple;
     font-size: 1.1875rem;
     font-weight: bold;
     position: relative;
@@ -71,8 +81,28 @@ export default {
 .saleMore{
     float: right;
     color: #75a342;
-    // height: 1.5625rem;
     line-height: 1.5625rem;
     font-size: 0.875rem;
+}
+.saleBody{
+    margin: 0 0.625rem 0 0.625rem;
+    /**
+    * 横向滚动：
+    *   外层容器
+    *     1.overflow-x: auto; 
+    *     2.overflow-y: hidden;
+    *     3.white-space: nowrap;
+    *   内层
+    *     1.内层元素不能浮动
+    *     2.必须是行内元素，所以如果是块级元素必须转为行内块即display:inline-block;
+    */
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;//回弹效果
+}
+//去掉滚动条
+.saleBody::-webkit-scrollbar{
+    display: none;
 }
 </style>

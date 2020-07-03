@@ -49,7 +49,6 @@ export default {
       SwiperSlide
     },
     mounted(){
-        console.log(this.swiperList);
     }
 }
 </script>
