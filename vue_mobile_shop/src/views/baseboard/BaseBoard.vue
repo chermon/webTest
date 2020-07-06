@@ -47,6 +47,7 @@ export default {
         }
     },
     mounted(){
+        console.log("我西西");
     }
 }
 </script>
@@ -54,10 +55,7 @@ export default {
 <style lang="less" scoped>
 #board{
     width: 100%;
-    height: 200%;
+    height: 100%;
     background: salmon;
-    // padding-bottom: 3.333rem;
-    // box-sizing: border-box;
-
 }
 </style>
