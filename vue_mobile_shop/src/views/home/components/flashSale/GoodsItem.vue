@@ -3,9 +3,9 @@
         <img class="goodsImg" :src="goods.small_image" :alt="goods.name">
         <div class="goodsDes">
             <div class="goodsName">{{goods.name}}</div>
-            <span class="goodsOldPrice">{{goods.origin_price}}</span>
+            <span class="goodsOldPrice">{{goods.origin_price | moneyFormat}}</span>
             <div class="bottomWrapper">
-                <span class="goodsNowPrice">{{goods.price}}</span>
+                <span class="goodsNowPrice">{{goods.price | moneyFormat}}</span>
                 <div class="iconCartWrapper" @click="addToCart(product)">
                     <svg viewBox="0 0 52 52" class="icon icon-60">
                         <defs>
@@ -33,7 +33,6 @@ export default {
         goods:Object
     },
     mounted(){
-        console.log(this.goods);
     },
     methods:{
         addToCart(product){
@@ -65,14 +64,11 @@ export default {
     height: 3.75rem;
 }
 .goodsDes .goodsOldPrice{
-    // margin: 0 0 0.5rem 0;
     line-height: 0.6875rem;
     font-size: 0.6875rem;
     color: #999999;
     text-decoration: line-through;//为字体中间加上横杠
-    // background: rebeccapurple;
 }
-
 .bottomWrapper{
     margin-right: 0.5rem;
     position: relative;

@@ -7,6 +7,7 @@
            <Sowing :swiperList='swiperList'></Sowing>
            <Nav :navData='navList'></Nav>
            <FlashSale :goodsList='flashSalegoods'></FlashSale>
+           <YouLike :youLikeGoodsList='youLikeGoods'></YouLike>
        </div> 
        <van-loading v-else type='spinner' size="24px" style="position:absolute;top:40%;left:50%;transform:translate(-50%)">加载中...</van-loading>
     </div>
@@ -17,6 +18,8 @@ import TopHeader from './components/header/TopHeader'
 import Sowing from './components/sowing/Sowing'
 import Nav from './components/nav/Nav'
 import FlashSale from './components/flashSale/FlashSale'
+import YouLike from './components/youLike/youLike'
+
 import {getHomeData} from './../../service/index'
 
 export default {
@@ -29,7 +32,9 @@ export default {
                //商品分类
                navList: [],
                //限时抢购的商品
-               flashSalegoods:[]
+               flashSalegoods:[],
+               //猜你喜欢的商品
+               youLikeGoods:[],
                
             }
     },
@@ -37,19 +42,39 @@ export default {
         TopHeader,
         Sowing,
         Nav,
-        FlashSale
+        FlashSale,
+        YouLike
     },
     created(){
-        getHomeData().then( response => {
-            console.log(response.data);
-            if(response.success){
-                //隐藏加载动画
-                this.showLoading = false;
-                this.swiperList = response.data.list[0].icon_list;
-                this.navList = response.data.list[2].icon_list;
-                this.flashSalegoods = response.data.list[3].product_list;
-            }
-        });
+        this.requestData();
+        // getHomeData().then( response => {
+        //     console.log(response.data);
+        //     if(response.success){
+        //         //隐藏加载动画
+        //         this.showLoading = false;
+        //         this.swiperList = response.data.list[0].icon_list;
+        //         this.navList = response.data.list[2].icon_list;
+        //         this.flashSalegoods = response.data.list[3].product_list;
+        //         this.youLikeGoods = response.data.list[12].product_list;
+        //     }
+        // });
+    },
+    methods:{
+        async requestData(){
+            let response = await getHomeData(); // 转为同步执行
+            // res.then( response => {
+                console.log(response.data);
+                if(response.success){
+                    //隐藏加载动画
+                    this.showLoading = false;
+
+                    this.swiperList = response.data.list[0].icon_list;
+                    this.navList = response.data.list[2].icon_list;
+                    this.flashSalegoods = response.data.list[3].product_list;
+                    this.youLikeGoods = response.data.list[12].product_list;
+                }
+            // });
+        }
     }
 }
 </script>

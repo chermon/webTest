@@ -1,6 +1,11 @@
 <template>
     <div id="board">
-        <router-view/>
+        <!-- 通过$route.meta.keepAlive决定哪些视图页面需要缓存，哪些不需要缓存 -->
+        <keep-alive>
+           <router-view v-if="$route.meta.keepAlive"/>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"/>
+
         <van-tabbar v-model="active" active-color="#75a342">
             <van-tabbar-item replace to="/baseboard/home">
                <span>首页</span>
