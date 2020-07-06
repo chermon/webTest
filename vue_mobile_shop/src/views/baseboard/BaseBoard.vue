@@ -54,7 +54,10 @@ export default {
 <style lang="less" scoped>
 #board{
     width: 100%;
-    height: 100%;
+    height: 200%;
     background: salmon;
+    // padding-bottom: 3.333rem;
+    // box-sizing: border-box;
+
 }
 </style>
