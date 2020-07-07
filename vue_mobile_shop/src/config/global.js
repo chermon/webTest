@@ -1,6 +1,6 @@
 export const handleBackTopAtion = (callBack) => {
     // 1.卷动对象
-    let docTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let docTop = document.documentElement || document.body;
     let oldDocTop,requestFrame;
     /**
      *  addEventListener(type, listener,{

@@ -26,7 +26,7 @@ export default {
 <style lang="less" scoped>
 .youLikeWrapper{
     margin-top: 0.625rem;
-    margin-bottom: 60px;
+    margin-bottom: 4rem;
 }
 .youLikeHeader{
     padding: 0 0.625rem;

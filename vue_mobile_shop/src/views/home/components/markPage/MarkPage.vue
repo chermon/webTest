@@ -12,10 +12,8 @@
 
 <script>
 export default {
-    methods:{
-        scrollToTop(){
-
-        }
+    props:{
+        scrollToTop: Function
     }
 }
 </script>
