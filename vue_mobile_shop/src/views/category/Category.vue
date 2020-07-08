@@ -76,7 +76,7 @@ export default {
                }
                // ④. 初始化滚动框架
                this.$nextTick( () => {
-                   this.leftScroll = new BScroll('sidebar',{
+                   this.leftScroll = new BScroll('.sidebar',{
                        /**
                         * probeType 默认为0
                         * 0：不派发 scroll 事件
