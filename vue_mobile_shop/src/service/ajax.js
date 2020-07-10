@@ -4,9 +4,6 @@ import axios from 'axios'
 export default function ajax(url = '', params = {}, type = 'GET'){
    let promise = new Promise(function (resolve, reject){
 
-    if(url.includes("/lk001")){
-        console.log(url);
-    }
     //判断请求类型
     if (type.toUpperCase() === "GET"){ // get请求
         let paramsStr = '?';

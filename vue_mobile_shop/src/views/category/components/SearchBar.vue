@@ -29,6 +29,7 @@ export default {
     padding: 0.5rem 0.625rem;
     background: #FFF;
     border-bottom: 1px solid #E6E6E6;
+    z-index: 999;
 }
 .searchContent{
     height: 1.75rem;

@@ -39,13 +39,15 @@
 </template>
 
 <script>
+import PubSub from 'pubsub-js'
+
 export default {
     props:{
         product:Object
     },
     methods:{
         addToCart(goods){
-
+            PubSub.publish('homeAddToCart', goods);
         }
     }
 }

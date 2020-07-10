@@ -28,6 +28,9 @@
 </template>
 
 <script>
+// 1. 引入事件总线插件
+import {PubSub} from 'pubsub-js'
+
 export default {
     props:{
         goods:Object
@@ -36,7 +39,8 @@ export default {
     },
     methods:{
         addToCart(product){
-            console.log("我添加了商品");
+            //事件的发布者 相当于bus.$emit();
+            PubSub.publish('homeAddToCart', product);
         }
     }
 }

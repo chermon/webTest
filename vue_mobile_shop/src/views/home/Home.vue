@@ -34,6 +34,13 @@ import {getHomeData} from './../../service/index'
 // 3. 引入处理返回顶部的函数
 import {handleBackTopAtion} from '@/config/global.js'
 
+// 4. 引入事件总线插件
+import {PubSub} from 'pubsub-js'
+
+// 5. 引入vuex
+// import {mapMutations} from 'vuex'
+import {ADD_GOOD_TO_CART}from '@/store/mutations-type'
+
 export default {
     name: "Home",
     data(){
@@ -44,11 +51,11 @@ export default {
                //商品分类
                navList: [],
                //限时抢购的商品
-               flashSalegoods:[],
+               flashSalegoods: [],
                //猜你喜欢的商品
-               youLikeGoods:[],
+               youLikeGoods: [],
                //展示置顶按钮的状态
-               showBackTopBtn:false
+               showBackTopBtn: false
             }
     },
     components:{
@@ -65,13 +72,49 @@ export default {
         //置顶
         MarkPage
     },
+    computed:{
+        
+    },
     created(){
         this.requestData();
-      
+    },
+    mounted(){
+        //事件的订阅者 相当于： bus.$on()
+        PubSub.subscribe('homeAddToCart', (msg, goods) =>{
+
+            if(msg == 'homeAddToCart'){
+                /**
+                 *  方法1：通过this.$store.commit() 来获取
+                 * */ 
+
+                // this.$store.commit(ADD_GOOD_TO_CART,{goods.id,goods.name,goods.price,goods.small_image});
+
+                this.$store.commit(ADD_GOOD_TO_CART,{
+                    goodsId: goods.id,
+                    goodsName: goods.name,
+                    goodsPrice: goods.price,
+                    smallImage: goods.small_image
+                });
+                
+                // /**
+                //  *  方法2：通过 mapMutations 来获取方法
+                //  * */ 
+                // this.ADD_GOOD_TO_CART({
+                //     goodsId: goods.id,
+                //     goodsName: goods.name,
+                //     goodsPrice: goods.price,
+                //     smallImage: goods.small_image
+                // });
+            }
+        });
     },
     methods:{
+        // ...mapMutations(['ADD_GOOD_TO_CART']),
         //置顶
         scrollToTop(){
+
+        },
+        handleAddGoods(goods){
 
         },
         /**
@@ -101,7 +144,7 @@ export default {
         async requestData(){
             //await关键字只能用在aync定义的函数内
             let response = await getHomeData(); // 转为同步执行
-            console.log(response.data);
+            // console.log(response.data);
             if(response.success){
                 //隐藏加载动画
                 this.showLoading = false;
