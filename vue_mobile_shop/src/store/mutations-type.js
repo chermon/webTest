@@ -1,0 +1,1 @@
+export const ADD_GOOD_TO_CART = 'ADD_GOOD_TO_CART'; //增加商品到购物车
