@@ -5,14 +5,14 @@
         </div>
         <div class="rightProWrapper">
             <div class="productDisc">
-                <p class="productName">蔬菜</p>
-                <p class="productIntrodution">我的的看法卡的</p>
+                <p class="productName">{{goods.name}}</p>
+                <p class="productIntrodution">{{goods.spec}}</p>
                 <div class="tagsWrapper">
                     <div class="H1B9Rvu"></div>
                 </div>
             </div>
             <div class="productCart">
-                <span class="productPrice">8.65</span>
+                <span class="productPrice">{{goods.price | moneyFormat}}</span>
                 <div class="iconCartWrapper" @click="addToCart(product)">
                     <svg viewBox="0 0 52 52" class="icon iconCart">
                         <defs>
@@ -65,12 +65,9 @@ export default {
     border-bottom: 1px solid #E6E6E6;
 }
 .productImg{
-    // margin:0.2375rem 0;
     width: 4.0625rem;
-    height: 100%;
     overflow: hidden;
     flex: 0 0 4.0625rem;
-    background: red;
 }
 .image{
     display: block;
@@ -78,8 +75,8 @@ export default {
     height: auto;
 }
 .rightProWrapper{
-    width: 100%;
-    background: slateblue;
+    flex: 1;
+    overflow: hidden;
 }
 .productDisc{
     min-height: 2.1875rem;
@@ -91,7 +88,6 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-    background: turquoise;
 }
 .productIntrodution{
     min-height: 1.25rem;
@@ -101,7 +97,6 @@ export default {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    background: olivedrab;
 }
 
 .tagsWrapper {
@@ -109,7 +104,6 @@ export default {
     max-height: 1.0625rem;
     line-height: 0.8125rem;
     overflow: hidden;
-    background: orange;
 }
 .H1B9Rvu {
     height: 1rem;
@@ -117,7 +111,6 @@ export default {
 
 .productCart{
     height: 1.875rem;
-    background: orchid;
     position: relative;
 }
 .productPrice{

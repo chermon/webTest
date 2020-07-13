@@ -1,9 +1,9 @@
 <template>
     <div class="childCategoryWrapper">
         <div class="sectionCategory" v-for="item in cateContent" :key="item.id">
-            <div class="sectionTitle">{item.name}</div>
+            <div class="sectionTitle">{{item.name}}</div>
             <div class="sectionContent">
-                <ProductItem v-for="goods  in item" :key="goods.id" :goods='goods'></ProductItem>
+                <ProductItem v-for="goods in item.products" :key="goods.id" :goods='goods'></ProductItem>
             </div>
         </div>
     </div>
@@ -26,11 +26,15 @@ export default {
 
 <style lang="less" scoped>
 .childCategoryWrapper{
-    width: 100%;
-    height: 100%;
+    flex: 1;
+    overflow: hidden;
     padding: 0 0.3125rem;
     box-sizing: border-box;
     background: #FFF;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overflow-scrolling: touch;
 }
 .sectionTitle{
     padding: 0.625rem 0 ;
@@ -41,7 +45,4 @@ export default {
     color: #666666;
     border-bottom: 1px solid #E6E6E6;
 }
-// .sectionContent{
-
-// }
 </style>
