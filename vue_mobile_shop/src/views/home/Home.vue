@@ -34,8 +34,10 @@ import {getHomeData} from './../../service/index'
 // 3. 引入处理返回顶部的函数
 import {handleBackTopAtion} from '@/config/global.js'
 
-// 4. 引入事件总线插件
+// 4. 引入插件
 import {PubSub} from 'pubsub-js'
+
+import {Toast} from 'vant';
 
 // 5. 引入vuex
 // import {mapMutations} from 'vuex'
@@ -94,6 +96,12 @@ export default {
                     goodsName: goods.name,
                     goodsPrice: goods.price,
                     smallImage: goods.small_image
+                });
+
+                // 提示用户
+                Toast({
+                    message: '添加到购物车成功!',
+                    duration: 800
                 });
                 
                 // /**

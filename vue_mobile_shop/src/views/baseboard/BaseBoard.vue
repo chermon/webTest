@@ -15,7 +15,7 @@
                <span>分类</span>
                <img slot="icon" slot-scope="props" :src="props.active ? category_icon.active : category_icon.inactive" />
             </van-tabbar-item>
-            <van-tabbar-item replace to="/baseboard/cart">
+            <van-tabbar-item replace to="/baseboard/cart" :badge='goodsNum > 0 ? goodsNum : ""'>
                <span>购物车</span>
                <img slot="icon" slot-scope="props" :src="props.active ? cart_icon.active : cart_icon.inactive" />
             </van-tabbar-item>
@@ -28,6 +28,9 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import {INIT_SHOP_CART} from '@/store/mutations-type.js'
+
 export default {
     name: "BaseBoard",
     data() {
@@ -61,6 +64,20 @@ export default {
      *     而watch是当数据发生便会就会调用执行函数。
      *   5.从使用场景上说，computed适用一个数据被多个数据影响，而watch使用一个数据影响多个数据。
      * */ 
+    computed: {
+      ...mapState(['shopCart']),
+      // 购物车商品的数量
+      goodsNum(){
+        if(this.shopCart){
+          let num = 0;
+          Object.values(this.shopCart).forEach((goods, index) => {
+            num += goods.goodsNum;
+          });
+          return num;
+        }
+        return 0;
+      }
+    },
     // computed:{
     //   activeState(){
     //     let str = "我发现了active变化为了:"+ this.active;
@@ -74,6 +91,8 @@ export default {
       }
     },
     mounted(){
+      //初始化购物车
+      this.$store.commit(INIT_SHOP_CART);
     }
 }
 </script>

@@ -1,5 +1,6 @@
 import {
-    ADD_GOOD_TO_CART
+    ADD_GOOD_TO_CART,
+    INIT_SHOP_CART
 } from './mutations-type'
 
 import {setStore, getStore, removeStore} from '@/config/global'
@@ -28,5 +29,15 @@ export default {
         state.shopCart = {...shopCart};
         //存储到本地
         setStore('shopCart',shopCart);
+    },
+    
+    // 初始化页面，获取购物车中的数据
+    [INIT_SHOP_CART](state){
+        let cart = getStore('shopCart');
+        if(cart){
+           //从本地取出
+           state.shopCart = JSON.parse(cart);
+        }
     }
+
 }

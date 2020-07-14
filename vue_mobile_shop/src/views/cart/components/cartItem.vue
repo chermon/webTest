@@ -62,6 +62,9 @@ export default {
     left: 0.5rem;
     top: 1.75rem;
 }
+.cartCheckBox[checked]{
+    background-position: -1.2rem 0;
+}
 .cartImgWrapper{
     height: 6rem;
 }

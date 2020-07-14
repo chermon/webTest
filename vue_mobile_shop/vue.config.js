@@ -8,7 +8,7 @@ module.exports = {
         
     },
     configureWebpack: (config) => {
-        console.log("嘻嘻嘻：" + process.env.NODE_ENV);
+        // console.log("嘻嘻嘻：" + process.env.NODE_ENV);
         if(debug) { // 开发环境配置
             config.devtool = 'cheap-module-eval-source-map'
         } else { // 生产环境配置

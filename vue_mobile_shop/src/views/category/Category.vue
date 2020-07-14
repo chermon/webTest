@@ -36,8 +36,12 @@ import ChildCategory from './components/ChildCategory'
 import { getCategaryData, getCategaryDetailData} from '@/service/index.js'
 
 // 3. 引入第三方插件
+// 3.1 滑动组件
 import BScroll from 'better-scroll'
+// 3.2 通知组件
+import {PubSub} from 'pubsub-js'
 
+import {ADD_GOOD_TO_CART} from '@/store/mutations-type.js'
 
 export default {
     name: "Category",
@@ -58,6 +62,25 @@ export default {
         SearchBar,
         //右边内容
         ChildCategory
+    },
+    mounted(){
+        PubSub.subscribe('categoryAddToCart', (msg, goods) => {
+            if(msg === 'categoryAddToCart'){
+                this.$store.commit(ADD_GOOD_TO_CART,{
+                    goodsId: goods.id,
+                    goodsName: goods.name,
+                    goodsPrice: goods.price,
+                    smallImage: goods.small_image
+                });
+
+                // 提示
+                Toast({
+                    message: '添加到购物车成功!',
+                    duration: 800
+                });
+            }
+            
+        });
     },
     created(){
         //调用网络请求的方法
