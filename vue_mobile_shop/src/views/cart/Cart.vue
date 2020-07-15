@@ -2,28 +2,30 @@
     <div id="cart">
         <header class="cartHeader">
             <h4><strong>购物车</strong></h4>
-            <button class="clearCart">清空购物车</button>
+            <button class="clearCart" @click="handleCleanCart">清空购物车</button>
         </header>
         <div class="cartContent">
             <CartItem v-for="goods in shopCart" :key="goods.goodsId" :goods='goods'></CartItem>
         </div>
         <footer class="cartFooter">
             <div class="allSelected">
-                <a href="javascript:" class="cartCheckBox"></a>
+                <a href="javascript:" class="cartCheckBox" :checked='isAllSelected' @click.stop="handleAllSelected(isAllSelected)"></a>
                 <span>全选</span>
             </div>
             <div class="allComputed">
-                合计：<span class="totalPrice">199.00</span>
+                合计：<span class="totalPrice">{{totalPrice | moneyFormat}}</span>
             </div>
-            <button class="pay">去结算(2)</button>
+            <button class="pay">去结算({{varietyNum}})</button>
         </footer>
     </div>
+
 </template>
 
 <script>
 import CartItem from './components/cartItem'
 
-import {mapState} from 'vuex';
+import { mapState } from 'vuex';
+import { SELECT_CART_ALL_GOODS, CLEAR_SHOP_CART } from '@/store/mutations-type.js'
 
 export default {
     name: "Cart",
@@ -32,6 +34,62 @@ export default {
     },
     computed:{
         ...mapState(['shopCart']),
+        // - 根据每个商品的状态判断是否全选
+        isAllSelected(){
+            let selectedState = false;
+            let cartList = Object.values(this.shopCart);
+            if(cartList.length > 0){
+                let selectedNum = 0;
+                cartList.forEach((item, index) => {
+                    if (item.checked){
+                        selectedNum++;
+                    }
+                });
+                selectedState = selectedNum == cartList.length ? true: false;
+            }
+            return selectedState;
+        },
+
+        // - 总价
+        totalPrice(){
+            let goodsPrice = 0;
+            let cartList = Object.values(this.shopCart);
+            if(cartList.length > 0){
+                cartList.forEach( (goods, index) => {
+                    if(goods.checked){
+                        goodsPrice += goods.goodsPrice*goods.goodsNum;
+                    }
+                    
+                });
+            }
+
+            return goodsPrice;
+        },
+
+        // - 品种数量
+        varietyNum(){
+            let num = 0;
+            let cartList = Object.values(this.shopCart);
+            if(cartList.length > 0){
+                cartList.forEach( (goods, index) => {
+                    if(goods.checked){
+                        num++;
+                    }
+                });
+            }
+            return num;
+        }
+    },
+    methods:{
+        // - 商品是否全选
+        handleAllSelected(currentSeleted){
+            this.$store.commit(SELECT_CART_ALL_GOODS,{isAllSelected:!currentSeleted});
+        },
+
+        // - 清空购物车
+        handleCleanCart(){
+            this.$store.commit(CLEAR_SHOP_CART);
+        }
     }
 }
 </script>
@@ -76,6 +134,9 @@ export default {
     background: url('./../../images/shop-icon.png') no-repeat;
     -webkit-background-size: 2.5rem 5rem;
     background-size: 2.5rem 5rem;
+}
+.cartCheckBox[checked]{
+    background-position: -1.2rem 0;;
 }
 .cartFooter{
     position: fixed;

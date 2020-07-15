@@ -1,11 +1,10 @@
 <template>
     <div class="cartItemWrapper">
-        <!-- 
-        @click.stop="singerGoodsSelected(goods.id)" -->
         <a
         href="javascript:;"
         class="cartCheckBox"
         :checked="goods.checked"
+        @click.stop="handelSingleChecked(goods.goodsId)"
         >
         </a>
         <div class="cartImgWrapper">
@@ -16,9 +15,9 @@
             <div class="cartGoods">
                 <span class="currentPrice">{{goods.goodsPrice | moneyFormat}}</span>
                 <div class="goodsNumWrapper">
-                    <span class="plus">+</span>
+                    <span class="plus" @click="handleSingleAdd">+</span>
                     <input type="text" class="goodsNum" v-model="goods.goodsNum"/>
-                    <span class="reduce">-</span>
+                    <span class="reduce" @click="handleSingleReduce()">-</span>
                 </div>
             </div>
         </div>
@@ -26,14 +25,55 @@
 </template>
 
 <script>
+import { Dialog } from 'vant';
+
+import { SELECT_CART_SINGLE_GOODS, REMOVE_GOODS_FROM_CART, ADD_GOOD_TO_CART } from '@/store/mutations-type.js'
+import { mapState } from 'vuex'
+
 export default {
     name:"cartItem",
     props:{
         goods: Object
     },
-    data(){
-        return {
-            goodsNum:1
+    computed:{
+        ...mapState(['shopCart'])
+    },
+    methods:{
+        // - 处理单个商品被选择的状态
+        handelSingleChecked(goodsId){
+            this.$store.commit(SELECT_CART_SINGLE_GOODS, {goodsId});
+        },
+
+        // - 添加单个商品
+        handleSingleAdd(){
+            this.$store.commit(ADD_GOOD_TO_CART, {
+                goodsId: this.goods.goodsId,
+                goodsName: this.goods.goodsName,
+                goodsPrice: this.goods.goodsId,
+                smallImage: this.goods.smallImage
+            });
+        },
+
+        // - 删除单个商品
+        handleSingleReduce(){
+            if(this.goods.goodsNum > 0){
+                if(this.goods.goodsNum == 1){
+                    Dialog.confirm({
+                      title: '温馨提示',
+                      message: '确定删除该商品吗?',
+                      showCancelButton:true
+                    })
+                    .then(() => { // 确定
+                        this.$store.commit(REMOVE_GOODS_FROM_CART, {goodsId:this.goods.goodsId});
+                    })
+                    .catch(() => {// 取消
+ 
+                    });
+                }
+                else{
+                    this.$store.commit(REMOVE_GOODS_FROM_CART, {goodsId:this.goods.goodsId});
+                }
+            }
         }
     }
 }

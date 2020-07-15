@@ -15,3 +15,7 @@ Vue.use(Image);
 // 4. 提示
 import {Toast} from 'vant';
 Vue.use(Toast);
+
+// 5. 弹出框
+import { Dialog } from 'vant';
+Vue.use(Dialog);

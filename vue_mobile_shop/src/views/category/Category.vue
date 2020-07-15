@@ -40,6 +40,8 @@ import { getCategaryData, getCategaryDetailData} from '@/service/index.js'
 import BScroll from 'better-scroll'
 // 3.2 通知组件
 import {PubSub} from 'pubsub-js'
+// 3.3 提示
+import {Toast} from 'vant'
 
 import {ADD_GOOD_TO_CART} from '@/store/mutations-type.js'
 
