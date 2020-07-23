@@ -19,3 +19,12 @@ Vue.use(Toast);
 // 5. 弹出框
 import { Dialog } from 'vant';
 Vue.use(Dialog);
+
+import { NavBar } from 'vant';
+Vue.use(NavBar);
+
+import { Cell, CellGroup } from 'vant';
+Vue.use(Cell).use(CellGroup);
+
+import { Grid, GridItem } from 'vant';
+Vue.use(Grid).use(GridItem);

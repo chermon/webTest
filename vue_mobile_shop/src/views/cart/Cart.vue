@@ -15,17 +15,23 @@
             <div class="allComputed">
                 合计：<span class="totalPrice">{{totalPrice | moneyFormat}}</span>
             </div>
-            <button class="pay">去结算({{varietyNum}})</button>
+            <button class="pay" @click="handleGoPlay">去结算({{varietyNum}})</button>
         </footer>
     </div>
 
 </template>
 
 <script>
+// 1. 引入组件
 import CartItem from './components/cartItem'
 
+// 2. 引入vuex
 import { mapState } from 'vuex';
 import { SELECT_CART_ALL_GOODS, CLEAR_SHOP_CART } from '@/store/mutations-type.js'
+
+// 3. 引入组件
+// 3.1 弹出框
+import { Dialog } from 'vant';
 
 export default {
     name: "Cart",
@@ -88,7 +94,21 @@ export default {
 
         // - 清空购物车
         handleCleanCart(){
-            this.$store.commit(CLEAR_SHOP_CART);
+            Dialog.confirm({
+              title: '温馨提示',
+              message: '确定清空所有商品吗?',
+            })
+            .then(() => {
+                this.$store.commit(CLEAR_SHOP_CART);
+            })
+            .catch(() => {
+                // on cancel
+            }); 
+        },
+
+        // - 去结算
+        handleGoPlay(){
+            this.$router.push('/order');
         }
     }
 }
