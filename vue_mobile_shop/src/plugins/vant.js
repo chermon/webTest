@@ -19,3 +19,11 @@ Vue.use(Toast);
 // 5. 弹出框
 import { Dialog } from 'vant';
 Vue.use(Dialog);
+
+// 6.导航栏
+import { NavBar } from 'vant';
+Vue.use(NavBar);
+
+// 7.联系人
+import { ContactCard, ContactList, ContactEdit } from 'vant';
+Vue.use(ContactCard).use(ContactList).use(ContactEdit);

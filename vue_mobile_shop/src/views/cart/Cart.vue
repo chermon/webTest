@@ -15,7 +15,7 @@
             <div class="allComputed">
                 合计：<span class="totalPrice">{{totalPrice | moneyFormat}}</span>
             </div>
-            <button class="pay">去结算({{varietyNum}})</button>
+            <button class="pay" @click='gotoPay'>去结算({{varietyNum}})</button>
         </footer>
     </div>
 
@@ -89,6 +89,11 @@ export default {
         // - 清空购物车
         handleCleanCart(){
             this.$store.commit(CLEAR_SHOP_CART);
+        },
+
+        // - 去结算
+        gotoPay(){
+            this.$router.push('/order');
         }
     }
 }
