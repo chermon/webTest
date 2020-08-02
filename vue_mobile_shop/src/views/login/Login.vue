@@ -77,7 +77,7 @@ export default {
     font-weight: bold;
     border-bottom: 2px solid #75a342;
 }
-.loginContent .phoneLoginBg section{
-    width: ;
-}
+// .loginContent .phoneLoginBg section{
+//     width: ;
+// }
 </style>
