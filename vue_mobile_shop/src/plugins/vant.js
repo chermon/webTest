@@ -24,6 +24,20 @@ Vue.use(Dialog);
 import { NavBar } from 'vant';
 Vue.use(NavBar);
 
-// 7.联系人
+// 7.地址
 import { ContactCard, ContactList, ContactEdit } from 'vant';
 Vue.use(ContactCard).use(ContactList).use(ContactEdit);
+// 7.1 地址列表
+import { AddressList } from 'vant';
+Vue.use(AddressList);
+// 7.2 地址编辑
+import { AddressEdit } from 'vant';
+Vue.use(AddressEdit);
+
+// 8.单元格
+import { Cell, CellGroup } from 'vant';
+Vue.use(Cell).use(CellGroup);
+
+import { Grid, GridItem } from 'vant';
+Vue.use(Grid).use(GridItem);
+

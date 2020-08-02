@@ -15,6 +15,7 @@
           @click="chooseAddress"
           style="margin-top:1rem"
         />
+        <router-view></router-view>
     </div>
 
 </template>
@@ -45,12 +46,11 @@ export default {
     methods: {
         // 返回上一级
         onClickLeft() {
-           this.$router.back();;
+           this.$router.back();
         },
         
         // 选择收货地址
         chooseAddress(){
-            console.log("进来了");
             this.$router.push('/order/myAddress');
         }
     },
@@ -58,5 +58,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+#order{
+    // position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+}
 </style>

@@ -14,6 +14,9 @@ const Mine = () => import ('@/views/mine/Mine');
 
 const MyAddress = () => import ('@/views/order/children/MyAddress');
 
+//三级路由
+const AddAddress = () => import ('@/views/order/children/children/AddAddress');
+const EditAddress = () => import ('@/views/order/children/children/EditAddress');
 
 Vue.use(VueRouter)
 
@@ -39,7 +42,11 @@ const routes = [
       {
         path: 'myAddress',
         name: 'myAddress',
-        component: MyAddress
+        component: MyAddress,
+        children:[
+          {path: 'addAddress', name: 'addAddress', component: AddAddress},
+          {path: 'editAddress', name: 'editAddress', component: EditAddress}
+        ]
       }
     ]
 

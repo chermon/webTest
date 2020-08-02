@@ -1,5 +1,5 @@
 <template>
-    <div id="cart">
+    <div id="cart" v-if="userInfo.token">
         <header class="cartHeader">
             <h4><strong>购物车</strong></h4>
             <button class="clearCart" @click="handleCleanCart">清空购物车</button>
@@ -15,25 +15,33 @@
             <div class="allComputed">
                 合计：<span class="totalPrice">{{totalPrice | moneyFormat}}</span>
             </div>
-            <button class="pay" @click='gotoPay'>去结算({{varietyNum}})</button>
+            <button class="pay" @click="handleGoPlay">去结算({{varietyNum}})</button>
         </footer>
     </div>
-
+    <SelectLogin v-else></SelectLogin>
 </template>
 
 <script>
+// 1. 引入组件
 import CartItem from './components/cartItem'
+import SelectLogin from './../login/SelectLogin'
 
+// 2. 引入vuex
 import { mapState } from 'vuex';
 import { SELECT_CART_ALL_GOODS, CLEAR_SHOP_CART } from '@/store/mutations-type.js'
+
+// 3. 引入组件
+// 3.1 弹出框
+import { Dialog } from 'vant';
 
 export default {
     name: "Cart",
     components:{
-        CartItem
+        CartItem,
+        SelectLogin
     },
     computed:{
-        ...mapState(['shopCart']),
+        ...mapState(['shopCart', 'userInfo']),
         // - 根据每个商品的状态判断是否全选
         isAllSelected(){
             let selectedState = false;
@@ -88,11 +96,20 @@ export default {
 
         // - 清空购物车
         handleCleanCart(){
-            this.$store.commit(CLEAR_SHOP_CART);
+            Dialog.confirm({
+              title: '温馨提示',
+              message: '确定清空所有商品吗?',
+            })
+            .then(() => {
+                this.$store.commit(CLEAR_SHOP_CART);
+            })
+            .catch(() => {
+                // on cancel
+            }); 
         },
 
         // - 去结算
-        gotoPay(){
+        handleGoPlay(){
             this.$router.push('/order');
         }
     }
