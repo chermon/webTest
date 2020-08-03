@@ -87,6 +87,7 @@ export default {
         handleBackAction(){
             console.log('进来了！');
             this.$router.back(-1);
+            
         },
         // - 获取验证码
         async gaintVetifyCode(){
