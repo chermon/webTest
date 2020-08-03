@@ -9,3 +9,5 @@ export const getHomeData = () => ajax(BASE_URL + '/api/homeApi');
 export const getCategaryData = () => ajax(BASE_URL + '/api/homeApi/categories')
 //分类详情
 export const getCategaryDetailData = (id) => ajax(BASE_URL + '/api/homeApi/categoriesdetail'+id);
+//获取短信验证码
+export const getVerityCodeData = (phone) => ajax(BASE_URL + '/api/send_code',{phone});

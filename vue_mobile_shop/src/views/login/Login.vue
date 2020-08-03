@@ -12,15 +12,39 @@
              <form>
                <!-- 手机号登录 -->
                 <div class="phoneLoginBg" v-show="isPhoneLogin">
-                    <section>
-                        <input type="number" maxlength="11" placeholder="手机号"/>
-                        <button >获取验证码</button>
-                        <button>已发送（{{downCount}}）s</button>
+                    <section class="tel">
+                        <input class="telInput" type="number" maxlength="11" placeholder="手机号" v-model="phone"/>
+                        <button class="codeBtn" v-if="!downCount" @click.prevent="gaintVetifyCode()">获取验证码</button>
+                        <button class="codeBtn" v-else>已发送（{{downCount}}）s</button>
                     </section>
+                    <section>
+                        <input class="codeInput" type="number" maxlength="6" placeholder="验证码"/>
+                    </section>
+                    <section class="loginHint">
+                        温馨提示：测试账号请输入手机号码，获取验证码，验证码均为666666
+                        <a href="javascript:;">采用微信扫码支付</a>
+                    </section>
+                    <button class="loginBtn">登录</button>
+                    <button class="backBtn">返回</button>
                 </div>
                 <!-- 密码登录 -->
                 <div class="passwordLoginBg" v-show="!isPhoneLogin">
-                    我是账号密码
+                    <section >
+                        <input class="nickInput" type="tel" maxlength="11" placeholder="用户名"/>
+                    </section>
+                    <section class="passwordSec">
+                        <input class="passwordInput" type="password" maxlength="20" placeholder="密码" autocomplete="off"/>
+                        <div class="switch-show">
+                            <img v-if="!isShowPwd" src="./images/hide_pwd.png"  alt="" width="20" @click='handlePwdShowState(true)'>
+                            <img v-else src="./images/show_pwd.png"  alt="" width="20" @click='handlePwdShowState(false)'>
+                        </div>
+                    </section>
+                    <section>
+                        <input class="codeInput" type="text" maxlength="4" placeholder="验证码"/>
+                        <img class="captcha" src="http://demo.itlike.com/web/xlmc/api/captcha" alt="">
+                    </section>
+                    <button class="loginBtn">登录</button>
+                    <button class="backBtn" @click.prevent="handleBackAction()">返回</button>
                 </div>
              </form>
            </div>
@@ -30,25 +54,70 @@
 </template>
 
 <script>
+// 1. 请求首页数据
+import {getVerityCodeData} from './../../service/index'
+// 2. 提示
+import {Toast} from 'vant'
+
 export default {
     name: "Login",
     data(){
         return {
-            isPhoneLogin: true,//是否是手机号登录
-            downCount:60
+            isPhoneLogin: true, //是否是手机号登录
+            isShowPwd: false, //是否显示密码
+            downCount: 0, //倒计时
+            phone: null, //手机号
+        }
+    },
+    computed:{
+        //手机号是否正确
+        phoneRight(){
+            return (/^1[3456789]\d{9}$/.test(this.phone));
         }
     },
     methods:{
         // - 切换登录方式
         changeLoginPattern(isByPhone){
             this.isPhoneLogin = isByPhone;
-        }
+        },
+        // - 显示或者隐藏密码
+        handlePwdShowState(showPwd){
+            this.isShowPwd = showPwd;
+        },
+        handleBackAction(){
+            console.log('进来了！');
+            this.$router.back(-1);
+        },
+        // - 获取验证码
+        async gaintVetifyCode(){
+            if(this.phoneRight){
+                // 倒计时
+                this.downCount = 60;
+                this.downCountTime = setInterval(() => {
+                    this.downCount--;
+                    if(this.downCount == 0){
+                        clearInterval(this.downCountTime);
+                    }
+                },1000);
+                let response = await getVerityCodeData(this.phoneRight);
+                console.log(response);
+            }else{
+                Toast("手机号有误，请重填!");
+                return;
+            }
+        },
+        
     }
 
 }
 </script>
 
 <style lang="less" scoped>
+.login{
+    width: 100%; 
+    height: 100%;
+    background: #fff;
+}
 .loginInner{
     width: 80%;
     margin: 0 auto;
@@ -77,7 +146,105 @@ export default {
     font-weight: bold;
     border-bottom: 2px solid #75a342;
 }
-// .loginContent .phoneLoginBg section{
-//     width: ;
-// }
+.loginContent{
+    margin-top: 2rem;
+}
+.loginContent .phoneLoginBg .tel{
+    position: relative;
+}
+.loginContent .phoneLoginBg .telInput{
+    width: 100%;
+    height: 2.5rem;
+    padding-right: 5rem;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: Arial;
+    font-size: 14px;
+    padding-left: 8px;
+}
+.loginContent .phoneLoginBg .codeBtn{
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    font-size: 14px;
+    background: transparent;
+}
+.loginContent .phoneLoginBg .codeInput{
+    margin-top: 1rem;
+    width: 100%;
+    height: 2.5rem;
+    padding-left: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: Arial;
+    font-size: 14px;
+}
+.loginContent .phoneLoginBg .loginHint{
+    margin: 12px 0 2rem;
+    color: #999;
+    font-size: 12px;
+    line-height: 20px;
+}
+.loginContent .phoneLoginBg .loginHint a{
+    color: #75a342;
+}
+.loginContent .loginBtn{
+    width: 100%;
+    height: 2.5rem;
+    background: #75a342;
+    color: #ffffff;
+    border: none;
+    margin: 1rem 0 1rem;
+    border-radius: 5px;
+}
+.loginContent .backBtn{
+    width: 100%;
+    height: 2.5rem;
+    background: #ffffff;
+    color: #75a342;
+    border: 1px solid #75a342;
+    border-radius: 5px;
+}
+.loginContent .passwordLoginBg section{
+    margin-bottom: 1rem;
+    position: relative;
+}
+.loginContent .passwordLoginBg input{
+    width: 100%;
+    height: 2.5rem;
+    padding-left: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: Arial;
+    font-size: 14px;
+}
+.loginContent .passwordLoginBg input.passwordInput{
+   padding-right: 2rem;
+}
+.loginContent .passwordLoginBg .passwordSec .switch-show{
+    width: 2rem;
+    height: 2.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    text-align: center;
+    line-height: 2.5rem;
+}
+.loginContent .passwordLoginBg .codeInput{
+    box-sizing: border-box;
+    padding-right: 7.5rem;
+}
+.loginContent .passwordLoginBg .captcha{
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    height: 2.5rem;
+}
+
 </style>
