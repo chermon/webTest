@@ -25,7 +25,7 @@
                         <a href="javascript:;">采用微信扫码支付</a>
                     </section>
                     <button class="loginBtn">登录</button>
-                    <button class="backBtn">返回</button>
+                    <button class="backBtn" @click.prevent="handleBackAction()">返回</button>
                 </div>
                 <!-- 密码登录 -->
                 <div class="passwordLoginBg" v-show="!isPhoneLogin">
@@ -67,6 +67,7 @@ export default {
             isShowPwd: false, //是否显示密码
             downCount: 0, //倒计时
             phone: null, //手机号
+            verifyCode: null, //验证码
         }
     },
     computed:{
@@ -85,9 +86,7 @@ export default {
             this.isShowPwd = showPwd;
         },
         handleBackAction(){
-            console.log('进来了！');
             this.$router.back(-1);
-            
         },
         // - 获取验证码
         async gaintVetifyCode(){
@@ -106,6 +105,7 @@ export default {
                 Toast("手机号有误，请重填!");
                 return;
             }
+            
         },
         
     }
