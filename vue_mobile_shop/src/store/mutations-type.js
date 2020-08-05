@@ -4,3 +4,4 @@ export const REMOVE_GOODS_FROM_CART = 'REMOVE_GOODS_FROM_CART'; //从购物车�
 export const SELECT_CART_SINGLE_GOODS = 'SELECT_CART_SINGLE_GOODS'; //购物车中单个商品选中与取消
 export const SELECT_CART_ALL_GOODS = 'SELECT_CART_ALL_GOODS'; //购物车中全部商品选中与取消
 export const CLEAR_SHOP_CART = 'CLEAR_SHOP_CART'; //清空购物车
+export const SAVE_USERINFOR = 'SAVE_USERINFOR'; //存储用户信息

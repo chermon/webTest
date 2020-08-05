@@ -5,15 +5,15 @@ module.exports = {
     devServer:{
         port: 8081, //端口号
         open: true, //运行后自动打开网页
-        proxy: {
-            '/api': {
-                target: 'http://demo.itlike.com/web/xlmc',
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/api': ''
-                }
-            }
-        }
+        // proxy: {
+        //     '/api': {
+        //         target: 'http://demo.itlike.com/web/xlmc',
+        //         changeOrigin: true,
+        //         pathRewrite: {
+        //             '^/api': ''
+        //         }
+        //     }
+        // }
     },
     configureWebpack: (config) => {
         // console.log("嘻嘻嘻：" + process.env.NODE_ENV);

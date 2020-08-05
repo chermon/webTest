@@ -18,32 +18,32 @@
                         <button class="codeBtn" v-else>已发送（{{downCount}}）s</button>
                     </section>
                     <section>
-                        <input class="codeInput" type="number" maxlength="6" placeholder="验证码"/>
+                        <input class="codeInput" type="number" maxlength="6" placeholder="验证码" v-model="verifyCode"/>
                     </section>
                     <section class="loginHint">
                         温馨提示：测试账号请输入手机号码，获取验证码，验证码均为666666
                         <a href="javascript:;">采用微信扫码支付</a>
                     </section>
-                    <button class="loginBtn">登录</button>
+                    <button class="loginBtn" @click.prevent="handleLogin()">登录</button>
                     <button class="backBtn" @click.prevent="handleBackAction()">返回</button>
                 </div>
                 <!-- 密码登录 -->
                 <div class="passwordLoginBg" v-show="!isPhoneLogin">
                     <section >
-                        <input class="nickInput" type="tel" maxlength="11" placeholder="用户名"/>
+                        <input class="nickInput" type="tel" maxlength="11" placeholder="用户名" v-model="userName"/>
                     </section>
                     <section class="passwordSec">
-                        <input class="passwordInput" type="password" maxlength="20" placeholder="密码" autocomplete="off"/>
+                        <input class="passwordInput" type="password" maxlength="20" placeholder="密码" autocomplete="off" v-model="passward"/>
                         <div class="switch-show">
                             <img v-if="!isShowPwd" src="./images/hide_pwd.png"  alt="" width="20" @click='handlePwdShowState(true)'>
                             <img v-else src="./images/show_pwd.png"  alt="" width="20" @click='handlePwdShowState(false)'>
                         </div>
                     </section>
                     <section>
-                        <input class="codeInput" type="text" maxlength="4" placeholder="验证码"/>
+                        <input class="codeInput" type="text" maxlength="4" placeholder="验证码" v-model="captcha"/>
                         <img class="captcha" src="http://demo.itlike.com/web/xlmc/api/captcha" alt="">
                     </section>
-                    <button class="loginBtn">登录</button>
+                    <button class="loginBtn" @click.prevent="handleLogin()">登录</button>
                     <button class="backBtn" @click.prevent="handleBackAction()">返回</button>
                 </div>
              </form>
@@ -55,9 +55,11 @@
 
 <script>
 // 1. 请求首页数据
-import {getVerityCodeData} from './../../service/index'
+import {getVerityCodeData, getLoginByCodeData, getLoginUserPwdData} from './../../service/index'
 // 2. 提示
 import {Toast} from 'vant'
+
+import {SAVE_USERINFOR} from '@/store/mutations-type.js'
 
 export default {
     name: "Login",
@@ -68,6 +70,10 @@ export default {
             downCount: 0, //倒计时
             phone: null, //手机号
             verifyCode: null, //验证码
+
+            userName: null, //用户名
+            passward: null, //密码
+            captcha: null, //图形验证码
         }
     },
     computed:{
@@ -87,6 +93,62 @@ export default {
         },
         handleBackAction(){
             this.$router.back(-1);
+        },
+        // - 登录
+        async handleLogin(){
+            
+            if(this.isPhoneLogin){//验证码登录
+            console.log(this.verifyCode);
+            console.log(this.phone);
+               if(!this.phoneRight){
+                   Toast({
+                       message: "请输入正确的手机号！",
+                       duration: 500
+                   });
+                   return;
+               }
+               else if (!(/^\d{6}$/gi.test(this.verifyCode))){
+                   Toast({
+                       message: '请输入正确的验证码',
+                   });
+                   return;
+               }
+ 
+               let response = await getLoginByCodeData(this.phone, this.verifyCode);
+               console.log(response);
+               if(response.success_code == 200){
+                   this.$router.commit(SAVE_USERINFOR, response.data);
+               }
+            }
+            else{//密码登录
+            console.log(this.userName);
+            console.log(this.passward);
+            console.log(this.captcha);
+                if(!this.userName){
+                    Toast({
+                        message: '请输入用户名！',
+                        duration: 500
+                    });
+                    return;
+                }else if(!this.passward){
+                    Toast({
+                        message: '请输入密码！',
+                        duration: 500
+                    });
+                    return;
+                } else if(!this.captcha){
+                    Toast({
+                        message: '请输入验证码！',
+                        duration: 500
+                    });
+                    return;
+                }
+
+                let response = await getLoginUserPwdData(this.userName, this.passward, this.captcha);
+                console.log(response);
+
+
+            }
         },
         // - 获取验证码
         async gaintVetifyCode(){

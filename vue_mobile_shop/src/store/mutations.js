@@ -4,7 +4,8 @@ import {
     REMOVE_GOODS_FROM_CART,
     SELECT_CART_SINGLE_GOODS,
     SELECT_CART_ALL_GOODS,
-    CLEAR_SHOP_CART
+    CLEAR_SHOP_CART,
+    SAVE_USERINFOR
 } from './mutations-type'
 
 
@@ -107,5 +108,11 @@ export default {
         state.shopCart = null;
         state.shopCart = {...state.shopCart};
         setStore('shopCart', state.shopCart);
+    },
+
+    // - 保存用户信息
+    [SAVE_USERINFOR](state, {userInfo}){
+        state.userInfo = userInfo;
+        setStore('userInfo', state.userInfo);
     }
 }
