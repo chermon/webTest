@@ -98,8 +98,6 @@ export default {
         async handleLogin(){
             
             if(this.isPhoneLogin){//验证码登录
-            console.log(this.verifyCode);
-            console.log(this.phone);
                if(!this.phoneRight){
                    Toast({
                        message: "请输入正确的手机号！",
@@ -115,15 +113,11 @@ export default {
                }
  
                let response = await getLoginByCodeData(this.phone, this.verifyCode);
-               console.log(response);
                if(response.success_code == 200){
-                   this.$router.commit(SAVE_USERINFOR, response.data);
+                   this.$store.commit(SAVE_USERINFOR, response.data);
                }
             }
             else{//密码登录
-            console.log(this.userName);
-            console.log(this.passward);
-            console.log(this.captcha);
                 if(!this.userName){
                     Toast({
                         message: '请输入用户名！',
@@ -161,7 +155,7 @@ export default {
                         clearInterval(this.downCountTime);
                     }
                 },1000);
-                let response = await getVerityCodeData(this.phoneRight);
+                let response = await getVerityCodeData(this.phone);
                 console.log(response);
             }else{
                 Toast("手机号有误，请重填!");
