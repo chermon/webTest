@@ -16,3 +16,5 @@ export const getVerityCodeData = (phone) => ajax(BASE_URL + '/api/send_code', {p
 export const getLoginByCodeData = (phone, code) => ajax(BASE_URL + '/api/login_code', {phone, code}, 'POST');
 //用户名密码登录
 export const getLoginUserPwdData = (user_name, user_pwd, captcha) => ajax(BASE_URL + '/api/login_pwd', {user_name, user_pwd, captcha}, 'POST');
+//自动登录
+export const getAutoLoginData = () => ajax(BASE_URL + '/api/userinfo');

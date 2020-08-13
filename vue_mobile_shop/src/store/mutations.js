@@ -5,7 +5,7 @@ import {
     SELECT_CART_SINGLE_GOODS,
     SELECT_CART_ALL_GOODS,
     CLEAR_SHOP_CART,
-    SAVE_USERINFOR
+    SAVE_USERINFOR,
 } from './mutations-type'
 
 
@@ -111,8 +111,10 @@ export default {
     },
 
     // - 保存用户信息
-    [SAVE_USERINFOR](state, userInfo){
+    [SAVE_USERINFOR](state, {userInfo}){
         state.userInfo = userInfo;
+        console.log('mutation:' + state.userInfo);
         setStore('userInfo', state.userInfo);
-    }
+    },
+
 }

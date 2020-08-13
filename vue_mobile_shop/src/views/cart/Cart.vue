@@ -112,6 +112,9 @@ export default {
         handleGoPlay(){
             this.$router.push('/order');
         }
+    },
+    mounted(){
+        console.log('购物车：' + this.userInfo);
     }
 }
 </script>

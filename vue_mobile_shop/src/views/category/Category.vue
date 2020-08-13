@@ -101,7 +101,7 @@ export default {
 
                // ③. 获取右边数据
                let resDetail = await getCategaryDetailData(`/lk001`);
-               console.log(resDetail);
+            //    console.log(resDetail);
                if(resDetail.success){
                    //对应分类下的内容
                    this.cateContent = resDetail.data.cate;

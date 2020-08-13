@@ -41,7 +41,7 @@
                     </section>
                     <section>
                         <input class="codeInput" type="text" maxlength="4" placeholder="验证码" v-model="captcha"/>
-                        <img class="captcha" src="http://demo.itlike.com/web/xlmc/api/captcha" alt="">
+                        <img class="captcha" src="http://demo.itlike.com/web/xlmc/api/captcha?" alt="">
                     </section>
                     <button class="loginBtn" @click.prevent="handleLogin()">登录</button>
                     <button class="backBtn" @click.prevent="handleBackAction()">返回</button>
@@ -115,6 +115,14 @@ export default {
                let response = await getLoginByCodeData(this.phone, this.verifyCode);
                if(response.success_code == 200){
                    this.$store.commit(SAVE_USERINFOR, response.data);
+                   // 4.2 回到主面板
+                   this.$router.back();
+               }
+               else{
+                   Toast({
+                       message: '手机号或者验证码错误！',
+                       duration: 500
+                   });
                }
             }
             else{//密码登录
@@ -140,6 +148,7 @@ export default {
 
                 let response = await getLoginUserPwdData(this.userName, this.passward, this.captcha);
                 console.log(response);
+                
 
 
             }
@@ -164,8 +173,7 @@ export default {
             
         },
         
-    }
-
+    },
 }
 </script>
 

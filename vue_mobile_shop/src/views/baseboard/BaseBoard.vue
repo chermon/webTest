@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapActions} from 'vuex'
 import {INIT_SHOP_CART} from '@/store/mutations-type.js'
 
 export default {
@@ -90,9 +90,15 @@ export default {
         sessionStorage.setItem('selectedTabBarIndex',value);
       }
     },
+    methods:{
+      ...mapActions(['gainUserInfo'])
+    },
     mounted(){
+      // 1.自动登录
+      this.gainUserInfo();
       //初始化购物车
       this.$store.commit(INIT_SHOP_CART);
+      
     }
 }
 </script>
