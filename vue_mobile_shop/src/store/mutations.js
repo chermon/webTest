@@ -113,7 +113,6 @@ export default {
     // - 保存用户信息
     [SAVE_USERINFOR](state, {userInfo}){
         state.userInfo = userInfo;
-        console.log('mutation:' + state.userInfo);
         setStore('userInfo', state.userInfo);
     },
 

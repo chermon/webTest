@@ -112,9 +112,9 @@ export default {
                    return;
                }
  
-               let response = await getLoginByCodeData(this.phone, this.verifyCode);
-               if(response.success_code == 200){
-                   this.$store.commit(SAVE_USERINFOR, response.data);
+               let result = await getLoginByCodeData(this.phone, this.verifyCode);
+               if(result.success_code == 200){
+                   this.$store.commit(SAVE_USERINFOR, {userInfo:result.data});
                    // 4.2 回到主面板
                    this.$router.back();
                }
@@ -148,7 +148,7 @@ export default {
 
                 let response = await getLoginUserPwdData(this.userName, this.passward, this.captcha);
                 console.log(response);
-                
+
 
 
             }
