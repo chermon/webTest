@@ -17,6 +17,7 @@ const MyAddress = () => import ('@/views/order/children/MyAddress');
 //三级路由
 const AddAddress = () => import ('@/views/order/children/children/AddAddress');
 const EditAddress = () => import ('@/views/order/children/children/EditAddress');
+const UserCenter = () => import ('@/views/mine/children/UserCenter');
 
 Vue.use(VueRouter)
 
@@ -31,7 +32,14 @@ const routes = [
       {path: 'home', name: 'home', component: Home, meta:{keepAlive:true}},
       {path: 'category', name: 'category', component: Category, meta:{keepAlive:true}},
       {path: 'cart', name: 'cart', component: Cart},
-      {path: 'mine', name: 'mine', component: Mine}
+      {
+        path: 'mine', 
+        name: 'mine', 
+        component: Mine,
+        children: [
+          {path: 'userCenter', name: 'userCenter', component: UserCenter}, //用户中心
+        ]
+      }
     ]
   },
   {

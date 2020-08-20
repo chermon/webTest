@@ -6,3 +6,4 @@ export const SELECT_CART_ALL_GOODS = 'SELECT_CART_ALL_GOODS'; //购物车中全�
 export const CLEAR_SHOP_CART = 'CLEAR_SHOP_CART'; //清空购物车
 export const SAVE_USERINFOR = 'SAVE_USERINFOR'; //存储用户信息
 export const INIT_USERINFOR = 'INIT_USERINFOR'; //获取用户信息
+export const RESET_USERINFOR = 'RESET_USERINFOR'; //清除用户信息

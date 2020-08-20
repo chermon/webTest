@@ -29,7 +29,9 @@
 
 <script>
 import {mapState, mapActions} from 'vuex'
-import {INIT_SHOP_CART} from '@/store/mutations-type.js'
+import {INIT_SHOP_CART, ADD_GOOD_TO_CART} from '@/store/mutations-type.js'
+import {getSearchCartData} from '@/service/index.js'
+import {setStore} from '@/config/global'
 
 export default {
     name: "BaseBoard",
@@ -65,7 +67,7 @@ export default {
      *   5.从使用场景上说，computed适用一个数据被多个数据影响，而watch使用一个数据影响多个数据。
      * */ 
     computed: {
-      ...mapState(['shopCart']),
+      ...mapState(['shopCart','userInfo']),
       // 购物车商品的数量
       goodsNum(){
         if(this.shopCart){
@@ -91,13 +93,38 @@ export default {
       }
     },
     methods:{
-      ...mapActions(['gainUserInfo'])
+      ...mapActions(['gainUserInfo']),
+      async gainCartData(){
+        //获取服务器中购物车的数据
+        if(this.userInfo.token){
+          let result = await getSearchCartData(this.userInfo.token);
+          console.log(result);
+          if(result.success_code === 200){
+            let cartArr = result.data;
+            cartArr.forEach((product,index) => {
+              this.shopCart[product.goods_id] = {
+                goodsId: product.goods_id,
+                goodsName: product.goods_name,
+                goodsPrice: product.goods_price,
+                smallImage: product.small_image,
+                goodsNum: product.num,
+                checked: product.checked
+              };
+            });
+            setStore('shopCart', this.shopCart);
+            //初始化购物车
+            this.$store.commit(INIT_SHOP_CART);
+          }
+
+        }        
+      }
+
     },
     mounted(){
       // 1.自动登录
       this.gainUserInfo();
-      //初始化购物车
-      this.$store.commit(INIT_SHOP_CART);
+      this.gainCartData();
+      
       
     }
 }

@@ -1,19 +1,25 @@
 <template>
-    <div id="mine">
+    <div id="mine" v-if="userInfo.token">
         <van-nav-bar
           style="background-color:#3bba63;"
           :fixed=true
           :border=false
         />
         <van-cell-group style="margin-top:2.3rem;">
-            <van-cell class="myMsg" is-link :center=true style="background-color:#3bba63;color:#FFF;">
+            <van-cell 
+                class="myMsg" 
+                is-link 
+                :center=true 
+                style="background-color:#3bba63;color:#FFF;"
+                @click="$router.push('/baseboard/mine/userCenter')"
+            >
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
                     <div class="myInfo">
-                        <img class="myPhoto" src="./images/yjh.png" alt="">
+                        <img class="myPhoto" :src="userInfo.icon_url" alt="">
                         <div class="myIntroduction">
-                            <span>小萝莉</span>
-                            <span>微信：xlili</span>
+                            <span>{{userInfo.real_name}}</span>
+                            <span>微信：{{userInfo.phone}}</span>
                         </div>
                     </div>
                 </template>
@@ -33,10 +39,16 @@
             <van-cell icon="contact" title="联系客服" is-link value="" />
             <van-cell icon="smile-comment-o" title="意见反馈" is-link value="" />
         </van-cell-group>
+        <router-view></router-view>
     </div>
+    <SelectLogin v-else></SelectLogin>
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
+import SelectLogin from './../login/SelectLogin'
+
 export default {
     name: "Mine",
     data:function(){
@@ -48,6 +60,12 @@ export default {
                 {icon: 'cash-back-record',title:'售后/退款'}
             ]
         };
+    },
+    computed:{
+        ...mapState(['userInfo'])
+    },
+    components:{
+        SelectLogin
     }
 }
 </script>

@@ -25,10 +25,11 @@
 </template>
 
 <script>
-import { Dialog } from 'vant';
+import { Dialog, Toast } from 'vant';
 
 import { SELECT_CART_SINGLE_GOODS, REMOVE_GOODS_FROM_CART, ADD_GOOD_TO_CART } from '@/store/mutations-type.js'
 import { mapState } from 'vuex'
+import { getUpdateGoodsNumData, getSingleGoodsSelectedData } from '@/service/index.js'
 
 export default {
     name:"cartItem",
@@ -36,26 +37,45 @@ export default {
         goods: Object
     },
     computed:{
-        ...mapState(['shopCart'])
+        ...mapState(['shopCart', 'userInfo'])
     },
     methods:{
         // - 处理单个商品被选择的状态
-        handelSingleChecked(goodsId){
-            this.$store.commit(SELECT_CART_SINGLE_GOODS, {goodsId});
+        async handelSingleChecked(goodsId){
+            let result = await getSingleGoodsSelectedData(this.userInfo.token, goodsId);
+            if(result.success_code === 200){
+                this.$store.commit(SELECT_CART_SINGLE_GOODS, {goodsId});
+            }
+            else{
+                Toast({
+                    message: '出了点小问题哟~',
+                    duration: 500
+                });
+            }
+            
         },
 
         // - 添加单个商品
-        handleSingleAdd(){
-            this.$store.commit(ADD_GOOD_TO_CART, {
-                goodsId: this.goods.goodsId,
-                goodsName: this.goods.goodsName,
-                goodsPrice: this.goods.goodsId,
-                smallImage: this.goods.smallImage
-            });
+        async handleSingleAdd(){
+            let result = await getUpdateGoodsNumData(this.userInfo.token, this.goods.goodsId, 'add');
+            if(result.success_code === 200){
+                this.$store.commit(ADD_GOOD_TO_CART, {
+                    goodsId: this.goods.goodsId,
+                    goodsName: this.goods.goodsName,
+                    goodsPrice: this.goods.goodsId,
+                    smallImage: this.goods.smallImage
+                });
+            }
+            else{
+                Toast({
+                    message: '出了点小问题哟~',
+                    duration: 500
+                });
+            }  
         },
 
         // - 删除单个商品
-        handleSingleReduce(){
+        async handleSingleReduce(){
             if(this.goods.goodsNum > 0){
                 if(this.goods.goodsNum == 1){
                     Dialog.confirm({
@@ -63,15 +83,34 @@ export default {
                       message: '确定删除该商品吗?',
                       showCancelButton:true
                     })
-                    .then(() => { // 确定
-                        this.$store.commit(REMOVE_GOODS_FROM_CART, {goodsId:this.goods.goodsId});
+                    .then( async () => { // 确定
+                        let result = await getUpdateGoodsNumData(this.userInfo.token, this.goods.goodsId, 'reduce');
+                        if(result.success_code === 200){
+                            this.$store.commit(REMOVE_GOODS_FROM_CART, {goodsId:this.goods.goodsId});
+                        }
+                        else{
+                            Toast({
+                                message: '出了点小问题哟~',
+                                duration: 500
+                            });
+                        }
+                        
                     })
                     .catch(() => {// 取消
  
                     });
                 }
                 else{
-                    this.$store.commit(REMOVE_GOODS_FROM_CART, {goodsId:this.goods.goodsId});
+                    let result = await getUpdateGoodsNumData(this.userInfo.token, this.goods.goodsId, 'reduce');
+                    if(result.success_code === 200){
+                        this.$store.commit(REMOVE_GOODS_FROM_CART, {goodsId:this.goods.goodsId});
+                    }
+                    else{
+                        Toast({
+                            message: '出了点小问题哟~',
+                            duration: 500
+                        });
+                    }
                 }
             }
         }

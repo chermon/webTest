@@ -32,7 +32,9 @@ import { SELECT_CART_ALL_GOODS, CLEAR_SHOP_CART } from '@/store/mutations-type.j
 
 // 3. 引入组件
 // 3.1 弹出框
-import { Dialog } from 'vant';
+import { Dialog, Toast } from 'vant';
+
+import {getDeleteCartData, getAllGoodsSelectedData} from '@/service/index.js'
 
 export default {
     name: "Cart",
@@ -90,8 +92,18 @@ export default {
     },
     methods:{
         // - 商品是否全选
-        handleAllSelected(currentSeleted){
-            this.$store.commit(SELECT_CART_ALL_GOODS,{isAllSelected:!currentSeleted});
+        async handleAllSelected(currentSeleted){
+            let result = await getAllGoodsSelectedData(this.userInfo.token, currentSeleted);
+            if(result.success_code === 200){
+                this.$store.commit(SELECT_CART_ALL_GOODS, {isAllSelected:!currentSeleted});
+            }
+            else{
+                Toast({
+                    message: '出了点小问题哟~',
+                    duration: 500
+                });
+            }
+            
         },
 
         // - 清空购物车
@@ -100,8 +112,18 @@ export default {
               title: '温馨提示',
               message: '确定清空所有商品吗?',
             })
-            .then(() => {
-                this.$store.commit(CLEAR_SHOP_CART);
+            .then(async () => {
+                let result = await getDeleteCartData(this.userInfo.token);
+                if(result.success_code === 200){
+                    this.$store.commit(CLEAR_SHOP_CART);
+                }
+                else{
+                    Toast({
+                        message: '出了点小问题哟~',
+                        duration: 500
+                    });
+                }
+                
             })
             .catch(() => {
                 // on cancel

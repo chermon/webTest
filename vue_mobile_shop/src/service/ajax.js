@@ -26,6 +26,7 @@ axios.interceptors.response.use((response)=>{
 });
 
 export default function ajax(url = '', params = {}, type = 'GET') {
+    // console.log(params);
     // 0. 变量
      let promise;
     // 1. 返回promise

@@ -43,7 +43,7 @@ export const handleBackTopAtion = (callBack) => {
     },{passive:true});
 
     const moveEnd = () => {
-        console.log('当前卷动值：'+ docTop.scrollTop + '，旧卷动值：' + oldDocTop);
+        // console.log('当前卷动值：'+ docTop.scrollTop + '，旧卷动值：' + oldDocTop);
         if(docTop.scrollTop !== oldDocTop){
             oldDocTop = docTop.scrollTop;
             moveEnd();
@@ -92,5 +92,5 @@ export const getStore = (key) => {
  * */ 
 export const removeStore = (key) => {
     if (!key) return;
-    return window.localStorage.removeStorage(key);
+    return window.localStorage.removeItem(key);
 }

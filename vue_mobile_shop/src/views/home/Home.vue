@@ -29,7 +29,7 @@ import YouLike from './components/youLike/youLike'
 import MarkPage from './components/markPage/MarkPage'
 
 // 2. 请求首页数据
-import {getHomeData} from './../../service/index'
+import {getHomeData, getAddGoodsToCartData} from './../../service/index'
 
 // 3. 引入处理返回顶部的函数
 import {handleBackTopAtion} from '@/config/global.js'
@@ -40,7 +40,7 @@ import {PubSub} from 'pubsub-js'
 import {Toast} from 'vant';
 
 // 5. 引入vuex
-// import {mapMutations} from 'vuex'
+import {mapState} from 'vuex'
 import {ADD_GOOD_TO_CART}from '@/store/mutations-type'
 
 export default {
@@ -75,7 +75,7 @@ export default {
         MarkPage
     },
     computed:{
-        
+        ...mapState(['userInfo'])
     },
     created(){
         this.requestData();
@@ -83,38 +83,38 @@ export default {
     mounted(){
         //事件的订阅者 相当于： bus.$on()
         PubSub.subscribe('homeAddToCart', (msg, goods) =>{
+            /**
+             *  方法1：通过this.$store.commit() 来获取
+             *      this.$store.commit(ADD_GOOD_TO_CART,{
+             *           goodsId: goods.id,
+                         goodsName: goods.name,
+                         goodsPrice: goods.price,
+                         smallImage: goods.small_image
+                    });
+             * 
+             * */ 
+            /**
+             *  方法2：通过 mapMutations 来获取方法
+             *      this.ADD_GOOD_TO_CART({
+                        goodsId: goods.id,
+                        goodsName: goods.name,
+                        goodsPrice: goods.price,
+                        smallImage: goods.small_image
+                    });
+             * */ 
 
             if(msg == 'homeAddToCart'){
-                /**
-                 *  方法1：通过this.$store.commit() 来获取
-                 * */ 
-
-                // this.$store.commit(ADD_GOOD_TO_CART,{goods.id,goods.name,goods.price,goods.small_image});
-
-                this.$store.commit(ADD_GOOD_TO_CART,{
-                    goodsId: goods.id,
-                    goodsName: goods.name,
-                    goodsPrice: goods.price,
-                    smallImage: goods.small_image
-                });
-
-                // 提示用户
-                Toast({
-                    message: '添加到购物车成功!',
-                    duration: 800
-                });
-                
-                // /**
-                //  *  方法2：通过 mapMutations 来获取方法
-                //  * */ 
-                // this.ADD_GOOD_TO_CART({
-                //     goodsId: goods.id,
-                //     goodsName: goods.name,
-                //     goodsPrice: goods.price,
-                //     smallImage: goods.small_image
-                // });
+                if(this.userInfo.token){
+                     this.handleAddGoods(goods);
+                }else{
+                    this.$router.push('/login');
+                }
             }
         });
+    },
+    beforeDestroy(){
+        //页面销毁时需把该页面中的订阅事件也销毁
+        PubSub.unsubscribe('homeAddToCart');
     },
     methods:{
         // ...mapMutations(['ADD_GOOD_TO_CART']),
@@ -122,8 +122,28 @@ export default {
         scrollToTop(){
 
         },
-        handleAddGoods(goods){
-
+        async handleAddGoods(goods){
+            let result = await getAddGoodsToCartData(this.userInfo.token, goods.id, goods.name, parseFloat(goods.price), goods.small_image);
+            if(result.success_code === 200){
+                this.$store.commit(ADD_GOOD_TO_CART,{
+                    goodsId: goods.id,
+                    goodsName: goods.name,
+                    goodsPrice: goods.price,
+                    smallImage: goods.small_image
+                });
+                // 提示用户
+                Toast({
+                    message: '添加到购物车成功!',
+                    duration: 800
+                });
+            }
+            else{
+                // 提示用户
+                Toast({
+                    message: '添加到购物车失败!',
+                    duration: 800
+                });
+            }
         },
         /**
          * - 什么是Async/Await?

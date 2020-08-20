@@ -6,6 +6,7 @@ import {
     SELECT_CART_ALL_GOODS,
     CLEAR_SHOP_CART,
     SAVE_USERINFOR,
+    RESET_USERINFOR,
 } from './mutations-type'
 
 
@@ -115,5 +116,11 @@ export default {
         state.userInfo = userInfo;
         setStore('userInfo', state.userInfo);
     },
+
+    // - 清除用户信息
+    [RESET_USERINFOR](state){
+        state.userInfo = {};
+        removeStore('userInfo');
+    }
 
 }

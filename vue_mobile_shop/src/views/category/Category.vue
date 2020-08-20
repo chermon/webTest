@@ -66,23 +66,23 @@ export default {
         ChildCategory
     },
     mounted(){
-        PubSub.subscribe('categoryAddToCart', (msg, goods) => {
-            if(msg === 'categoryAddToCart'){
-                this.$store.commit(ADD_GOOD_TO_CART,{
-                    goodsId: goods.id,
-                    goodsName: goods.name,
-                    goodsPrice: goods.price,
-                    smallImage: goods.small_image
-                });
+        // PubSub.subscribe('categoryAddToCart', (msg, goods) => {
+        //     if(msg === 'categoryAddToCart'){
+        //         this.$store.commit(ADD_GOOD_TO_CART,{
+        //             goodsId: goods.id,
+        //             goodsName: goods.name,
+        //             goodsPrice: goods.price,
+        //             smallImage: goods.small_image
+        //         });
 
-                // 提示
-                Toast({
-                    message: '添加到购物车成功!',
-                    duration: 800
-                });
-            }
+        //         // 提示
+        //         Toast({
+        //             message: '添加到购物车成功!',
+        //             duration: 800
+        //         });
+        //     }
             
-        });
+        // });
     },
     created(){
         //调用网络请求的方法

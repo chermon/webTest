@@ -19,7 +19,7 @@ export default {
         ProductItem
     },
     mounted(){
-        // console.log(this.cateContent);
+        console.log(this.cateContent);
     }
 }
 </script>

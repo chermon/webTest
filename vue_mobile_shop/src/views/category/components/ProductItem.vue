@@ -47,14 +47,41 @@
 <script>
 // 1. 通知组件
 import {PubSub} from 'pubsub-js'
+import {mapState} from 'vuex'
+import {ADD_GOOD_TO_CART} from '@/store/mutations-type.js'
+import {getAddGoodsToCartData} from '@/service/index.js'
+import {Toast} from 'vant';
 
 export default {
     props:{
         goods: Object
     },
+    computed:{
+        ...mapState(['userInfo'])
+    },
     methods:{
-        addToCart(product){
-            PubSub.publish('categoryAddToCart', product);
+        async addToCart(product){
+            let result = await getAddGoodsToCartData(this.userInfo.token, product.id, product.name, parseFloat(product.price), product.small_image);
+            if(result.success_code === 200){
+                this.$store.commit(ADD_GOOD_TO_CART,{
+                    goodsId: product.id,
+                    goodsName: product.name,
+                    goodsPrice: product.price,
+                    smallImage: product.small_image
+                });
+                // 提示用户
+                Toast({
+                    message: '添加到购物车成功!',
+                    duration: 800
+                });
+            }
+            else{
+                // 提示用户
+                Toast({
+                    message: '添加到购物车失败!',
+                    duration: 800
+                });
+            }
         }
     }
 }
