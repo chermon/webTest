@@ -98,7 +98,6 @@ export default {
         //获取服务器中购物车的数据
         if(this.userInfo.token){
           let result = await getSearchCartData(this.userInfo.token);
-          console.log(result);
           if(result.success_code === 200){
             let cartArr = result.data;
             cartArr.forEach((product,index) => {

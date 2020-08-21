@@ -19,6 +19,10 @@
 <script>
 // 1.引入提示框
 import { Toast } from 'vant';
+// 2. 引入vuex
+import {mapState} from 'vuex';
+// 3. 引入接口
+import {getUserAddressData} from '@/service/index.js';
 
 export default {
     name:'MyAddress',
@@ -42,6 +46,9 @@ export default {
           ],
         };
     },
+    computed:{
+      ...mapState(['userInfo'])
+    },
     methods:{
         // 返回上一级
         onClickLeft(){
@@ -53,7 +60,17 @@ export default {
         onEdit(item, index) {
           this.$router.push('/order/myAddress/editAddress');
         },
+        async gainMyAddressList(){
+          console.log(this.userInfo.token);
+          
+          let result = await getUserAddressData(this.userInfo.token);
+          console.log(result);
+        }
+    },
+    mounted(){
+      this.gainMyAddressList();
     }
+
 }
 </script>
 
