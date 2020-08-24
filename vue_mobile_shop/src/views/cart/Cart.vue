@@ -132,7 +132,16 @@ export default {
 
         // - 去结算
         handleGoPlay(){
-            this.$router.push('/order');
+            if(this.totalPrice > 0){
+                this.$router.push('/order');
+            }
+            else{
+                Toast({
+                    message: '未有结算商品~',
+                    duration: 500
+                });
+            }
+            
         }
     },
     mounted(){

@@ -49,7 +49,7 @@ export const getAddUserAddressData = (user_id, address_name, address_phone, addr
 // 3.3 获取修改用户信息
 export const getUpdateUserAddressData = (user_id, address_id) => ajax(BASE_URL + '/api/address/one', {user_id, address_id}, 'POST');
 // 3.4 修改用户地址
-export const getEditUserAddressData = (address_id,user_id, address_name, address_phone, address_area, address_area_detail,
+export const getEditUserAddressData = (address_id, user_id, address_name, address_phone, address_area, address_area_detail,
     address_post_code, address_tag, province, city, county, areaCode) => ajax(BASE_URL + '/api/address/edit',{address_id,user_id, address_name, address_phone, address_area, address_area_detail,
         address_post_code, address_tag, province, city, county, areaCode}, 'POST');
 // 3.5 删除用户地址
@@ -59,4 +59,5 @@ export const getDeleteUserAddressData = (address_id) => ajax(BASE_URL + '/api/ad
 // 4.1 提交订单
 export const getSubmitOrderData = (user_id, address_id, arrive_time, cart_shop, notice, shop_price, dis_price) => ajax(BASE_URL + '/api/order/post', {user_id, address_id, arrive_time, cart_shop, notice, shop_price, dis_price}, 'POST');
 // 4.2 订单支付成功
+
 

@@ -11,6 +11,7 @@
           default-tag-text="默认"
           @add="onAdd"
           @edit="onEdit"
+          @select='handleSelectedAddress'
         />
         <router-view/>
     </div>
@@ -23,52 +24,85 @@ import { Toast } from 'vant';
 import {mapState} from 'vuex';
 // 3. 引入接口
 import {getUserAddressData} from '@/service/index.js';
+// 4. 通知组件
+import {PubSub} from 'pubsub-js'
 
 export default {
     name:'MyAddress',
     data() {
         return {
           chosenAddressId: '1',
-          list: [
-            {
-              id: '1',
-              name: '张三',
-              tel: '13000000000',
-              address: '浙江省杭州市西湖区文三路 138 号东方通信大厦 7 楼 501 室',
-              isDefault: true,
-            },
-            {
-              id: '2',
-              name: '李四',
-              tel: '1310000000',
-              address: '浙江省杭州市拱墅区莫干山路 50 号',
-            },
-          ],
+          list: [],
         };
     },
     computed:{
       ...mapState(['userInfo'])
     },
     methods:{
-        // 返回上一级
+        // 1. 返回上一级
         onClickLeft(){
             this.$router.back();
         },
+        // 2. 添加地址
         onAdd() {
           this.$router.push('/order/myAddress/addAddress');
         },
+        // 3. 编辑地址
         onEdit(item, index) {
-          this.$router.push('/order/myAddress/editAddress');
+          this.$router.push('/order/myAddress/editAddress?address_id='+item.address_id);
         },
+        // 4. 获取地址列表
         async gainMyAddressList(){
-          console.log(this.userInfo.token);
-          
-          let result = await getUserAddressData(this.userInfo.token);
-          console.log(result);
+          if(this.userInfo.token){
+            let result = await getUserAddressData(this.userInfo.token);
+            if (result.success_code === 200) {
+              let dataList = result.data;
+              this.list = [];
+              dataList.forEach((item, index) => {
+                let address = {
+                  id: String(index + 1),
+                  name: item.address_name,
+                  tel: item.address_phone,
+                  address: item.address_area+item.address_area_detail,
+                  isDefault: item.address_tag,
+                  address_id: item._id,
+                  user_id: item.user_id
+                };
+                this.list.push(address);
+              });
+            }
+            else{
+              Toast({ 
+                message: '服务器错误',
+                duration: 500
+              });
+            }
+          }
+          else{
+            Toast({ 
+              message: '登录已过期，请重新登录',
+              duration: 500
+            });
+          }
+        },
+        // 5. 选中某个地址
+        handleSelectedAddress(item,index){
+          PubSub.publish('pub-address',item);
+          this.$router.back();
         }
+
     },
     mounted(){
       this.gainMyAddressList();
+
+      PubSub.subscribe('pub-myAddressList',(msg) => {
+        if (msg === 'pub-myAddressList') {
+          this.gainMyAddressList();
+        }
+      });
+    },
+    beforeDestroy(){
+      PubSub.unsubscribe('pub-myAddressList');
     }
 
 }

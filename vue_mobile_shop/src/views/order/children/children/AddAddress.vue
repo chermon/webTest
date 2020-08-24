@@ -9,9 +9,7 @@
           :area-list="areaList"
           show-postal
           show-set-default
-          show-search-result
-          :search-result="searchResult"
-          :area-columns-placeholder="['请选择', '请选择', '请选择']"
+          :area-columns-placeholder="['省', '市', '区']"
           @save="onSave"
           @change-detail="onChangeDetail"
         />
@@ -19,22 +17,58 @@
 </template>
 
 <script>
+// 1.提示框
 import { Toast } from 'vant';
+// 2.省市区
+import areaListArr from '@/config/area.js'
+// 3.接口
+import { getAddUserAddressData } from '@/service/index.js'
+// 4.vuex
+import {mapState} from 'vuex'
+// 5. 通知组件
+import {PubSub} from 'pubsub-js'
 
 export default {
     data() {
       return {
-        areaList:{},
+        areaList:areaListArr,
         searchResult: [],
       };
+    },
+    computed:{
+      ...mapState(['userInfo'])
+    },
+    mounted(){
     },
     methods:{
         // 返回上一个页面
         onClickLeft(){
             this.$router.back();
         },
-        onSave() {
-          Toast('save');
+        async onSave(content) {
+          if(this.userInfo.token){
+            let result = await getAddUserAddressData(this.userInfo.token, content.name, content.tel, content.province+content.city+content.county,
+            content.addressDetail, content.postalCode, content.isDefault, content.province, content.city, content.county, content.areaCode);
+            if(result.success_code == 200){
+              PubSub.publish('pub-myAddressList');
+              Toast({
+                message: '添加成功',
+                duration: 500
+              });
+              this.$router.back();
+            }else{
+              Toast({
+                message: '服务器错误',
+                duration: 500
+              });
+            }
+          }
+          else{
+            Toast({ 
+              message: '登录已过期，请重新登录',
+              duration: 500
+            });
+          }
         },
         onChangeDetail(val) {
           if (val) {
