@@ -13,6 +13,7 @@ const Cart = () => import ('@/views/cart/Cart');
 const Mine = () => import ('@/views/mine/Mine');
 
 const MyAddress = () => import ('@/views/order/children/MyAddress');
+const OrderDetail = () => import ('@/views/order/children/OrderDetail');
 
 //三级路由
 const AddAddress = () => import ('@/views/order/children/children/AddAddress');
@@ -55,6 +56,11 @@ const routes = [
           {path: 'addAddress', name: 'addAddress', component: AddAddress},
           {path: 'editAddress', name: 'editAddress', component: EditAddress}
         ]
+      },
+      {
+        path: 'orderDetail',
+        name: 'orderDetail',
+        component: OrderDetail
       }
     ]
 

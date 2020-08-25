@@ -6,13 +6,20 @@ module.exports = {
         port: 8081, //端口号
         open: true, //运行后自动打开网页
         // proxy: {
-        //     '/api': {
-        //         target: 'http://demo.itlike.com/web/xlmc',
-        //         changeOrigin: true,
-        //         pathRewrite: {
-        //             '^/api': ''
-        //         }
-        //     }
+            // '/api': {
+            //     target: 'http://demo.itlike.com/web/xlmc',
+            //     changeOrigin: true,
+            //     pathRewrite: {
+            //         '^/api': ''
+            //     }
+            // },
+            // '/pay':{
+            //     target: 'http://47.98.157.152/WXPayProject/pay',
+            //     changeOrigin: true,
+            //     pathRewrite: {
+            //         '^/pay': ''
+            //     }
+            // }
         // }
     },
     configureWebpack: (config) => {

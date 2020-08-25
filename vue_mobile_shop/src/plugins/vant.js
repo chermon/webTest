@@ -46,3 +46,14 @@ Vue.use(SubmitBar);
 import { Grid, GridItem } from 'vant';
 Vue.use(Grid).use(GridItem);
 
+// 11. 弹出层
+import { Popup } from 'vant';
+Vue.use(Popup);
+
+// 12. 时间选择器
+import { DatetimePicker } from 'vant';
+Vue.use(DatetimePicker);
+
+// 13. 商品卡片
+import { Card } from 'vant';
+Vue.use(Card);
