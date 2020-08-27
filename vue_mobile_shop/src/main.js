@@ -33,6 +33,10 @@ import '@/config/rem.js'
 //5.过滤器
 import '@/config/filters.js'
 
+// 6. 配置二维码插件
+import VueQriously from 'vue-qriously'; 
+Vue.use(VueQriously);
+
 Vue.config.productionTip = false
 
 new Vue({

@@ -3,9 +3,9 @@ const debug = process.env.NODE_ENV !== 'production'
 module.exports = {
     //webpack-dev-serve相关配置
     devServer:{
-        port: 8081, //端口号
+        port: 8080, //端口号
         open: true, //运行后自动打开网页
-        // proxy: {
+        proxy: {
             // '/api': {
             //     target: 'http://demo.itlike.com/web/xlmc',
             //     changeOrigin: true,
@@ -13,14 +13,14 @@ module.exports = {
             //         '^/api': ''
             //     }
             // },
-            // '/pay':{
-            //     target: 'http://47.98.157.152/WXPayProject/pay',
-            //     changeOrigin: true,
-            //     pathRewrite: {
-            //         '^/pay': ''
-            //     }
-            // }
-        // }
+            '/pay':{
+                target: 'http://47.98.157.152/WXPayProject/pay',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/pay': ''
+                }
+            }
+        }
     },
     configureWebpack: (config) => {
         // console.log("嘻嘻嘻：" + process.env.NODE_ENV);

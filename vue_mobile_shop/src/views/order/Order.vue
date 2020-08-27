@@ -19,7 +19,7 @@
           <van-cell title='送达时间' is-link :value='arriveTime' @click="handleTimePopup"/>
           <van-cell :value='`共${goodsAllNum}件`' is-link center @click='enterGoodsDetail'>
             <template #title>
-              <img v-for='goods in goodsList.slice(0, 3)' class='goodsImgBg' :src='goods.small_image'/>
+              <img v-for='goods in goodsList.slice(0, 3)' class='goodsImgBg' :src='goods.small_image' :key='goods._id'/>
             </template>
           </van-cell>
         </van-cell-group>
@@ -36,6 +36,7 @@
           <van-cell title='配送费' :value='`￥${deliveryFee}`'></van-cell>
         </van-cell-group>
         <van-submit-bar style='position:fixed;left:0;bottom:0;' :price="goodsTotalPrice*100 + deliveryFee*100" label='实付' button-text="提交订单" @submit="onSubmit" />
+        <!-- 弹出日期组件 -->
         <van-popup v-model="showTimePopup" position="bottom">
           <van-datetime-picker
             v-model="currentDate"
@@ -47,7 +48,9 @@
             @cancel='handleCancleTime'
           />
         </van-popup>
-        
+        <van-popup v-model='showQRCodePopup' round position="center">
+          <qriously :value="qrcode" :size="200"/>
+        </van-popup>
         <router-view></router-view>
     </div>
     <!-- 未得到数据前显示加载框 -->
@@ -87,6 +90,7 @@ export default {
 
          remarks: null,// 备注
          showQRCodePopup: false, // 是否展示支付二维码
+         qrcode: null, //二维码
        };
     },
     computed: {
@@ -181,17 +185,38 @@ export default {
             });
             return;
           }
-          // - 提交订单
+          // 1.创建订单
           let submitOrderResult = await getSubmitOrderData(this.userInfo.token, this.chosenContactId, this.arriveTime, this.goodsList, this.remarks, this.goodsTotalPrice, this.deliveryFee);
           console.log(submitOrderResult);
           if(submitOrderResult.success_code === 200){
+            // 2.删除订单中存在的商品
             let deletedOrderResult = await getDelCheckedGoodsData(this.userInfo.token);
             console.log(deletedOrderResult);
             if(deletedOrderResult.success_code === 200){
+              // 3.根据订单生成二维码
               let qrCodeResult = await getPayQRCode(submitOrderResult.data.order_id, 0.01);
               console.log(qrCodeResult);
               if(qrCodeResult.code_url){
-
+                this.showQRCodePopup = true;
+                this.qrcode = qrCodeResult.code_url;
+                // 4.查询支付状态
+                let payStatusResult = await getSearchPayStatus(submitOrderResult.data.order_id);
+                console.log(payStatusResult);
+                if(payStatusResult.success){
+                  Toast({
+                      message: payResult.message,
+                      duration: 1000
+                  });
+                  this.showQRCodePopup = false;
+                  // 5.通知服务器订单支付成功
+                  let orderStatusResult = await getOrderStatus(this.userInfo.token, submitOrderResult.data.order_id);
+                  console.log(orderStatusResult);
+                  if(orderStatusResult.success_code === 200){
+                    //跳转到我的页面
+                    this.$router.replace('/baseboard/mine');
+                    window.sessionStorage.setItem('selectedTabBarIndex', 3);
+                  }
+                }
               }
               else{
                 Toast({
@@ -206,7 +231,7 @@ export default {
                 duration: 500
               });
             }
-            // let rrderStatusResult = await getOrderStatus(this.userInfo.token, );
+            
           }
           else{
             Toast({

@@ -74,4 +74,21 @@ const router = new VueRouter({
   routes
 })
 
+router.beforeEach((to, from, next) =>{
+  if(to.path.indexOf('/baseboard/home') != -1){
+    window.sessionStorage.setItem('selectedTabBarIndex', 0);
+  }
+  else if(to.path.indexOf('/baseboard/category') != -1){
+    window.sessionStorage.setItem('selectedTabBarIndex', 1);
+  }
+  else if(to.path.indexOf('/baseboard/cart') != -1 || to.path.indexOf('/order') != -1){
+    window.sessionStorage.setItem('selectedTabBarIndex', 2);
+  }
+  else if(to.path.indexOf('/baseboard/mine') != -1){
+    window.sessionStorage.setItem('selectedTabBarIndex', 3);
+  }
+  next();
+
+});
+
 export default router
