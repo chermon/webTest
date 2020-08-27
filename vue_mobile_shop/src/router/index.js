@@ -74,7 +74,9 @@ const router = new VueRouter({
   routes
 })
 
+// 全局前置守卫
 router.beforeEach((to, from, next) =>{
+  // - 关联地址与tab
   if(to.path.indexOf('/baseboard/home') != -1){
     window.sessionStorage.setItem('selectedTabBarIndex', 0);
   }
