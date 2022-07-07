@@ -11,7 +11,7 @@
     "better-scroll": "^1.15.2",
     "core-js": "^3.6.5",
     "fastclick": "^1.0.6",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "pubsub-js": "^1.8.0",
     "swiper": "^5.4.5",
     "vant": "^2.8.7",
